@@ -1,96 +1,111 @@
 # Backlog LAB-5 — Product A. File này là nguồn duy nhất để script tạo issue lên repo và Project.
 # Cách đọc: mỗi epic có nhiều issue; mỗi issue có 4 khối cố định (boi_canh, viec, tieu_chi_xong, file_cham).
-# "key" là mã khoá ghi vào thân issue để script chạy lại không tạo trùng.
-# Nhãn: nguon:moi | nguon:chenh-lech | nguon:gia-co · doi:fe | doi:be | doi:qa · constraint:kanno-shoreikin · lam-ro-voi-khach
+# "key" là mã khoá ghi vào thân issue để script chạy lại không tạo trùng. "lam_sau" ghi issue phải xong trước (script chép vào thân issue).
+# Nhãn: nguon:moi | nguon:chenh-lech | nguon:gia-co · doi:fe | doi:be | doi:qa (gắn theo lớp nặng nhất) · constraint:kanno-shoreikin · lam-ro-voi-khach
 # Chú giải mã: D-xx / B-xx / Q-x theo PREMISE.md · T-xx gói việc LAB-4 · SCR-xx màn hình · DD-008 thiết kế chi tiết phần thưởng.
+# Bản 2 ngày 19/10/2026: sửa theo rà soát độc lập (tách INC-08 thành 3, INC-09 thành 2, thêm ca thử đúng hạn, bảng tiền về riêng).
 
 meta:
   repo: mytcn-1511/product-a-lab5-backlog
   project_owner: mytcn-1511
   project_number: 1
   assignee: mytcn-1511
+  # Script chép nguyên khối này vào thân mọi issue có nhãn doi:fe, dưới tiêu chí riêng, để người đọc trên GitHub thấy đủ.
   dinh_nghia_xong_chung_man_hinh:
-    - Nhãn tiếng Nhật đúng thuật ngữ ở các màn khách sẽ tự thử
+    - Nhãn tiếng Nhật đúng thuật ngữ ở các màn khách sẽ tự thử (bảng nhãn chung ở docs/nhan-tieng-nhat.md trong repo này)
     - Không lộ mã kỹ thuật (UUID, mã trạng thái thô, JSON thô) ra màn hình và nhật ký
-    - Ngày giờ một định dạng, theo giờ Nhật
-    - Lỗi hiện ngay tại ô nhập; có trạng thái "Đang lưu"; không cho bấm hai lần; huỷ phải ghi lý do
+    - Ngày giờ một định dạng YYYY/MM/DD, theo giờ Nhật
+    - Lỗi hiện ngay tại ô nhập; nút đổi thành "Đang lưu" và khoá sau khi bấm; huỷ phải ghi lý do
     - Thông báo chặn nói rõ hết hạn ngày nào và căn cứ gì
-    - Một luồng dùng được trên điện thoại, không cuộn ngang
+    - Một luồng dùng được trên màn điện thoại 390 px, không cuộn ngang
     - Issue chạm quy tắc nghiệp vụ phải có ca thử chứng minh chặn đúng
 
 epics:
   - key: E-INC
-    title: "Thưởng thanh toán đủ hạn (完納奨励金): nguồn ngày thanh toán, bảng tỷ lệ, tính và chốt kỳ"
+    title: "Thưởng thanh toán đủ hạn (完納奨励金): ngày thanh toán, bảng tỷ lệ, tính và chốt kỳ"
     labels: [constraint:kanno-shoreikin]
     body: |
       Epic gom toàn bộ việc để chuỗi thưởng thanh toán đủ hạn chạy thật, thay vì chỉ chạy nhờ dữ liệu mẫu như prototype.
-      Phần cố định phải giữ đúng ở mọi issue: nhân hệ số thuế 110/100, làm tròn xuống đơn vị yên, trả quá hạn thì không thưởng
-      (không có ân hạn), tỷ lệ có phiên bản và ngày hiệu lực, ngày nghiệp vụ tính theo giờ Nhật.
-      Tiền đề: PREMISE.md Bảng 1 (D-39), Bảng 2 (Q2 · D-08, Q6 · D-39), Bảng 3 (Q7). Câu hỏi khách về bảng tỷ lệ thật nằm ở epic X-04.
-      Gói LAB-4 gộp vào đây: T-11 (màn kết quả thưởng SCR-20) và phần bảng tỷ lệ của T-12 (SCR-21). Phần quản trị phiên bản
-      (duyệt, thu hồi, trần 4 lần/năm) vẫn ở epic T-12.
+      Quy tắc cố định của đề áp cho mọi issue (chi tiết ở PREMISE.md Bảng 2, dòng Q6): hệ số thuế, làm tròn xuống yên, không ân hạn,
+      tỷ lệ có phiên bản và ngày hiệu lực, ngày nghiệp vụ theo giờ Nhật.
+      Tiền đề: PREMISE.md Bảng 1 (D-39, D-44), Bảng 2 (Q2 · D-08, Q6 · D-39), Bảng 3 (Q7). Câu hỏi khách về bảng tỷ lệ thật nằm ở epic X-04.
+      Chú giải mã dùng trong epic: ADR-002 là quyết định "giao dịch đã chốt không sửa đè, mọi thay đổi ghi thành dòng chênh lệch";
+      T-11, T-12 là hai gói việc LAB-4 (màn kết quả thưởng SCR-20, màn quản trị tỷ lệ SCR-21). Gói T-11 gộp vào epic này;
+      phần quản trị phiên bản (duyệt, thu hồi, trần 4 lần/năm) của T-12 vẫn ở epic T-12.
+      Thứ tự làm: INC-05 → INC-06 → INC-08a → INC-08b → INC-08c → INC-09a → INC-09b → INC-07 → INC-10 → INC-11; nhánh ngày thanh toán INC-01 → INC-02 → INC-03 → INC-04 song song; INC-12 và INC-13 cuối.
     issues:
       - key: INC-01-dac-ta-csv-tien-ve
-        title: "Đặc tả file CSV ngày thanh toán từ kế toán theo kỳ"
+        title: "Đặc tả file CSV ngày thanh toán do kế toán xuất theo kỳ"
         labels: [nguon:moi, doi:be, constraint:kanno-shoreikin]
         boi_canh: |
           Prototype không có đường nào ghi ngày thanh toán, nên thưởng luôn bằng 0 ngoài dữ liệu mẫu (D-08).
-          PREMISE Q2 chọn nguồn chính là file CSV do kế toán xuất theo kỳ; đây là giả định, khách chưa xác nhận.
+          PREMISE Q2 chọn nguồn chính là file CSV do kế toán xuất theo kỳ; đây là giả định, khách chưa xác nhận (câu hỏi ở X-04).
+          Ngày thanh toán là kiểu ngày (không có giờ), tính theo giờ Nhật; trả đúng ngày hạn vẫn là trong hạn.
         viec: |
-          Viết tài liệu đặc tả file CSV: cột bắt buộc (mã giao dịch, ngày thanh toán theo giờ Nhật, số tiền, mã tham chiếu kế toán),
-          quy ước mã hoá, dòng tiêu đề, cách đánh dấu dòng lỗi, ví dụ 10 dòng hợp lệ và 5 dòng lỗi. Đặt tại docs/csv-ngay-thanh-toan.md trong repo này.
+          Viết tài liệu đặc tả file CSV: cột bắt buộc (mã giao dịch, ngày thanh toán dạng YYYY-MM-DD theo giờ Nhật, số tiền đã trả,
+          mã tham chiếu kế toán), mã hoá UTF-8, dòng tiêu đề, giới hạn 5.000 dòng và 2 MB một file, cách đánh dấu dòng lỗi,
+          ví dụ 10 dòng hợp lệ và 5 dòng lỗi. Đặt tại docs/csv-ngay-thanh-toan.md trong repo này.
         tieu_chi_xong:
-          - Tài liệu có bảng cột với kiểu dữ liệu, bắt buộc hay không, ví dụ giá trị
-          - Có ví dụ file hợp lệ và file lỗi (mã giao dịch không tồn tại, ngày sai định dạng, trùng dòng)
-          - Nêu rõ quy tắc khi một giao dịch xuất hiện hai lần trong cùng file: lấy dòng nào, báo gì
-          - Được dùng làm đầu vào cho INC-02 mà không phải hỏi thêm
+          - Tài liệu có bảng cột với kiểu dữ liệu, bắt buộc hay không, ví dụ giá trị; ngày ghi rõ là kiểu ngày theo giờ Nhật
+          - Có ví dụ file hợp lệ và file lỗi (mã giao dịch không tồn tại, ngày sai định dạng, trùng dòng, quá 5.000 dòng)
+          - Nêu rõ quy tắc khi một giao dịch xuất hiện hai lần trong cùng file: cả file bị từ chối, báo số dòng
+          - Người viết INC-02 đọc tài liệu này và viết được API mà không cần hỏi lại; nếu phải hỏi, câu hỏi được bổ sung vào tài liệu
         file_cham:
           - docs/csv-ngay-thanh-toan.md (mới, trong repo này)
 
-      - key: INC-02-api-nhap-csv-kiem-trung
-        title: "API nhập file CSV ngày thanh toán, kiểm trùng và ghi kèm nguồn"
+      - key: INC-02-api-nhap-csv-tien-ve
+        title: "API nhập file CSV ngày thanh toán vào bảng tiền về, kiểm trùng, ghi kèm nguồn"
         labels: [nguon:moi, doi:be, constraint:kanno-shoreikin]
+        lam_sau: [INC-01-dac-ta-csv-tien-ve]
         boi_canh: |
-          Theo INC-01. Bảng giao dịch là bất biến sau khi chốt ngày (ADR-002), nên ngày thanh toán phải ghi vào cột riêng,
-          không sửa dữ liệu gốc của giao dịch.
+          Theo INC-01. Bảng giao dịch có bộ chặn: mọi sửa đổi trên giao dịch thuộc ngày nghiệp vụ đã khoá đều bị từ chối (hàm guard_locked_day),
+          mà ngày thanh toán luôn đến sau khi ngày giao dịch đã khoá. Vì vậy ngày thanh toán ghi vào bảng riêng "tiền về" (trade_payments),
+          không ghi vào cột paid_at của bảng giao dịch. Cột paid_at cũ giữ lại chỉ để đọc dữ liệu mẫu, hàm tính sẽ đọc bảng mới (INC-06).
         viec: |
-          Tạo API nhận file CSV, kiểm từng dòng theo đặc tả, ghi ngày thanh toán và nguồn "kế toán" vào giao dịch tương ứng,
-          từ chối cả file nếu có dòng lỗi và trả về danh sách lỗi theo số dòng. Nhập lại cùng file không ghi đè, không tạo trùng.
-          Mỗi lần nhập ghi một dòng nhật ký thao tác: ai nhập, lúc nào, bao nhiêu dòng, kỳ nào.
+          Tạo migration bảng tiền về: mã giao dịch, ngày thanh toán (kiểu ngày), số tiền, nguồn (ke_toan / nhap_tay), người ghi, lý do, thời điểm ghi;
+          mỗi giao dịch tối đa một dòng nguồn kế toán. Tạo API nhận file CSV, kiểm từng dòng theo đặc tả; có bất kỳ dòng lỗi nào
+          (kể cả giao dịch đã có dòng nhập tay, coi là xung đột) thì từ chối cả file và trả danh sách lỗi theo số dòng.
+          Nhập lại cùng file không tạo trùng. Mỗi lần nhập ghi một dòng nhật ký: ai, lúc nào, bao nhiêu dòng, kỳ nào. Migration có bước quay lại.
         tieu_chi_xong:
-          - Nhập file 10 dòng hợp lệ thì 10 giao dịch có ngày thanh toán và nguồn "kế toán"
-          - Nhập file có 1 dòng lỗi thì không dòng nào được ghi, phản hồi chỉ đúng số dòng lỗi
+          - Nhập file 10 dòng hợp lệ thì bảng tiền về có 10 dòng nguồn "kế toán", giao dịch thuộc ngày đã khoá vẫn ghi được
+          - Nhập file có 1 dòng lỗi (mã sai, ngày sai, trùng, hoặc xung đột với dòng nhập tay) thì không dòng nào được ghi, phản hồi chỉ đúng số dòng lỗi
           - Nhập lại cùng file lần hai: kết quả không đổi, không có dòng nhật ký "ghi đè"
-          - Giao dịch đã có ngày thanh toán từ nhập tay thì file kế toán không ghi đè, báo xung đột
-          - Chỉ vai đối soát được gọi API; vai khác nhận lỗi quyền
+          - File quá 5.000 dòng hoặc quá 2 MB bị từ chối trước khi đọc nội dung
+          - Chỉ vai đối soát gọi được; vai khác nhận lỗi quyền
+          - Chạy bước quay lại migration thì bảng tiền về biến mất, dữ liệu giao dịch không đổi
         file_cham:
+          - supabase/schema.sql (bảng trade_payments mới, không gắn bộ chặn ngày khoá)
           - src/app/api/incentives/import-payments/route.ts (mới)
-          - supabase/schema.sql (thêm cột paid_source, paid_recorded_by, paid_recorded_at trên bảng trades)
 
-      - key: INC-03-man-nhap-tay-ngay-thanh-toan
+      - key: INC-03-man-nhap-tay-tien-ve
         title: "Màn nhập tay ngày thanh toán cho ngoại lệ, có phân quyền và lý do bắt buộc"
         labels: [nguon:moi, doi:fe, constraint:kanno-shoreikin]
+        lam_sau: [INC-02-api-nhap-csv-tien-ve]
         boi_canh: |
           PREMISE Q2: nhập tay chỉ dành cho ngoại lệ (kế toán gửi muộn, một giao dịch lẻ). Phải bắt lý do để tra lại khi có tranh chấp.
+          Ghi vào bảng tiền về (INC-02) với nguồn "nhập tay". Lớp nặng nhất là màn hình; API ghi một dòng đi kèm.
         viec: |
           Thêm thao tác "Ghi ngày thanh toán" trên chi tiết giao dịch: ô ngày theo giờ Nhật, ô lý do bắt buộc, hộp xác nhận hiện lại
-          mã giao dịch, thành tiền, hạn thanh toán. Chỉ vai đối soát thấy nút. Sau khi ghi, màn hiện nguồn "nhập tay" và người ghi.
+          mã giao dịch, thành tiền, hạn thanh toán. Chỉ vai đối soát thấy nút. API ghi dòng nguồn "nhập tay", từ chối nếu đã có dòng kế toán.
+          Sau khi ghi, màn hiện nguồn và người ghi.
         tieu_chi_xong:
           - Vai bán buôn hoặc bên mua không thấy nút; vai đối soát thấy
           - Bỏ trống lý do thì lỗi hiện ngay tại ô, không gửi được
-          - Ghi ngày sau hạn thanh toán thì màn cảnh báo "sẽ không được thưởng" trước khi xác nhận
-          - Nhấn xác nhận hai lần liên tiếp chỉ tạo một bản ghi
+          - Ghi ngày sau hạn thanh toán thì màn cảnh báo "sẽ không được thưởng" trước khi xác nhận; ghi đúng ngày hạn thì không cảnh báo
+          - Nhấn xác nhận hai lần liên tiếp chỉ tạo một dòng
+          - Giao dịch đã có dòng kế toán thì API từ chối, màn báo lý do
           - Nhật ký thao tác có dòng với giá trị trước (trống) và sau (ngày vừa ghi), kèm lý do
-          - Dùng được trên màn điện thoại 390 px
         file_cham:
           - src/app/(app)/trades/[id]/page.tsx (thêm thao tác)
-          - src/app/api/trades/[id]/payment/route.ts (mới)
+          - src/app/api/trades/[id]/payment/route.ts (mới, ghi vào trade_payments)
 
-      - key: INC-04-cot-nguon-va-nhat-ky
-        title: "Hiển thị nguồn ngày thanh toán và lọc nhật ký theo thao tác thanh toán"
+      - key: INC-04-cot-nguon-tien-ve-va-loc-nhat-ky
+        title: "Hiển thị nguồn ngày thanh toán trên danh sách và lọc nhật ký theo thao tác thanh toán"
         labels: [nguon:moi, doi:fe, constraint:kanno-shoreikin]
+        lam_sau: [INC-03-man-nhap-tay-tien-ve]
         boi_canh: |
           Khi hai nguồn (kế toán, nhập tay) cùng tồn tại, người đối soát phải nhìn ra ngay ngày nào đến từ đâu và ai ghi.
+          Issue nhỏ, là bước hiển thị của INC-02 và INC-03; giữ riêng vì chạm ba màn khác nhau.
         viec: |
           Trên danh sách giao dịch và màn kết quả thưởng, thêm cột "Nguồn ngày thanh toán" bằng chữ (Kế toán / Nhập tay / Chưa có).
           Trong nhật ký thao tác, thêm bộ lọc theo thao tác "ghi ngày thanh toán" và theo nguồn.
@@ -104,105 +119,168 @@ epics:
           - src/app/(app)/audit/page.tsx
 
       - key: INC-05-bang-ty-le-cot-loai-ben-mua
-        title: "Bảng tỷ lệ thưởng: thêm cột loại bên mua, ép bậc tăng dần và tối đa 4 chữ số thập phân"
+        title: "Bảng tỷ lệ thưởng: thêm cột loại bên mua, ép bậc tăng dần, tối đa 4 chữ số thập phân (database và API)"
         labels: [nguon:chenh-lech, doi:be, constraint:kanno-shoreikin]
         boi_canh: |
-          PREMISE D-39: bảng tỷ lệ theo bậc số tiền là giả định có khai; thêm cột loại bên mua (tuỳ chọn) để khi khách đưa bảng thật
-          chỉ cần đổi dữ liệu. B-11: tỷ lệ hiển thị khác tỷ lệ dùng tính vì cột lưu 4 chữ số còn API không chặn.
+          PREMISE D-39: bảng tỷ lệ theo bậc số tiền là giả định có khai; cách đọc bậc chờ khách (X-04). Thêm cột loại bên mua (tuỳ chọn)
+          để khi khách đưa bảng thật chỉ cần đổi dữ liệu. B-11: tỷ lệ hiển thị khác tỷ lệ dùng tính vì cột lưu 4 chữ số còn API không chặn.
+          Loại bên mua lấy từ cột type của bảng người tham gia (4 giá trị: bán buôn, nhà buôn trung gian, người tham gia mua bán, người mua lẻ).
+          Phần màn quản trị tỷ lệ (SCR-21) làm ở issue riêng trong epic T-12; issue này chỉ làm database và API.
         viec: |
           Mở rộng cấu trúc tiers của phiên bản tỷ lệ: mỗi bậc có ngưỡng số tiền, tỷ lệ, và loại bên mua (để trống nghĩa là áp cho mọi loại).
-          Ở API tạo phiên bản: chặn tỷ lệ quá 4 chữ số thập phân; trong cùng loại bên mua, ngưỡng phải tăng nghiêm ngặt và tỷ lệ không giảm.
-          Màn quản trị tỷ lệ (SCR-21) có cột loại bên mua và báo lỗi tại dòng sai.
+          Quy tắc chọn bậc: bậc có loại bên mua khớp thắng bậc để trống; trong cùng một loại (kể cả nhóm để trống), ngưỡng phải tăng nghiêm ngặt
+          và tỷ lệ không giảm. Ràng buộc kiểm ở database cho hình dạng tiers; API tạo phiên bản chặn tỷ lệ quá 4 chữ số thập phân và bậc khai ngược.
         tieu_chi_xong:
-          - Tạo phiên bản có bậc khai ngược (ngưỡng cao hơn nhưng tỷ lệ thấp hơn) bị từ chối, lỗi chỉ đúng dòng
-          - Tỷ lệ 0,00655 bị từ chối; 0,0065 được nhận; số hiện trên màn bằng số dùng tính
+          - Tạo phiên bản có bậc khai ngược (ngưỡng cao hơn nhưng tỷ lệ thấp hơn) bị từ chối, lỗi chỉ đúng dòng và nhóm loại
+          - Tỷ lệ 0,00655 bị từ chối; 0,0065 được nhận; số lưu bằng số dùng tính
+          - Một bên mua là nhà buôn trung gian với số tiền khớp cả bậc có loại và bậc để trống thì lấy bậc có loại
           - Phiên bản cũ không có cột loại bên mua vẫn đọc được, hiểu là áp cho mọi loại
           - Dữ liệu mẫu có một phiên bản khai theo loại bên mua để demo
         file_cham:
-          - supabase/schema.sql (ràng buộc kiểm tiers)
+          - supabase/schema.sql (ràng buộc kiểm tiers của rule_versions)
           - src/app/api/rules/route.ts
-          - src/app/(app)/rules/page.tsx
 
-      - key: INC-06-ham-tinh-doc-loai-ben-mua-loc-delta
-        title: "Hàm tính thưởng đọc loại bên mua; dòng chênh lệch lọc giao dịch đã xác nhận và đã thanh toán đúng hạn"
+      - key: INC-06-ham-tinh-doc-loai-ben-mua
+        title: "Hàm tính thưởng: chọn bậc theo loại bên mua, đọc bảng tiền về, lọc dòng chênh lệch như dòng gốc"
         labels: [nguon:chenh-lech, doi:be, constraint:kanno-shoreikin]
+        lam_sau: [INC-05-bang-ty-le-cot-loai-ben-mua, INC-02-api-nhap-csv-tien-ve]
         boi_canh: |
-          Hàm tính hiện chọn bậc chỉ theo số tiền. B-12: dòng chênh lệch (delta) không lọc trạng thái và ngày thanh toán,
-          nên giao dịch đã huỷ hoặc chưa trả vẫn sinh thưởng chênh lệch.
+          Hàm tính hiện chọn bậc chỉ theo số tiền và đọc cột paid_at cũ. B-12: dòng chênh lệch không lọc trạng thái và ngày thanh toán,
+          nên giao dịch đã huỷ hoặc chưa trả vẫn sinh thưởng chênh lệch. Dòng chênh lệch giữ tỷ lệ của dòng gốc kỳ gốc, không chọn lại bậc
+          (thiết kế LAB-4 mục 4.5). Việc đẩy dòng chênh lệch sang kỳ mở làm ở INC-09a, không làm ở đây.
         viec: |
-          Sửa hàm tính trong database: chọn bậc theo loại bên mua rồi theo số tiền; dòng chênh lệch áp cùng bộ lọc với dòng gốc
-          (đã xác nhận, thanh toán trước hoặc đúng hạn). Giữ nguyên: nhân 110/100, làm tròn xuống yên ở từng dòng, không làm tròn lại ở tổng,
-          dòng chênh lệch làm tròn về 0.
+          Sửa hàm tính trong database: đọc ngày thanh toán từ bảng tiền về (ưu tiên dòng kế toán); dòng gốc chọn bậc theo loại bên mua rồi theo số tiền;
+          dòng chênh lệch áp cùng bộ lọc với dòng gốc (giao dịch đã xác nhận, thanh toán trước hoặc đúng ngày hạn) và giữ tỷ lệ kỳ gốc.
+          Giữ nguyên: nhân 110/100, làm tròn xuống yên ở từng dòng, không làm tròn lại ở tổng, dòng chênh lệch làm tròn về 0.
         tieu_chi_xong:
           - Ba ca biên của phụ lục kiểm thử RFP (đúng ngưỡng tối thiểu, điều chỉnh sau chốt kỳ, số lẻ sau nhân thuế) cho kết quả tính tay khớp
+          - Trả đúng ngày hạn thì được thưởng; trả trễ một ngày thì thưởng 0, không có ân hạn
           - Giao dịch đã huỷ có điều chỉnh không sinh dòng chênh lệch
-          - Giao dịch trả trễ một ngày: thưởng 0, không có ân hạn
+          - Dòng chênh lệch của giao dịch mà kỳ gốc dùng tỷ lệ 0,5% vẫn dùng 0,5% dù phiên bản hiện hành đã đổi
           - Hai bên mua cùng số tiền nhưng khác loại được tỷ lệ khác nhau khi phiên bản khai theo loại
+          - Giao dịch có ngày thanh toán ở cột paid_at cũ nhưng không có dòng tiền về thì tính là chưa thanh toán
         file_cham:
-          - supabase/schema.sql (hàm calculate_incentives, phần dòng delta)
+          - supabase/schema.sql (hàm calculate_incentives, phần dòng gốc và dòng delta)
 
       - key: INC-07-tao-ky-tu-man-hinh
         title: "Tạo kỳ thưởng mới từ màn hình, kiểm dạng năm-tháng"
         labels: [nguon:chenh-lech, doi:fe, constraint:kanno-shoreikin]
+        lam_sau: [INC-08b-ham-chot-ky-mot-giao-dich]
         boi_canh: |
           D-34: kỳ thưởng chỉ sinh bên trong hàm tính, còn màn hình chỉ chọn kỳ đã có, nên tháng mới không bao giờ tính được ngoài hai kỳ mẫu.
+          Lớp nặng nhất là màn hình; API đi kèm một đường tạo kỳ.
         viec: |
-          Thêm ô nhập kỳ mới dạng YYYY-MM trên màn kết quả thưởng; API kiểm định dạng và kỳ chưa tồn tại; kỳ mới ở trạng thái mở.
+          Thêm ô nhập kỳ mới dạng YYYY-MM trên màn kết quả thưởng; API kiểm định dạng, kỳ chưa tồn tại, kỳ không xa quá 12 tháng; kỳ mới ở trạng thái mở.
         tieu_chi_xong:
           - Nhập 2026-13 hoặc 202610 bị từ chối ngay tại ô
           - Tạo kỳ 2026-11 rồi tính được; tạo lại 2026-11 báo đã tồn tại
-          - Không tạo được kỳ cho tháng đã chốt
+          - Gọi thẳng API với 2026-13 hoặc kỳ xa hơn 12 tháng bị từ chối với mã lỗi rõ
         file_cham:
           - src/app/(app)/incentives/page.tsx
           - src/app/api/incentives/route.ts
 
-      - key: INC-08-tinh-va-chot-ky-mot-giao-dich
-        title: "Tính và chốt kỳ trong một giao dịch có khoá, bắt buộc ghi chú, nhật ký cùng giao dịch"
+      - key: INC-08a-tinh-ky-co-khoa-luu-so-truoc-khi-xoa
+        title: "Tính kỳ có khoá theo kỳ; nhật ký lưu số dòng và tổng thưởng trước khi xoá để tính lại"
         labels: [nguon:chenh-lech, doi:be, constraint:kanno-shoreikin]
+        lam_sau: [INC-06-ham-tinh-doc-loai-ben-mua]
         boi_canh: |
-          Chốt kỳ hiện là bốn lệnh rời, không khoá: hai người bấm cùng lúc có thể nhân đôi dòng hoặc chốt giữa chừng.
-          Nhật ký ghi ngoài giao dịch và nuốt lỗi (B-20); ghi chú khi chốt không bắt buộc (B-13); giờ chốt lấy từ máy ứng dụng.
+          Hàm tính hiện không khoá: hai người bấm tính cùng lúc có thể nhân đôi dòng. Khi tính lại, kết quả cũ bị xoá mà nhật ký không giữ số cũ,
+          nên không đối chiếu được. Thiết kế LAB-4 mục "chênh lệch với hiện trạng" dòng 1 và 9.
         viec: |
-          Gom tính và chốt vào hàm database chạy trong một giao dịch: khoá theo kỳ, chỉ chốt khi kỳ đang mở, ghi nhật ký trong cùng giao dịch
-          (hỏng thì huỷ cả), ghi chú bắt buộc, giờ chốt lấy từ đồng hồ database, nhật ký có số dòng trước khi xoá để tính lại.
+          Sửa hàm tính: khoá dòng kỳ (FOR UPDATE) trong suốt lần tính; trước khi xoá kết quả cũ, ghi vào nhật ký số dòng và tổng thưởng cũ
+          cùng số dòng và tổng thưởng mới. Kỳ đã chốt thì từ chối tính.
         tieu_chi_xong:
-          - Hai yêu cầu chốt cùng lúc: một thành công, một báo kỳ đã chốt; số dòng kết quả không nhân đôi
-          - Chốt không ghi chú bị từ chối
-          - Giả lập lỗi ghi nhật ký: kỳ vẫn ở trạng thái mở, không có dòng nửa vời
-          - Giờ chốt hiện theo giờ Nhật và bằng giờ database
+          - Hai yêu cầu tính cùng lúc: một chạy, một chờ rồi tính lại trên kết quả mới; số dòng kết quả không nhân đôi
+          - Tính lại kỳ đang mở: nhật ký có số dòng và tổng thưởng trước và sau
+          - Gọi tính trên kỳ đã chốt bị từ chối với mã lỗi rõ
+        file_cham:
+          - supabase/schema.sql (hàm calculate_incentives, phần khoá và nhật ký)
+          - src/app/api/incentives/[period]/calculate/route.ts
+
+      - key: INC-08b-ham-chot-ky-mot-giao-dich
+        title: "Chốt kỳ bằng một hàm database: chỉ chốt kỳ đang mở, ghi chú bắt buộc, giờ chốt theo database, chặn khi tháng còn ngày mở"
+        labels: [nguon:chenh-lech, doi:be, constraint:kanno-shoreikin]
+        lam_sau: [INC-08a-tinh-ky-co-khoa-luu-so-truoc-khi-xoa]
+        boi_canh: |
+          Chốt kỳ hiện là bốn lệnh rời ở lớp ứng dụng, cập nhật không điều kiện, ghi chú tuỳ chọn (B-13), giờ chốt lấy từ máy ứng dụng.
+          Thiết kế LAB-4 dòng 2, 4, 12 và mục 4.7 (6): chốt kỳ khi tháng đó còn ngày nghiệp vụ chưa khoá sẽ làm mất tiền im lặng.
+        viec: |
+          Tạo hàm database close_incentive_period chạy trong một giao dịch: kiểm kỳ đang mở, kiểm mọi ngày nghiệp vụ của tháng đã khoá,
+          cập nhật trạng thái với điều kiện status = open, ghi chú bắt buộc, giờ chốt lấy now() của database. API chốt chỉ gọi hàm này.
+        tieu_chi_xong:
+          - Hai yêu cầu chốt cùng lúc: một thành công, một báo kỳ đã chốt
+          - Chốt không ghi chú bị từ chối ở hàm database, không chỉ ở màn
+          - Tháng còn một ngày nghiệp vụ chưa khoá thì chốt bị từ chối, lỗi nêu ngày nào
+          - Giờ chốt bằng giờ database, hiện theo giờ Nhật
         file_cham:
           - supabase/schema.sql (hàm close_incentive_period mới)
           - src/app/api/incentives/[period]/close/route.ts
-          - src/app/api/incentives/[period]/calculate/route.ts
 
-      - key: INC-09-canh-bao-delta-mo-coi
-        title: "Đẩy dòng chênh lệch rơi vào kỳ đã chốt sang kỳ mở gần nhất; cảnh báo dòng không có kỳ gốc"
+      - key: INC-08c-nhat-ky-trong-cung-giao-dich
+        title: "Nhật ký thao tác tính và chốt kỳ ghi trong cùng giao dịch database, hỏng thì huỷ cả"
         labels: [nguon:chenh-lech, doi:be, constraint:kanno-shoreikin]
+        lam_sau: [INC-08b-ham-chot-ky-mot-giao-dich]
         boi_canh: |
-          B-02: điều chỉnh có thể rơi vào kỳ đã chốt nên không bao giờ được tính. B-03: kỳ gốc chưa từng tính thì dòng chênh lệch
-          biến mất không báo. PREMISE D-44 (review LAB-4) chốt: đẩy sang kỳ mở gần nhất, không sửa kỳ đã chốt.
+          B-20: hàm ghi nhật ký ở lớp ứng dụng nuốt lỗi, nên có thể chốt kỳ mà không có dòng nhật ký. Thiết kế LAB-4 dòng 3.
         viec: |
-          Khi tính, dòng chênh lệch có kỳ đích đã chốt được đưa vào kỳ mở gần nhất, ghi kỳ gốc và lý do đẩy trên dòng. Trước khi tính, API
-          liệt kê các điều chỉnh mà kỳ gốc chưa có kết quả, trả về cho màn hình để hiện cảnh báo kèm mã điều chỉnh và đường dẫn.
-          Không tự sinh dòng tỷ lệ 0.
+          Chuyển ghi nhật ký của tính và chốt kỳ vào trong hàm database (cùng giao dịch với INC-08a, INC-08b); lỗi ghi nhật ký làm huỷ cả thao tác.
+          Bỏ lời gọi ghi nhật ký ở lớp ứng dụng cho hai thao tác này.
+        tieu_chi_xong:
+          - Giả lập lỗi ghi nhật ký (ví dụ bảng nhật ký bị khoá): kỳ vẫn ở trạng thái mở, không có dòng kết quả nửa vời
+          - Chốt thành công thì có đúng một dòng nhật ký, không trùng
+          - Không còn lời gọi ghi nhật ký ở hai route tính và chốt
+        file_cham:
+          - supabase/schema.sql
+          - src/app/api/incentives/[period]/calculate/route.ts
+          - src/app/api/incentives/[period]/close/route.ts
+
+      - key: INC-09a-day-dong-chenh-lech-sang-ky-mo
+        title: "Dòng chênh lệch rơi vào kỳ đã chốt được đẩy sang kỳ mở gần nhất, ghi kỳ gốc và lý do"
+        labels: [nguon:chenh-lech, doi:be, constraint:kanno-shoreikin]
+        lam_sau: [INC-08b-ham-chot-ky-mot-giao-dich]
+        boi_canh: |
+          B-02: điều chỉnh có thể rơi vào kỳ đã chốt nên không bao giờ được tính. PREMISE D-44 (review LAB-4) chốt: đẩy sang kỳ mở gần nhất,
+          không sửa kỳ đã chốt. Issue này sở hữu cột kỳ gốc và lý do đẩy trên dòng kết quả.
+        viec: |
+          Thêm cột kỳ gốc và lý do đẩy vào bảng kết quả thưởng. Khi tính, dòng chênh lệch có kỳ đích đã chốt được ghi vào kỳ mở gần nhất
+          sau kỳ đích; kỳ kế tiếp cũng đã chốt thì tìm tiếp. Không có kỳ mở nào thì hàm trả lỗi rõ và không ghi gì, không mất dòng im lặng.
         tieu_chi_xong:
           - Điều chỉnh duyệt sau khi kỳ gốc đã chốt xuất hiện ở kỳ mở gần nhất, có cột kỳ gốc và lý do đẩy; kỳ đã chốt không đổi số
-          - Kỳ gốc chưa từng tính thì màn hiện cảnh báo trước khi cho bấm tính, liệt kê đúng mã
-          - Không có gì bất thường thì không hiện gì; cảnh báo không chặn tính, người dùng xác nhận "đã hiểu" mới tiếp tục
+          - Kỳ kế tiếp đã chốt, kỳ sau nữa mở: dòng nằm ở kỳ sau nữa
+          - Không còn kỳ mở nào: hàm trả mã lỗi rõ, không có dòng nào bị mất; tạo kỳ mới rồi tính lại thì dòng xuất hiện
+        file_cham:
+          - supabase/schema.sql (cột origin_period, shift_reason của incentive_results; hàm calculate_incentives phần dòng delta)
+
+      - key: INC-09b-canh-bao-dong-khong-co-ky-goc
+        title: "Cảnh báo trước khi tính nếu có điều chỉnh mà kỳ gốc chưa từng tính"
+        labels: [nguon:chenh-lech, doi:fe, constraint:kanno-shoreikin]
+        lam_sau: [INC-09a-day-dong-chenh-lech-sang-ky-mo]
+        boi_canh: |
+          B-03: kỳ gốc chưa từng tính thì dòng chênh lệch biến mất không báo. Lớp nặng nhất là màn hình; API đi kèm một đường kiểm trước.
+        viec: |
+          Thêm API kiểm trước khi tính: liệt kê điều chỉnh đã duyệt mà kỳ gốc chưa có kết quả. Màn tính hiện cảnh báo với mã điều chỉnh
+          và đường dẫn tới màn điều chỉnh; người dùng phải đánh dấu "đã hiểu" mới bấm tính được, và việc đánh dấu ghi vào nhật ký.
+        tieu_chi_xong:
+          - Có điều chỉnh thiếu kỳ gốc thì nút tính khoá cho tới khi đánh dấu "đã hiểu"; nhật ký có dòng đánh dấu kèm mã điều chỉnh
+          - Không có thì không hiện cảnh báo, nút tính mở
+          - Danh sách mã trong cảnh báo khớp kết quả API khi gọi trực tiếp
         file_cham:
           - src/app/api/incentives/[period]/preflight/route.ts (mới)
           - src/app/(app)/incentives/page.tsx
 
       - key: INC-10-hop-thoai-xac-nhan-that
-        title: "Hộp thoại xác nhận tính và chốt kỳ hiện số dòng, tổng tiền, thời điểm; bỏ hộp thoại mặc định của trình duyệt"
+        title: "Hộp thoại xác nhận tính và chốt kỳ hiện số đọc tại lúc mở, bỏ hộp thoại mặc định của trình duyệt"
         labels: [nguon:chenh-lech, doi:fe, constraint:kanno-shoreikin]
+        lam_sau: [INC-08c-nhat-ky-trong-cung-giao-dich]
         boi_canh: |
-          D-12: prototype dùng hộp thoại mặc định của trình duyệt, không hiện số liệu, không nhập được lý do.
+          D-12: prototype dùng hộp thoại mặc định của trình duyệt, không hiện số liệu, không nhập được ghi chú. Quy tắc ghi chú bắt buộc nằm ở INC-08b;
+          issue này chỉ lo màn hình. Thiết kế LAB-4 mục 4.7 (5): số trong hộp phải là số đọc lại lúc bấm, không phải số đang hiện trên màn.
         viec: |
-          Thay bằng hộp thoại của ứng dụng: hiện kỳ, số dòng sẽ tính hoặc chốt, tổng tiền thưởng, thời điểm tính gần nhất, ô ghi chú bắt buộc
-          khi chốt, nút "Đang xử lý" khoá sau khi bấm.
+          Thay bằng hộp thoại của ứng dụng: khi mở, gọi API đọc lại kỳ, số dòng, tổng tiền thưởng, thời điểm tính gần nhất; ô ghi chú bắt buộc khi chốt;
+          nút đổi thành "Đang xử lý" và khoá sau khi bấm; thành công thì thông báo bằng chữ.
         tieu_chi_xong:
-          - Số dòng và tổng tiền trong hộp thoại bằng số trên màn sau khi tính
+          - Đổi dữ liệu ở tab khác rồi mở hộp thoại ở tab này: số trong hộp là số mới, không phải số cũ trên màn
+          - Ghi chú trống thì nút chốt không bấm được, lỗi hiện tại ô
           - Bấm hai lần chỉ gọi API một lần
           - Thành công thì có thông báo bằng chữ, không chỉ tải lại trang
         file_cham:
@@ -212,49 +290,59 @@ epics:
       - key: INC-11-man-ket-qua-thuong-gia-co
         title: "Màn kết quả thưởng: nhãn tiếng Nhật, tách dòng gốc và dòng chênh lệch, hiện phiên bản tỷ lệ, dùng được trên điện thoại"
         labels: [nguon:gia-co, doi:fe, constraint:kanno-shoreikin]
+        lam_sau: [INC-09a-day-dong-chenh-lech-sang-ky-mo]
         boi_canh: |
-          Nhận xét LAB-3: nhãn chủ yếu tiếng Việt, mã trạng thái thô, hai kiểu ngày. Màn này là màn khách Nhật sẽ tự thử khi xem thưởng.
-          Gói T-11 (SCR-20) gộp vào epic này.
+          Nhận xét LAB-3 của giảng viên: nhãn chủ yếu tiếng Việt, mã trạng thái thô, hai kiểu ngày. Màn này là màn khách Nhật sẽ tự thử khi xem thưởng.
+          Gói T-11 (SCR-20) gộp vào epic này. Cột kỳ gốc do INC-09a tạo, issue này chỉ hiển thị. Xuất CSV của màn này thuộc epic báo cáo (T-14).
         viec: |
-          Áp định nghĩa xong chung cho màn hình: nhãn Nhật cho tên cột và trạng thái, một kiểu ngày, dòng chênh lệch nền khác và có cột kỳ gốc,
-          hiện mã phiên bản tỷ lệ và hệ số thuế đã dùng, bảng đổi sang dạng thẻ trên điện thoại.
+          Áp định nghĩa xong chung cho màn hình (script chép vào thân issue): nhãn Nhật cho tên cột và trạng thái theo bảng nhãn chung,
+          một kiểu ngày, dòng chênh lệch có nền khác và cột kỳ gốc, hiện mã phiên bản tỷ lệ và hệ số thuế đã dùng, bảng đổi sang dạng thẻ trên điện thoại.
         tieu_chi_xong:
-          - Mọi tiêu chí trong meta.dinh_nghia_xong_chung_man_hinh
-          - Dòng chênh lệch phân biệt được bằng mắt và có cột kỳ gốc
-          - Xuất CSV của màn này có cùng cột và cùng nhãn với bảng
+          - Mọi tên cột và trạng thái trên màn có trong bảng nhãn chung docs/nhan-tieng-nhat.md; không còn chuỗi tiếng Việt hay mã thô
+          - Mọi ngày trên màn cùng một định dạng YYYY/MM/DD
+          - Dòng chênh lệch có nhãn "chênh lệch", cột kỳ gốc, và nền khác (kiểm bằng thuộc tính dữ liệu của phần tử)
+          - Màn rộng 390 px không có thanh cuộn ngang, nút tính và chốt nhìn thấy không cần cuộn
         file_cham:
           - src/app/(app)/incentives/page.tsx
-          - src/app/api/reports/incentives/route.ts
+          - docs/nhan-tieng-nhat.md (mới, bảng nhãn dùng chung, trong repo này)
 
       - key: INC-12-ngay-hieu-luc-theo-ky
-        title: "Ngày hiệu lực của phiên bản tỷ lệ áp theo kỳ: ép ngày 1 của tháng, chặn rơi vào kỳ đã chốt"
+        title: "Ngày hiệu lực của phiên bản tỷ lệ áp theo kỳ: chọn tháng thay vì ngày, chặn kỳ đã chốt"
         labels: [nguon:chenh-lech, doi:be, constraint:kanno-shoreikin]
+        lam_sau: [INC-05-bang-ty-le-cot-loai-ben-mua]
         boi_canh: |
-          PREMISE Q7 chốt áp theo kỳ. B-14: phiên bản có ngày hiệu lực lùi vào kỳ đã chốt vẫn tạo và duyệt được nhưng không bao giờ áp dụng.
+          PREMISE Q7 chốt áp theo kỳ, ngày hiệu lực luôn là ngày 1 của tháng. B-14: phiên bản có ngày hiệu lực lùi vào kỳ đã chốt vẫn tạo và duyệt được
+          nhưng không bao giờ áp dụng. Lớp nặng nhất là API và hàm chọn phiên bản; màn chỉ đổi ô nhập.
         viec: |
-          API tạo phiên bản: ngày hiệu lực phải là ngày 1 của một tháng chưa chốt; hàm tính chọn đúng một phiên bản cho cả kỳ theo ngày hiệu lực.
-          Màn quản trị hiện cảnh báo khi người dùng chọn ngày khác ngày 1.
+          API tạo phiên bản: nhận tháng hiệu lực (YYYY-MM), tự đặt ngày 1, từ chối tháng đã chốt; hàm tính chọn đúng một phiên bản cho cả kỳ
+          theo tháng hiệu lực, khi hai phiên bản cùng tháng thì lấy phiên bản duyệt sau theo giờ database. Màn quản trị đổi ô ngày thành ô chọn tháng.
         tieu_chi_xong:
-          - Ngày hiệu lực 2026-11-15 bị từ chối, 2026-11-01 được nhận
-          - Ngày hiệu lực rơi vào kỳ đã chốt bị từ chối, lỗi nêu kỳ nào
-          - Kỳ 2026-11 dùng đúng phiên bản có hiệu lực 2026-11-01, kỳ 2026-10 vẫn dùng phiên bản cũ
+          - Gọi API với ngày 2026-11-15 bị từ chối; với tháng 2026-11 được nhận và lưu ngày 2026-11-01
+          - Tháng hiệu lực rơi vào kỳ đã chốt bị từ chối, lỗi nêu kỳ nào
+          - Kỳ 2026-11 dùng đúng phiên bản có hiệu lực tháng 11, kỳ 2026-10 vẫn dùng phiên bản cũ
+          - Hai phiên bản cùng tháng hiệu lực: kỳ dùng phiên bản duyệt sau
         file_cham:
           - src/app/api/rules/route.ts
           - supabase/schema.sql (chọn phiên bản trong hàm tính)
+          - src/app/(app)/rules/page.tsx (ô chọn tháng)
 
-      - key: INC-13-bo-test-ca-bien
-        title: "Bộ kiểm thử tự động cho chuỗi thưởng theo ba ca biên và hai ca chặn"
-        labels: [nguon:moi, doi:qa, constraint:kanno-shoreikin]
+      - key: INC-13-bo-test-chuoi-thuong
+        title: "Bộ kiểm thử tự động cho chuỗi thưởng: ba ca biên của RFP, đúng hạn, trễ hạn, giao dịch huỷ"
+        labels: [nguon:gia-co, doi:qa, constraint:kanno-shoreikin]
+        lam_sau: [INC-09a-day-dong-chenh-lech-sang-ky-mo, INC-12-ngay-hieu-luc-theo-ky]
         boi_canh: |
-          Nhận xét LAB-3: có lưới kiểm thử tự động cho chốt chặn quan trọng thì lỗi lộ ra trước khi nộp. Chuỗi thưởng là nơi tiền tính sai
-          mà màn hình vẫn trông đúng.
+          Nhận xét LAB-3 của giảng viên: có lưới kiểm thử tự động cho chốt chặn quan trọng thì lỗi lộ ra trước khi nộp. Chuỗi thưởng là nơi tiền tính sai
+          mà màn hình vẫn trông đúng. INC-06 chỉ thử ca của mình; issue này gom thành bộ chạy lặp lại được.
         viec: |
-          Viết kiểm thử chạy trên database thật của môi trường thử: ba ca biên (đúng ngưỡng, điều chỉnh sau chốt, số lẻ sau thuế),
-          ca trả trễ một ngày, ca giao dịch huỷ có điều chỉnh. Mỗi ca có số kỳ vọng tính tay ghi trong mã kiểm thử. Chạy bằng một lệnh.
+          Viết kiểm thử chạy trên một database Postgres thử (dựng bằng lệnh một dòng từ schema và dữ liệu mẫu, ghi trong README của tests):
+          ba ca biên của phụ lục kiểm thử RFP, ca trả đúng ngày hạn, ca trả trễ một ngày, ca giao dịch huỷ có điều chỉnh, ca đẩy sang kỳ mở.
+          Mỗi ca có số kỳ vọng tính tay ghi trong mã kiểm thử. Chạy bằng một lệnh.
         tieu_chi_xong:
-          - Một lệnh chạy, mã thoát 0 khi đúng, khác 0 khi sai
+          - Một lệnh dựng database thử và chạy toàn bộ; mã thoát 0 khi đúng, khác 0 khi sai
           - Cố ý sửa hệ số thuế thành 1,08 thì kiểm thử báo đỏ
+          - README của tests ghi cách dựng và cách chạy, người mới làm theo được
           - Kết quả kiểm thử được ghi vào AI-report khi hoàn thành
         file_cham:
           - tests/incentives.test.ts (mới)
+          - tests/README.md (mới)
           - package.json (lệnh test)
