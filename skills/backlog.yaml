@@ -151,6 +151,7 @@ epics:
         viec: |
           Sửa hàm tính trong database: đọc ngày thanh toán từ bảng tiền về (ưu tiên dòng kế toán); dòng gốc chọn bậc theo loại bên mua rồi theo số tiền;
           dòng chênh lệch áp cùng bộ lọc với dòng gốc (giao dịch đã xác nhận, thanh toán trước hoặc đúng ngày hạn) và giữ tỷ lệ kỳ gốc.
+          Kết quả đấu giá ở trạng thái chờ xác nhận (D-42, epic giao dịch) không tính vào thưởng cho tới khi được xác nhận.
           Giữ nguyên: nhân 110/100, làm tròn xuống yên ở từng dòng, không làm tròn lại ở tổng, dòng chênh lệch làm tròn về 0.
         tieu_chi_xong:
           - Ba ca biên của phụ lục kiểm thử RFP (đúng ngưỡng tối thiểu, điều chỉnh sau chốt kỳ, số lẻ sau nhân thuế) cho kết quả tính tay khớp
@@ -159,6 +160,7 @@ epics:
           - Dòng chênh lệch của giao dịch mà kỳ gốc dùng tỷ lệ 0,5% vẫn dùng 0,5% dù phiên bản hiện hành đã đổi
           - Hai bên mua cùng số tiền nhưng khác loại được tỷ lệ khác nhau khi phiên bản khai theo loại
           - Giao dịch có ngày thanh toán ở cột paid_at cũ nhưng không có dòng tiền về thì tính là chưa thanh toán
+          - Kết quả đấu giá chờ xác nhận có ngày thanh toán vẫn không sinh dòng thưởng; sau khi xác nhận thì sinh
         file_cham:
           - supabase/schema.sql (hàm calculate_incentives, phần dòng gốc và dòng delta)
 
@@ -334,15 +336,13 @@ epics:
           Nhận xét LAB-3 của giảng viên: có lưới kiểm thử tự động cho chốt chặn quan trọng thì lỗi lộ ra trước khi nộp. Chuỗi thưởng là nơi tiền tính sai
           mà màn hình vẫn trông đúng. INC-06 chỉ thử ca của mình; issue này gom thành bộ chạy lặp lại được.
         viec: |
-          Viết kiểm thử chạy trên một database Postgres thử (dựng bằng lệnh một dòng từ schema và dữ liệu mẫu, ghi trong README của tests):
+          Viết kiểm thử chạy trên database Postgres thử do issue X03-00 (epic kiểm thử) dựng bằng một lệnh:
           ba ca biên của phụ lục kiểm thử RFP, ca trả đúng ngày hạn, ca trả trễ một ngày, ca giao dịch huỷ có điều chỉnh, ca đẩy sang kỳ mở.
           Mỗi ca có số kỳ vọng tính tay ghi trong mã kiểm thử. Chạy bằng một lệnh.
         tieu_chi_xong:
           - Một lệnh dựng database thử và chạy toàn bộ; mã thoát 0 khi đúng, khác 0 khi sai
           - Cố ý sửa hệ số thuế thành 1,08 thì kiểm thử báo đỏ
-          - README của tests ghi cách dựng và cách chạy, người mới làm theo được
           - Kết quả kiểm thử được ghi vào AI-report khi hoàn thành
         file_cham:
           - tests/incentives.test.ts (mới)
-          - tests/README.md (mới)
           - package.json (lệnh test)
