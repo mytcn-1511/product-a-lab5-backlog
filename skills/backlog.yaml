@@ -48,7 +48,7 @@ epics:
         tieu_chi_xong:
           - Tài liệu có bảng cột với kiểu dữ liệu, bắt buộc hay không, ví dụ giá trị; ngày ghi rõ là kiểu ngày theo giờ Nhật
           - Có ví dụ file hợp lệ và file lỗi (mã giao dịch không tồn tại, ngày sai định dạng, trùng dòng, quá 5.000 dòng)
-          - Nêu rõ quy tắc khi một giao dịch xuất hiện hai lần trong cùng file: cả file bị từ chối, báo số dòng
+          - "Nêu rõ quy tắc khi một giao dịch xuất hiện hai lần trong cùng file: cả file bị từ chối, báo số dòng"
           - Người viết INC-02 đọc tài liệu này và viết được API mà không cần hỏi lại; nếu phải hỏi, câu hỏi được bổ sung vào tài liệu
         file_cham:
           - docs/csv-ngay-thanh-toan.md (mới, trong repo này)
@@ -69,7 +69,7 @@ epics:
         tieu_chi_xong:
           - Nhập file 10 dòng hợp lệ thì bảng tiền về có 10 dòng nguồn "kế toán", giao dịch thuộc ngày đã khoá vẫn ghi được
           - Nhập file có 1 dòng lỗi (mã sai, ngày sai, trùng, hoặc xung đột với dòng nhập tay) thì không dòng nào được ghi, phản hồi chỉ đúng số dòng lỗi
-          - Nhập lại cùng file lần hai: kết quả không đổi, không có dòng nhật ký "ghi đè"
+          - "Nhập lại cùng file lần hai: kết quả không đổi, không có dòng nhật ký \"ghi đè\""
           - File quá 5.000 dòng hoặc quá 2 MB bị từ chối trước khi đọc nội dung
           - Chỉ vai đối soát gọi được; vai khác nhận lỗi quyền
           - Chạy bước quay lại migration thì bảng tiền về biến mất, dữ liệu giao dịch không đổi
@@ -190,8 +190,8 @@ epics:
           Sửa hàm tính: khoá dòng kỳ (FOR UPDATE) trong suốt lần tính; trước khi xoá kết quả cũ, ghi vào nhật ký số dòng và tổng thưởng cũ
           cùng số dòng và tổng thưởng mới. Kỳ đã chốt thì từ chối tính.
         tieu_chi_xong:
-          - Hai yêu cầu tính cùng lúc: một chạy, một chờ rồi tính lại trên kết quả mới; số dòng kết quả không nhân đôi
-          - Tính lại kỳ đang mở: nhật ký có số dòng và tổng thưởng trước và sau
+          - "Hai yêu cầu tính cùng lúc: một chạy, một chờ rồi tính lại trên kết quả mới; số dòng kết quả không nhân đôi"
+          - "Tính lại kỳ đang mở: nhật ký có số dòng và tổng thưởng trước và sau"
           - Gọi tính trên kỳ đã chốt bị từ chối với mã lỗi rõ
         file_cham:
           - supabase/schema.sql (hàm calculate_incentives, phần khoá và nhật ký)
@@ -208,7 +208,7 @@ epics:
           Tạo hàm database close_incentive_period chạy trong một giao dịch: kiểm kỳ đang mở, kiểm mọi ngày nghiệp vụ của tháng đã khoá,
           cập nhật trạng thái với điều kiện status = open, ghi chú bắt buộc, giờ chốt lấy now() của database. API chốt chỉ gọi hàm này.
         tieu_chi_xong:
-          - Hai yêu cầu chốt cùng lúc: một thành công, một báo kỳ đã chốt
+          - "Hai yêu cầu chốt cùng lúc: một thành công, một báo kỳ đã chốt"
           - Chốt không ghi chú bị từ chối ở hàm database, không chỉ ở màn
           - Tháng còn một ngày nghiệp vụ chưa khoá thì chốt bị từ chối, lỗi nêu ngày nào
           - Giờ chốt bằng giờ database, hiện theo giờ Nhật
@@ -226,7 +226,7 @@ epics:
           Chuyển ghi nhật ký của tính và chốt kỳ vào trong hàm database (cùng giao dịch với INC-08a, INC-08b); lỗi ghi nhật ký làm huỷ cả thao tác.
           Bỏ lời gọi ghi nhật ký ở lớp ứng dụng cho hai thao tác này.
         tieu_chi_xong:
-          - Giả lập lỗi ghi nhật ký (ví dụ bảng nhật ký bị khoá): kỳ vẫn ở trạng thái mở, không có dòng kết quả nửa vời
+          - "Giả lập lỗi ghi nhật ký (ví dụ bảng nhật ký bị khoá): kỳ vẫn ở trạng thái mở, không có dòng kết quả nửa vời"
           - Chốt thành công thì có đúng một dòng nhật ký, không trùng
           - Không còn lời gọi ghi nhật ký ở hai route tính và chốt
         file_cham:
@@ -246,8 +246,8 @@ epics:
           sau kỳ đích; kỳ kế tiếp cũng đã chốt thì tìm tiếp. Không có kỳ mở nào thì hàm trả lỗi rõ và không ghi gì, không mất dòng im lặng.
         tieu_chi_xong:
           - Điều chỉnh duyệt sau khi kỳ gốc đã chốt xuất hiện ở kỳ mở gần nhất, có cột kỳ gốc và lý do đẩy; kỳ đã chốt không đổi số
-          - Kỳ kế tiếp đã chốt, kỳ sau nữa mở: dòng nằm ở kỳ sau nữa
-          - Không còn kỳ mở nào: hàm trả mã lỗi rõ, không có dòng nào bị mất; tạo kỳ mới rồi tính lại thì dòng xuất hiện
+          - "Kỳ kế tiếp đã chốt, kỳ sau nữa mở: dòng nằm ở kỳ sau nữa"
+          - "Không còn kỳ mở nào: hàm trả mã lỗi rõ, không có dòng nào bị mất; tạo kỳ mới rồi tính lại thì dòng xuất hiện"
         file_cham:
           - supabase/schema.sql (cột origin_period, shift_reason của incentive_results; hàm calculate_incentives phần dòng delta)
 
@@ -279,7 +279,7 @@ epics:
           Thay bằng hộp thoại của ứng dụng: khi mở, gọi API đọc lại kỳ, số dòng, tổng tiền thưởng, thời điểm tính gần nhất; ô ghi chú bắt buộc khi chốt;
           nút đổi thành "Đang xử lý" và khoá sau khi bấm; thành công thì thông báo bằng chữ.
         tieu_chi_xong:
-          - Đổi dữ liệu ở tab khác rồi mở hộp thoại ở tab này: số trong hộp là số mới, không phải số cũ trên màn
+          - "Đổi dữ liệu ở tab khác rồi mở hộp thoại ở tab này: số trong hộp là số mới, không phải số cũ trên màn"
           - Ghi chú trống thì nút chốt không bấm được, lỗi hiện tại ô
           - Bấm hai lần chỉ gọi API một lần
           - Thành công thì có thông báo bằng chữ, không chỉ tải lại trang
@@ -320,7 +320,7 @@ epics:
           - Gọi API với ngày 2026-11-15 bị từ chối; với tháng 2026-11 được nhận và lưu ngày 2026-11-01
           - Tháng hiệu lực rơi vào kỳ đã chốt bị từ chối, lỗi nêu kỳ nào
           - Kỳ 2026-11 dùng đúng phiên bản có hiệu lực tháng 11, kỳ 2026-10 vẫn dùng phiên bản cũ
-          - Hai phiên bản cùng tháng hiệu lực: kỳ dùng phiên bản duyệt sau
+          - "Hai phiên bản cùng tháng hiệu lực: kỳ dùng phiên bản duyệt sau"
         file_cham:
           - src/app/api/rules/route.ts
           - supabase/schema.sql (chọn phiên bản trong hàm tính)
