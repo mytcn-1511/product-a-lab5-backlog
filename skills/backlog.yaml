@@ -176,18 +176,19 @@ epics:
           - src/app/api/incentives/[period]/calculate/route.ts
 
       - key: INC-09-canh-bao-delta-mo-coi
-        title: "Cảnh báo dòng chênh lệch lạc kỳ hoặc không có kỳ gốc trước khi tính"
+        title: "Đẩy dòng chênh lệch rơi vào kỳ đã chốt sang kỳ mở gần nhất; cảnh báo dòng không có kỳ gốc"
         labels: [nguon:chenh-lech, doi:be, constraint:kanno-shoreikin]
         boi_canh: |
           B-02: điều chỉnh có thể rơi vào kỳ đã chốt nên không bao giờ được tính. B-03: kỳ gốc chưa từng tính thì dòng chênh lệch
-          biến mất không báo.
+          biến mất không báo. PREMISE D-44 (review LAB-4) chốt: đẩy sang kỳ mở gần nhất, không sửa kỳ đã chốt.
         viec: |
-          Trước khi tính, API liệt kê các điều chỉnh đã duyệt mà kỳ đích đã chốt hoặc kỳ gốc chưa có kết quả, trả về cho màn hình
-          để hiện cảnh báo có danh sách mã điều chỉnh và đường dẫn tới màn điều chỉnh. Không tự sinh dòng tỷ lệ 0.
+          Khi tính, dòng chênh lệch có kỳ đích đã chốt được đưa vào kỳ mở gần nhất, ghi kỳ gốc và lý do đẩy trên dòng. Trước khi tính, API
+          liệt kê các điều chỉnh mà kỳ gốc chưa có kết quả, trả về cho màn hình để hiện cảnh báo kèm mã điều chỉnh và đường dẫn.
+          Không tự sinh dòng tỷ lệ 0.
         tieu_chi_xong:
-          - Có điều chỉnh lạc kỳ thì màn tính hiện cảnh báo trước khi cho bấm tính, liệt kê đúng mã
-          - Không có thì không hiện gì
-          - Cảnh báo không chặn tính; người dùng xác nhận "đã hiểu" mới tiếp tục
+          - Điều chỉnh duyệt sau khi kỳ gốc đã chốt xuất hiện ở kỳ mở gần nhất, có cột kỳ gốc và lý do đẩy; kỳ đã chốt không đổi số
+          - Kỳ gốc chưa từng tính thì màn hiện cảnh báo trước khi cho bấm tính, liệt kê đúng mã
+          - Không có gì bất thường thì không hiện gì; cảnh báo không chặn tính, người dùng xác nhận "đã hiểu" mới tiếp tục
         file_cham:
           - src/app/api/incentives/[period]/preflight/route.ts (mới)
           - src/app/(app)/incentives/page.tsx

@@ -1,10 +1,10 @@
 # PREMISE — tiền đề của backlog LAB-5 so với thiết kế LAB-4
 
-**Sản phẩm:** Product A, hệ thống hỗ trợ vận hành chợ bán buôn thủy sản (khách hàng hư cấu trong đề). **Mốc so sánh:** bộ thiết kế LAB-4 đã nộp ngày 08/10/2026. **Ngày viết:** 17/10/2026.
+**Sản phẩm:** Product A, hệ thống hỗ trợ vận hành chợ bán buôn thủy sản (khách hàng hư cấu trong đề). **Mốc so sánh:** bộ thiết kế LAB-4 đã nộp ngày 08/10/2026. **Ngày viết:** 17/10/2026, cập nhật 19/10/2026 sau khi nhận nhận xét LAB-4.
 
 Backlog trong Project này bám bản LAB-4, cộng và trừ đúng những gì khai dưới đây. Chỗ nào không khai thì hiểu là giữ nguyên LAB-4.
 
-Khác biệt đến từ hai nguồn: chỗ hở tự phát hiện khi bẻ việc, và nhận xét của giảng viên cho prototype LAB-3 (nhận ngày 16/10/2026). Không có góp ý review LAB-4 từ người khác, nên nhánh "bổ sung từ review" để trống.
+Khác biệt đến từ ba nguồn: chỗ hở tự phát hiện khi bẻ việc, nhận xét của giảng viên cho prototype LAB-3 (nhận ngày 16/10/2026), và nhận xét review bộ thiết kế LAB-4 (nhận ngày 19/10/2026). Nhánh "bổ sung từ review" gồm D-42 đến D-45 ở Bảng 1. Các góp ý review chỉ về cách trình bày tài liệu (cây thư mục, tên file, thông tin đầu file) không đổi thiết kế nên không khai ở đây; chúng được ghi ở phần chỗ hở spec trong task-breakdown.md.
 
 ## Cách đọc mã trong file
 
@@ -24,7 +24,7 @@ Khác biệt đến từ hai nguồn: chỗ hở tự phát hiện khi bẻ vi�
 
 ## Bảng 1 — Spec thêm, bỏ, sửa
 
-Không thêm tính năng mới, không bỏ tính năng nào của LAB-4. Có 5 chỗ sửa.
+Không thêm tính năng mới, không bỏ tính năng nào của LAB-4. Có 9 chỗ sửa: 5 chỗ từ chỗ hở và nhận xét LAB-3, 4 chỗ từ review LAB-4 (D-42 đến D-45).
 
 | Spec | Thêm / Bỏ / Sửa | Trước → sau | Vì sao | Issue bị ảnh hưởng |
 |---|---|---|---|---|
@@ -33,6 +33,10 @@ Không thêm tính năng mới, không bỏ tính năng nào của LAB-4. Có 5 
 | D-41 · mã giao dịch | Sửa | Mã giao dịch sinh bằng "đếm số bản ghi trong ngày cộng một" → cấp bằng **sequence của database**, không đếm, không lấy số lớn nhất cộng một | Nhận xét LAB-3 của giảng viên: tạo giao dịch báo lỗi 409 trùng mã sau khi đặt lại dữ liệu, làm luồng bán, đấu giá và giao hàng không chạy được. Đã xác minh trong mã nguồn prototype | T-06, X-03 |
 | Q6 · D-39 · DD-008 · bảng tỷ lệ thưởng | Sửa nhẹ cấu trúc | Bảng tỷ lệ thưởng chỉ có bậc theo số tiền → thêm cột **loại bên mua**, tuỳ chọn, để trống nghĩa là áp cho mọi loại. Cách tính giữ nguyên: nhân hệ số thuế 110/100, làm tròn xuống đơn vị yên, quá hạn thì không thưởng, tỷ lệ có phiên bản và 発効日 | Bảng tỷ lệ cụ thể là chỗ RFP để ngỏ (xem Bảng 2). Thêm cột này để nếu khách đưa bảng theo loại bên mua thì chỉ đổi dữ liệu, không đổi thiết kế | T-12, epic 完納奨励金 |
 | D-40 · hoàn tất giao nhận | Sửa, định rõ tiêu chí | Tiêu chí "hoàn tất khi số lượng khớp" → ghi rõ ba ca: giao thiếu thì chưa hoàn tất; giao vượt dừng ở trạng thái ngoại lệ dù có lý do; trả lại và huỷ một phần đều trừ khỏi số đã giao | Nhận xét LAB-3 cho cả lớp: ba bài cho hoàn tất dù số lượng chưa khớp. LAB-4 có luật nhưng chưa nêu đủ ca thử | T-08 |
+| D-42 · kết quả đấu giá (review LAB-4) | Sửa | Kết quả đấu giá (せり) được ghi thẳng là đã xác nhận → thêm trạng thái **chờ xác nhận**; người vận hành nhập kết quả, vai bán buôn xác nhận hoặc trả lại kèm lý do, rồi mới thành đã xác nhận và trừ tồn lô | Review LAB-4: sơ đồ trạng thái của khách có bước chờ xác nhận, bản LAB-4 rút gọn mà không nêu lý do. Giữ đúng điểm con người quyết đã cam kết từ LAB-1 | T-06, T-07 |
+| D-43 · lịch chợ (review LAB-4) | Sửa | Lịch chợ chỉ có tên bảng, không có cột; ngày nghiệp vụ chọn tay → bảng lịch chợ có cột ngày, loại ngày (mở, nghỉ), giờ mở, giờ đóng, ghi chú; job mở và đóng 業務日 theo lịch; ngày nghỉ chợ không tạo được giao dịch | Review LAB-4: khối lịch chợ chưa thiết kế dù D-25 đã nêu là thực thể | T-09, X-01 |
+| D-44 · điều chỉnh vào kỳ đã chốt (review LAB-4) | Sửa | Chỉ cảnh báo khi dòng chênh lệch rơi vào kỳ thưởng đã chốt → **đẩy sang kỳ mở gần nhất**, ghi kỳ gốc và lý do đẩy; vẫn cảnh báo nếu kỳ gốc chưa từng tính | Review LAB-4 yêu cầu chốt cách xử lý thay vì để ngỏ. Đẩy sang kỳ mở không làm mất tiền và không sửa kỳ đã chốt | epic 完納奨励金 |
+| D-45 · thiết kế dữ liệu đích (review LAB-4) | Sửa | Bảng thiết kế dữ liệu sinh từ schema prototype, lệch sơ đồ đích → lấy sơ đồ đích làm gốc: bảng lịch sử tư cách đủ cột (10 cột của sơ đồ và 3 cột màn hình đang dùng), lô có trạng thái công khai, ràng buộc số lượng lớn hơn 0, giữ độ chính xác số tiền 12 chữ số 2 lẻ | Review LAB-4: lập trình viên viết migration theo bảng cột, không theo sơ đồ | T-04, T-05, X-01 |
 
 ## Bảng 2 — Giả định bổ sung
 
@@ -69,5 +73,7 @@ Giả định chỉ lấp chỗ RFP để ngỏ, không ghi đè chỗ RFP đã 
 | D-39 | Bảng tỷ lệ thưởng thật: theo loại bên mua, theo bậc số tiền, hay một tỷ lệ chung? |
 | D-30 | Trần số đợt giao là bao nhiêu và ai có quyền xác nhận đợt cuối? |
 | D-10 | Có được khoá ngày khi còn tranh chấp mở không? |
+| D-42 | Phiên đấu giá có cần quản lý thành bản ghi riêng (mã phiên, giờ, người điều hành) hay chỉ là mã ghi kèm giao dịch? |
+| D-44 | Có bao giờ cần mở lại một kỳ thưởng đã chốt không, hay mọi sửa đổi đều đi qua kỳ sau? |
 
 Cột "Issue bị ảnh hưởng" đang ghi mã gói. Sau khi backlog lên Project, cột này sẽ đổi thành số issue thật.
