@@ -1526,7 +1526,7 @@ epics:
         boi_canh: |
           Hàm tính hiện chọn bậc chỉ theo số tiền và đọc cột paid_at cũ. B-12: dòng chênh lệch không lọc trạng thái và ngày thanh toán,
           nên giao dịch đã huỷ hoặc chưa trả vẫn sinh thưởng chênh lệch. Dòng chênh lệch giữ tỷ lệ của dòng gốc kỳ gốc, không chọn lại bậc
-          (thiết kế LAB-4 mục 4.5). Việc đẩy dòng chênh lệch sang kỳ mở làm ở INC-09a, không làm ở đây.
+          (theo thiết kế chi tiết LAB-4 của phần thưởng). Việc đẩy dòng chênh lệch sang kỳ mở làm ở INC-09a, không làm ở đây.
         viec: |
           Sửa hàm tính trong database: đọc ngày thanh toán từ bảng tiền về (ưu tiên dòng kế toán); dòng gốc chọn bậc theo loại bên mua rồi theo số tiền;
           dòng chênh lệch áp cùng bộ lọc với dòng gốc (giao dịch đã xác nhận, thanh toán trước hoặc đúng ngày hạn) và giữ tỷ lệ kỳ gốc.
@@ -1584,7 +1584,7 @@ epics:
         lam_sau: [INC-08a-tinh-ky-co-khoa-luu-so-truoc-khi-xoa]
         boi_canh: |
           Chốt kỳ hiện là bốn lệnh rời ở lớp ứng dụng, cập nhật không điều kiện, ghi chú tuỳ chọn (B-13), giờ chốt lấy từ máy ứng dụng.
-          Thiết kế LAB-4 dòng 2, 4, 12 và mục 4.7 (6): chốt kỳ khi tháng đó còn ngày nghiệp vụ chưa khoá sẽ làm mất tiền im lặng.
+          Thiết kế LAB-4 còn chỉ ra: chốt kỳ khi tháng đó còn ngày nghiệp vụ chưa khoá sẽ làm mất tiền im lặng.
         viec: |
           Tạo hàm database close_incentive_period chạy trong một giao dịch: kiểm kỳ đang mở, kiểm mọi ngày nghiệp vụ của tháng đã khoá,
           cập nhật trạng thái với điều kiện status = open, ghi chú bắt buộc, giờ chốt lấy now() của database. API chốt chỉ gọi hàm này.
@@ -1655,7 +1655,7 @@ epics:
         lam_sau: [INC-08c-nhat-ky-trong-cung-giao-dich]
         boi_canh: |
           D-12: prototype dùng hộp thoại mặc định của trình duyệt, không hiện số liệu, không nhập được ghi chú. Quy tắc ghi chú bắt buộc nằm ở INC-08b;
-          issue này chỉ lo màn hình. Thiết kế LAB-4 mục 4.7 (5): số trong hộp phải là số đọc lại lúc bấm, không phải số đang hiện trên màn.
+          issue này chỉ lo màn hình. Thiết kế LAB-4 yêu cầu: số trong hộp phải là số đọc lại lúc bấm, không phải số đang hiện trên màn.
         viec: |
           Thay bằng hộp thoại của ứng dụng: khi mở, gọi API đọc lại kỳ, số dòng, tổng tiền thưởng, thời điểm tính gần nhất; ô ghi chú bắt buộc khi chốt;
           nút đổi thành "Đang xử lý" và khoá sau khi bấm; thành công thì thông báo bằng chữ.
@@ -2085,7 +2085,7 @@ epics:
           - "Người tham gia có 許可 còn 10 ngày và 承認 còn 60 ngày có hai dòng riêng, một dòng sắp hết hạn, một dòng còn hạn"
           - "Hồ sơ hết hạn đúng ngày cuối cửa sổ (hôm nay cộng ngưỡng, giờ Nhật) nằm trong nhóm sắp hết hạn; ngày kế tiếp thuộc còn hạn"
           - "Hồ sơ hết hạn cách đây 5 ngày có số ngày còn lại là -5 ở cột số, Excel sắp xếp được; hồ sơ hết hạn cách đây 91 ngày không có dòng"
-          - "Máy đặt múi giờ Việt Nam, chạy lúc 01:30 giờ Việt Nam: số ngày còn lại tính theo ngày Nhật, không lệch một ngày"
+          - "Máy chủ đặt múi giờ UTC, chạy lúc 17:30 UTC (02:30 giờ Nhật hôm sau): số ngày còn lại tính theo ngày Nhật, không lệch một ngày"
           - "Đổi ngưỡng trong bảng cấu hình chung (T02-01) từ 30 thành 45: danh sách sắp hết hạn của báo cáo khớp số dòng của bộ lọc sắp hết hạn trên màn SCR-05, không sửa mã"
         file_cham:
           - src/app/api/reports/rpt/rpt-03.ts (mới, gọi hàm cửa sổ ngưỡng của T02-01)
@@ -2278,7 +2278,7 @@ epics:
           - "Hồ sơ hết hạn đúng ngày cuối cửa sổ có thông báo, ngày kế tiếp không; đổi ngưỡng ở bảng cấu hình chung thành 45 thì tập hồ sơ đổi theo"
           - "Sửa giờ gửi của quy tắc giao hàng tồn thành 09:45: chạy job lúc 09:35 không sinh, lúc 09:50 sinh đúng một thông báo cho mỗi giao dịch còn tồn"
           - "Tắt quy tắc giao hàng tồn rồi chạy job sau giờ gửi: không có thông báo; ngày nghỉ chợ theo lịch cũng không sinh"
-          - "Máy chủ đặt múi giờ Việt Nam: mốc giờ gửi và ngày đã sinh vẫn hiểu theo giờ Nhật (ca chạy lúc 01:30 giờ Việt Nam)"
+          - "Máy chủ đặt múi giờ UTC: mốc giờ gửi và ngày đã sinh vẫn hiểu theo giờ Nhật (ca chạy lúc 17:30 UTC, tức 02:30 giờ Nhật hôm sau)"
           - "Gọi đường job không kèm khoá đúng nhận lỗi quyền; lịch hiện trong danh sách pg_cron"
         file_cham:
           - supabase/schema.sql (bảng dấu đã sinh notification_scan_marks, lịch pg_cron)
