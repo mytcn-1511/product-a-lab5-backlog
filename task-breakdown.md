@@ -1,7 +1,7 @@
 # Bẻ việc LAB-5 — Product A (chợ bán buôn thuỷ sản)
 
 **Tóm tắt.** Thiết kế chi tiết LAB-4 đã được bẻ thành backlog trên GitHub Project công khai:
-18 epic, 111 issue và 14 issue con, đánh số #1–#143. Trong đó 108 việc nhỏ nhất được chấm điểm.
+18 epic, 111 issue và 26 issue con, đánh số #1–#155. Trong đó 114 việc nhỏ nhất được chấm điểm.
 10 issue còn lại là câu hỏi gửi khách (epic X-04), không chấm điểm.
 Nguồn duy nhất của backlog là [`skills/backlog.yaml`](skills/backlog.yaml). Script [`skills/tao-backlog-len-project.py`](skills/tao-backlog-len-project.py)
 đọc file này và đẩy lên Project; chạy lại nhiều lần cũng không tạo trùng.
@@ -28,7 +28,7 @@ Project: https://github.com/users/mytcn-1511/projects/1
 
 - **Một issue là một thứ bàn giao được:** một màn hình, một API, một migration (bước đổi cấu trúc database), một báo cáo hay một bộ kiểm thử. Không tách một tính năng thành ba issue FE / BE / QA. Lý do: issue quá mỏng thì không tự kiểm được, và skill chấm SWP (điểm độ lớn công việc) chấm kém tin cậy.
 - **Dừng khi một người làm xong trong khoảng 16 giờ** và mọi tiêu chí xong kiểm được trên một bản deploy.
-- **Tách issue con khi issue vượt 16 giờ.** Lần rà ngày 21/10 tìm được 7 issue vượt trần: #34, #5, #85, #92, #97, #100, #106. Mỗi issue thành một issue cha có 2 issue con. Issue cha giữ bối cảnh. Issue con giữ phần việc và tiêu chí xong của mình. Điểm SWP chấm ở issue con, issue cha lấy tổng.
+- **Tách issue con khi issue vượt 16 giờ.** Lần rà ngày 21/10 tìm được 7 issue vượt trần: #34, #5, #85, #92, #97, #100, #106. Bộ ước tay cùng ngày (xem [estimate.md](estimate.md)) thấy thêm 6 issue vượt trần: #51, #83, #88, #105, #114, #124. Mỗi issue thành một issue cha có 2 issue con. Issue cha giữ bối cảnh. Issue con giữ phần việc và tiêu chí xong của mình. Điểm SWP chấm ở issue con, issue cha lấy tổng.
 - **Không tách khi issue có nhiều tiêu chí nhưng cùng một thứ bàn giao.** 28 issue có 7–8 tiêu chí đều là ca thử của cùng một API hay một màn, nên vẫn giữ một issue.
 - **Câu hỏi gửi khách là issue riêng** ở epic E-X04 (#133–#142), nhãn `lam-ro-voi-khach`, không chấm điểm. Issue phụ thuộc câu trả lời của khách cũng gắn nhãn này và ghi rõ đang dùng giả định nào.
 
