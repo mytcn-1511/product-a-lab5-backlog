@@ -32,7 +32,7 @@ epics:
       Tiền đề: PREMISE.md giữ nguyên LAB-4 cho gói này, không có D-xx mới. Bảng cấu hình ngưỡng hết hạn đặt ở epic này vì bảng điều khiển
       là nơi hai màn phải khớp số; API danh sách người tham gia (issue T04-05) đọc lại qua cùng một hàm.
       Giả định: không có giả định riêng; epic bám PREMISE.md và thiết kế LAB-4.
-      Thứ tự làm: T02-01 → T02-02 → T02-03.
+      Thứ tự làm: T02-01 → T02-02 → T02-03 → T02-04.
     issues:
       - key: T02-01-bang-cau-hinh-nguong-het-han
         title: "Bảng cấu hình ngưỡng cảnh báo sắp hết hạn và một hàm đọc dùng chung"
@@ -98,7 +98,7 @@ epics:
           một lần: mở lúc 02:00, đến 09:00 vẫn là số của 02:00; một lần tải lại lỗi thì xoá sạch số đang hiện. Chốt: tự làm mới 60 giây, dừng khi tab ẩn,
           có nhãn giờ chụp; kênh thời gian thực đã cân nhắc và bỏ. Số đổi giữa lúc xem và lúc bấm là chấp nhận được vì bảng điều khiển chỉ là ảnh chụp.
           Đã kiểm prototype: chưa màn đích nào đọc tham số lọc trên URL. Issue này chỉ phát link đúng tham số; việc màn đích đọc tham số thuộc
-          issue của màn đó (danh sách người tham gia: T04-07; giao hàng: T08-07; màn tỷ lệ lọc nháp: epic T-12; lô, điều chỉnh, đối soát: epic tương ứng).
+          issue của màn đó (danh sách người tham gia: T04-07; giao hàng: T08-07; các màn còn lại: T02-04).
           Chuyển về trang đăng nhập khi tài khoản bị khoá giữa ca cần T03-01 thu hồi phiên.
         viec: |
           Biến 9 ô thành link với tham số: lô chờ thẩm định và lô đang mở → /lots?day={ngày hiện hành}; giao hàng chưa xong → /deliveries?only=pending;
@@ -120,6 +120,36 @@ epics:
         file_cham:
           - src/app/(app)/dashboard/page.tsx
 
+      - key: T02-04-man-dich-doc-tham-so-loc-tren-url
+        title: "Tám màn đích đọc và giữ tham số lọc trên URL, thêm cột và bộ lọc mã phiên đấu giá"
+        labels: [nguon:chenh-lech, doi:fe]
+        lam_sau: [T02-03-man-bang-dieu-khien-link-va-tu-lam-moi]
+        boi_canh: |
+          Thiết kế LAB-4 (hợp đồng tham số trên URL) quy định ?day= cho /lots /trades /seri /settlement, ?period= cho /incentives /reports, ?type= cho /trades,
+          ?status= cho /corrections và /rules. Prototype chưa màn nào đọc các tham số này: bấm ô chỉ số trên bảng điều khiển (T02-03) ra màn chưa lọc, đổi ngày
+          rồi bấm Back thì mất ngày đang chọn. Danh sách người tham gia và màn giao hàng đã có issue riêng (T04-07, T08-07); issue này làm tám màn còn lại.
+          Mã phiên đấu giá (seri_session) đã có định dạng ở T06-07 nhưng chưa hiện trên bảng số dư và chưa lọc được.
+        viec: |
+          Ở tám màn /lots, /trades, /seri, /settlement, /corrections, /rules, /incentives, /reports: đọc tham số khi mở màn, đổi bộ lọc thì ghi lại lên URL
+          (thay mục lịch sử, không thêm), giá trị sai thì bỏ qua và dùng mặc định của hợp đồng. Giữ ?day= và ?period= khi chuyển giữa các màn cùng tham số.
+          Màn giao dịch: thêm cột mã phiên trên bảng số dư và ô lọc ?session= theo mã phiên.
+        tieu_chi_xong:
+          - "Bấm ô \"lô chờ thẩm định\", \"điều chỉnh chờ duyệt\", \"tỷ lệ nháp\" và một dòng bảng 5 ngày trên bảng điều khiển: màn đích mở đúng tập đã lọc, số dòng bằng số trên ô"
+          - Đổi ngày ở /trades rồi bấm Back của trình duyệt thì quay về ngày trước; tải lại trang vẫn giữ ngày đang chọn
+          - "/settlement?day=2026-13-40 không lỗi, mở ngày đang mở gần nhất; /incentives?period=abc mở kỳ mới nhất"
+          - Từ /trades?day=X chuyển sang /settlement bằng menu thì vẫn là ngày X
+          - Bảng số dư có cột mã phiên; /trades?type=seri&session=SERI-1021-A chỉ ra giao dịch của phiên đó
+        file_cham:
+          - src/app/(app)/lots/page.tsx
+          - src/app/(app)/trades/trade-page.tsx
+          - src/app/(app)/trades/trade-table.tsx
+          - src/app/(app)/seri/ (trang nhập kết quả せり)
+          - src/app/(app)/settlement/page.tsx
+          - src/app/(app)/corrections/page.tsx
+          - src/app/(app)/rules/page.tsx
+          - src/app/(app)/incentives/page.tsx
+          - src/app/(app)/reports/page.tsx
+
   - key: E-T03
     title: "Quản trị tài khoản nội bộ: đổi vai trò và khoá tài khoản có vết, không bao giờ mất quản trị viên cuối cùng"
     labels: []
@@ -129,7 +159,7 @@ epics:
       thì không còn ai vào được, phải sửa tay trong database. Ngoài ra cập nhật và ghi nhật ký là hai lệnh rời (cùng mẫu B-20), lý do xin bằng
       hộp thoại mặc định của trình duyệt (D-12), và vai trò ban đầu suy từ địa chỉ email (D-09) chỉ hợp để demo.
       Tiền đề: PREMISE.md giữ nguyên LAB-4 cho gói này. Đề (RFP mục 02-08) xếp khoá/mở tài khoản vào nhóm thao tác nhạy cảm bắt buộc có vết.
-      Cột bật/tắt xác thực 2 bước (mfa_enabled) trên màn này làm ở X02-05 (bảo mật), không ở đây.
+      Cột bật/tắt xác thực 2 bước (mfa_enabled) trên màn này làm ở X02-03 (bảo mật), không ở đây.
       Giả định: không có giả định riêng; epic bám PREMISE.md và thiết kế LAB-4.
       Thứ tự làm: T03-01 → T03-02; T03-03 độc lập.
     issues:
@@ -618,7 +648,7 @@ epics:
       Mã lỗi mới của epic (đăng ký vào bảng mã lỗi chung X01-01): LIMIT_EXCEEDED, HAS_DELTA, SERI_RESULT_PENDING.
       Để ngoài epic, có chủ ở nơi khác: quyền vào màn SCR-08 (X02-01); lô phải công khai mới bán (T05-01); khoá ngày bị từ chối khi còn kết
       quả chờ xác nhận và cảnh báo lô chưa bán khi khoá ngày (T09-03; epic này chỉ bảo đảm số kết quả chờ tra được qua API); bản ghi phiên đấu giá
-      riêng (câu hỏi khách X04-06); bộ lọc lên URL (nhóm gia cố giao diện).
+      riêng (câu hỏi khách X04-06); bộ lọc lên URL và cột, bộ lọc mã phiên (T02-04).
       Hàm tạo giao dịch trong database bị nhiều issue sửa, thứ tự bắt buộc: T06-01 → T05-01 → T06-02a → T06-04 → T06-07.
       Thứ tự làm còn lại: T06-02a → T06-02b; T06-03 → T06-04; T06-05 → T06-06.
     issues:
@@ -1157,7 +1187,8 @@ epics:
           Ngày nghiệp vụ (業務日) so theo giờ Nhật (D-25).
         viec: |
           Tạo hàm database lock_business_day chạy trong một giao dịch: khoá dòng ngày với điều kiện đang mở, từ chối ngày sau hôm nay theo giờ Nhật,
-          từ chối khi còn kết quả đấu giá chờ xác nhận (lỗi nêu số lượng), bắt lý do (cột lock_note mới), đếm tranh chấp đang mở ngay trong hàm và ghi số đó
+          từ chối khi còn kết quả đấu giá chờ xác nhận (lỗi nêu số lượng), từ chối khi còn lô của ngày thiếu chứng từ (lỗi nêu mã lô; quy tắc của T05-05),
+          trả kèm số lô chưa bán (lô đã công khai mà chưa có giao dịch) để hộp thoại cảnh báo nhưng không chặn, bắt lý do (cột lock_note mới), đếm tranh chấp đang mở ngay trong hàm và ghi số đó
           cùng danh sách mã vào nhật ký, giờ khoá bằng now() của database; lỗi nhật ký thì huỷ cả. Thêm bộ chặn tự động lớp hai (trigger) trên bảng ngày:
           chỉ cho đổi sang đã khoá khi trạng thái cũ là mở, chặn mọi đường ghi khác. API khoá chỉ gọi hàm này; ngày sai dạng trả 404.
           Bảng tổng hợp ngày trả thêm giờ khoá, người khoá, lý do khoá.
@@ -1165,6 +1196,8 @@ epics:
           - Khoá ngày còn 2 tranh chấp mở kèm lý do thì thành công, nhật ký ghi số 2 và hai mã tranh chấp; sau khoá ô tranh chấp mở của ngày vẫn hiện 2
           - Khoá không có lý do bị từ chối ở hàm database, không chỉ ở màn
           - Ngày còn 3 kết quả đấu giá chờ xác nhận thì khoá bị từ chối, lỗi nêu số 3; xác nhận hết rồi khoá được
+          - Ngày còn 1 lô thiếu chứng từ thì khoá bị từ chối, lỗi nêu mã lô; bổ sung chứng từ rồi khoá được
+          - Ngày có 2 lô đã công khai chưa có giao dịch thì khoá vẫn được, phản hồi và nhật ký ghi số lô chưa bán là 2
           - Khoá ngày mai theo giờ Nhật bị từ chối; máy chủ đặt múi giờ UTC, gọi lúc 02:31 giờ Nhật thì "hôm nay" vẫn là ngày theo giờ Nhật
           - Hai yêu cầu khoá cùng lúc, một thành công, một báo ngày đã khoá; chỉ có một dòng nhật ký
           - Cập nhật thẳng bảng ngày từ đã khoá về mở bị trigger từ chối; sau khoá, sửa số lượng giao dịch của ngày đó bị database từ chối (ca hồi quy)
@@ -1182,7 +1215,7 @@ epics:
           mà người đọc không tưởng hệ thống sai. Chưa có đường mở lại ngày đã khoá (締め再開), hộp thoại phải nói thẳng điều đó.
         viec: |
           Dùng thành phần hộp thoại chung (INC-10) cho thao tác khoá: khi mở, đọc lại tóm tắt ngày từ máy chủ (số giao dịch, tổng tiền gốc và hiệu lực,
-          chưa giao xong, kết quả đấu giá chờ, tranh chấp mở); ô lý do bắt buộc; khối cảnh báo đỏ khi còn tranh chấp mở nêu rõ đây là quy tắc nội bộ chờ khách;
+          chưa giao xong, kết quả đấu giá chờ, lô chưa bán, tranh chấp mở); ô lý do bắt buộc; khối cảnh báo vàng khi còn lô chưa bán; khối cảnh báo đỏ khi còn tranh chấp mở nêu rõ đây là quy tắc nội bộ chờ khách;
           cảnh báo khi ngày cách hôm nay quá 7 ngày; câu cố định "chưa có thao tác mở lại, sai thì đi đường yêu cầu điều chỉnh SCR-12". Số tranh chấp mở hiện cạnh
           nút khoá, bấm cuộn tới bảng tranh chấp; nút Tải lại cạnh đó. Sau khoá, khối trạng thái hiện giờ khoá, người khoá, lý do, và "n tranh chấp mở phát sinh sau chốt".
         tieu_chi_xong:
@@ -1191,6 +1224,7 @@ epics:
           - Ngày cách hôm nay 8 ngày hiện cảnh báo số ngày; ngày 7 ngày thì không
           - Sau khi khoá ngày còn 1 tranh chấp mở, khối trạng thái hiện "đã khoá" và "1 tranh chấp mở phát sinh sau chốt" cùng lúc, không hiện lỗi
           - Thông báo chặn khi còn kết quả đấu giá chờ hoặc khoá ngày tương lai hiện đúng câu của API, không lộ mã thô
+          - Ngày còn 2 lô chưa bán thì hộp thoại hiện cảnh báo vàng nêu số 2 và vẫn cho khoá; ngày không còn lô chưa bán thì không hiện khối này
         file_cham:
           - src/app/(app)/settlement/page.tsx
 
@@ -1931,12 +1965,13 @@ epics:
         viec: |
           API (đường gọi máy chủ) nhận trade_code: kiểm định dạng T-YYMMDD-NNNN (422), tìm giao dịch (không thấy → 404 TRADE_NOT_FOUND), gom id của điều chỉnh
           và giao hàng thuộc giao dịch, trả mọi dòng có trade_id hoặc entity_code khớp bất kể thực thể, sắp created_at tăng dần; bước gom lỗi thì vẫn trả phần tìm được
-          kèm cảnh báo. Làm sạch q theo quy tắc trên; limit chỉ nhận số nguyên dương tối đa 500, mặc định 100; thêm cursor và next_cursor. Dropdown hỏng thì vẫn trả
+          kèm cảnh báo. Nhận thêm lot_code: trả mọi dòng của lô (nhận lô, thẩm định, công khai, sửa thuộc tính) và của các giao dịch thuộc lô, cùng thứ tự thời gian. Làm sạch q theo quy tắc trên; limit chỉ nhận số nguyên dương tối đa 500, mặc định 100; thêm cursor và next_cursor. Dropdown hỏng thì vẫn trả
           dòng kèm cờ facets_unavailable. Lỗi database trả câu cố định. Trả X-Query-Ms. Ghi một dòng audit.search với bộ lọc và số dòng (không ghi nội dung) cho mỗi
           lần tra, gọi từ màn sau khi ngừng gõ 500 mili giây; ghi vết lỗi thì trả lỗi, không trả kết quả.
         tieu_chi_xong:
           - "Giao dịch せり trong dữ liệu mẫu đã qua một lần điều chỉnh được duyệt: tra theo mã trả ít nhất 3 dòng (tạo, gửi điều chỉnh, duyệt) theo thời gian tăng dần"
           - Mã sai dạng "T-2026-1" trả 422 nêu đúng định dạng; mã đúng dạng không tồn tại trả 404
+          - Tra theo mã một lô đã thẩm định, công khai và có một giao dịch trả đủ các dòng nhận lô, thẩm định, công khai và tạo giao dịch theo thời gian tăng dần
           - "Giả lập lỗi bảng giao hàng: vẫn trả dòng của giao dịch và điều chỉnh, phản hồi có cảnh báo \"Không tra được giao hàng liên quan\""
           - q = "a,action.eq.day.lock" không trả dòng khoá ngày nào; q = "an.nguyen@x" vẫn tìm được dòng có email chứa chuỗi đó
           - q dài 150 ký tự bị cắt còn 100; limit=abc dùng 100; limit=9999 dùng 500; limit=-5 dùng 100
@@ -2725,7 +2760,7 @@ epics:
         boi_canh: |
           Hồ sơ mời thầu yêu cầu màn hiện trường vẫn ghi được khi mất mạng rồi tự gửi lại (D-15); prototype gọi thẳng server, mất mạng là báo lỗi và
           mất dữ liệu vừa nhập. LAB-4 liệt kê 6 màn hiện trường; issue này làm cho màn ghi đợt giao (SCR-15), là màn dùng ngoài trời nhiều nhất,
-          và dựng khung dùng chung để các màn khác nối sau. Ước lượng lớn (gần 16 giờ); khi vào sprint có thể tách phần khung dùng chung và phần nối màn.
+          và dựng khung dùng chung; nối thêm các màn nhận lô, thẩm định, giao dịch để giai đoạn sau vì hiện trường mất mạng chủ yếu ở bước ghi đợt giao. Ước lượng lớn (gần 16 giờ); khi vào sprint có thể tách phần khung dùng chung và phần nối màn.
           Hàm ghi đợt giao ở T08-02 phải nhận một khoá chống trùng (idempotency key, mã do trình duyệt sinh cho mỗi lần bấm) để gửi lại không tạo
           đợt thứ hai; nếu T08-02 chưa có, bổ sung ở đây.
         viec: |
