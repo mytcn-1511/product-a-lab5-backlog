@@ -39,7 +39,10 @@ def ref(key, existing, titles):
 
 
 def build_title(item):
-    return f"[Epic] {item['title']}" if item.get("_epic") else item["title"]
+    """Tiền tố mã ngắn để gom nhóm khi lọc, tìm, sắp theo tiêu đề: [E-T10] Epic: …, [T10-01] …, [T10-04.1] …"""
+    if item.get("_epic"):
+        return f"[{item['key']}] Epic: {item['title']}"
+    return f"[{'-'.join(item['key'].split('-')[:2])}] {item['title']}"
 
 
 def build_body(item, meta, existing, titles):
