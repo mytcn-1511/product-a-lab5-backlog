@@ -10,6 +10,8 @@ import yaml
 
 YAML_PATH = Path(__file__).with_name("backlog.yaml")
 KEY_RE = re.compile(r"(?m)^key: (\S+)$")
+BULLET_RE = re.compile(r"^([·•\-*]|\d+\.) ")
+LABEL_RE = re.compile(r"^[^:.,;()]{1,40}:")  # "Thứ tự làm:", "Giả định:", "B-04:" mở một đoạn mới (chỉ khi viết hoa chữ đầu)
 PAUSE = 1.5  # giây nghỉ sau mỗi lần ghi để GitHub không chặn vì tạo quá nhanh
 
 
@@ -38,6 +40,23 @@ def ref(key, existing, titles):
     return f"#{existing[key]['number']}" if key in existing else f"{titles.get(key, key)} (chưa tạo, mã {key})"
 
 
+def unwrap(text):
+    """YAML ngắt dòng cứng ~150 ký tự; GitHub coi mỗi lần xuống dòng là dòng mới nên câu bị cắt giữa chừng.
+    Nối dòng tiếp nối vào dòng trước; giữ dòng gạch đầu dòng, mở đoạn mới cho dòng bắt đầu bằng nhãn có dấu hai chấm hoặc đứng sau danh sách."""
+    out = []
+    for line in text.strip().split("\n"):
+        s = line.strip()
+        if not out or not s:
+            out.append(s)
+        elif BULLET_RE.match(s):
+            out.append(re.sub(r"^[·•] ", "- ", s))  # "·" thành danh sách markdown
+        elif (s[0].isupper() and LABEL_RE.match(s)) or BULLET_RE.match(out[-1]):  # nhãn, hoặc câu đứng sau danh sách, mở đoạn mới
+            out += ["", s]
+        else:
+            out[-1] = f"{out[-1]} {s}" if out[-1] else s
+    return "\n".join(out)
+
+
 def build_title(item):
     """Tiền tố mã ngắn để gom nhóm khi lọc, tìm, sắp theo tiêu đề: [E-T10] Epic: …, [T10-01] …, [T10-04.1] …"""
     if item.get("_epic"):
@@ -47,10 +66,10 @@ def build_title(item):
 
 def build_body(item, meta, existing, titles):
     if item.get("_epic"):
-        parts = [item["body"].strip()]
+        parts = [unwrap(item["body"])]
     else:
         crit = "\n".join(f"- [ ] {c}" for c in item["tieu_chi_xong"])
-        parts = [f"## Bối cảnh\n{item['boi_canh'].strip()}", f"## Việc\n{item['viec'].strip()}", f"## Tiêu chí xong\n{crit}"]
+        parts = [f"## Bối cảnh\n{unwrap(item['boi_canh'])}", f"## Việc\n{unwrap(item['viec'])}", f"## Tiêu chí xong\n{crit}"]
         if "doi:fe" in item["labels"]:
             parts.append("## Định nghĩa xong chung cho màn hình\n" + "\n".join(f"- [ ] {c}" for c in meta["dinh_nghia_xong_chung_man_hinh"]))
         parts.append("## File chạm (trong prototype)\n" + "\n".join(f"- `{f}`" for f in item["file_cham"]))
