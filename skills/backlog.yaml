@@ -30,6 +30,7 @@ epics:
       và ngưỡng "sắp hết hạn" 30 ngày viết cứng ở hai chỗ (D-18) nên số trên bảng điều khiển có thể lệch với danh sách hồ sơ (SCR-05).
       Tiền đề: PREMISE.md giữ nguyên LAB-4 cho gói này, không có D-xx mới. Bảng cấu hình ngưỡng hết hạn đặt ở epic này vì bảng điều khiển
       là nơi hai màn phải khớp số; API danh sách người tham gia (issue T04-05) đọc lại qua cùng một hàm.
+      Giả định: không có giả định riêng; epic bám PREMISE.md và thiết kế LAB-4.
       Thứ tự làm: T02-01 → T02-02 → T02-03.
     issues:
       - key: T02-01-bang-cau-hinh-nguong-het-han
@@ -128,6 +129,7 @@ epics:
       hộp thoại mặc định của trình duyệt (D-12), và vai trò ban đầu suy từ địa chỉ email (D-09) chỉ hợp để demo.
       Tiền đề: PREMISE.md giữ nguyên LAB-4 cho gói này. Đề (RFP mục 02-08) xếp khoá/mở tài khoản vào nhóm thao tác nhạy cảm bắt buộc có vết.
       Cột bật/tắt xác thực 2 bước (mfa_enabled) trên màn này làm ở X02-05 (bảo mật), không ở đây.
+      Giả định: không có giả định riêng; epic bám PREMISE.md và thiết kế LAB-4.
       Thứ tự làm: T03-01 → T03-02; T03-03 độc lập.
     issues:
       - key: T03-01-rpc-doi-quyen-khoa-chan-admin-cuoi
@@ -218,6 +220,7 @@ epics:
       Ngưỡng "sắp hết hạn" đọc từ bảng cấu hình do T02-01 tạo. Job (tác vụ chạy theo lịch) hết hạn gắn vào job mở ngày của lịch chợ (T09-02), epic này chỉ viết hàm.
       Bốn loại người tham gia trong bảng dữ liệu: wholesaler (卸売業者, nhà bán buôn), intermediary (仲卸, nhà buôn trung gian),
       trading_party (売買参加者, người tham gia mua bán), buyer (買出人, người mua lẻ).
+      Giả định (chưa hỏi khách): người chuẩn y hồ sơ là vai tiếp nhận và phải khác người nhập, vì RFP không gắn vai cho "người có quyền chấp thuận"; hồ sơ đã quá hạn phải gia hạn trước rồi mới chuẩn y (T04-04).
       Thứ tự làm: T04-01 → T04-02 → T04-03 → T04-04 → T04-05 → T04-06; nhánh danh sách T04-07 → T04-08 sau T04-05.
     issues:
       - key: T04-01-cot-trang-thai-tu-cach-va-bang-lich-su
@@ -613,7 +616,7 @@ epics:
       loại người tham gia mua bán (trading_party), tính trên tổng thành tiền trong một ngày nghiệp vụ, cộng cả giao dịch chờ xác nhận.
       Mã lỗi mới của epic (đăng ký vào bảng mã lỗi chung X01-01): LIMIT_EXCEEDED, HAS_DELTA, SERI_RESULT_PENDING.
       Để ngoài epic, có chủ ở nơi khác: quyền vào màn SCR-08 (X02-01); lô phải công khai mới bán (T05-01); khoá ngày bị từ chối khi còn kết
-      quả chờ xác nhận và cảnh báo lô chưa bán khi khoá ngày (T09-03, nhóm B chỉ bảo đảm số kết quả chờ tra được qua API); bản ghi phiên đấu giá
+      quả chờ xác nhận và cảnh báo lô chưa bán khi khoá ngày (T09-03; epic này chỉ bảo đảm số kết quả chờ tra được qua API); bản ghi phiên đấu giá
       riêng (câu hỏi khách X04-06); bộ lọc lên URL (nhóm gia cố giao diện).
       Hàm tạo giao dịch trong database bị nhiều issue sửa, thứ tự bắt buộc: T06-01 → T05-01 → T06-02a → T06-04 → T06-07.
       Thứ tự làm còn lại: T06-02a → T06-02b; T06-03 → T06-04; T06-05 → T06-06.
@@ -677,7 +680,7 @@ epics:
         boi_canh: |
           Theo T06-02a. Màn SCR-10 (đường dẫn /seri) hiện chỉ có form ghi kết quả và bảng; cần thêm bước con người quyết, một trong bốn điểm
           con người quyết đã cam kết từ LAB-1. Giao dịch pending_confirm (chờ xác nhận) không được vào đối soát, không tạo được đợt giao, và màn
-          khoá ngày (T09-03, nhóm C) cần biết số kết quả chờ theo ngày. Thiết kế LAB-4 còn đòi thông điệp vượt tồn của đấu giá chỉ đường sang
+          khoá ngày (T09-03) cần biết số kết quả chờ theo ngày. Thiết kế LAB-4 còn đòi thông điệp vượt tồn của đấu giá chỉ đường sang
           màn tranh chấp SCR-19.
         viec: |
           Hai API POST xác nhận và trả lại gọi hàm T06-02a, trả thông điệp đọc được. View số dư giao dịch và view đối soát ngày chỉ đọc giao dịch
@@ -855,7 +858,7 @@ epics:
       Chú giải mã dùng trong epic: SCR-14 màn theo dõi trạng thái giao hàng, SCR-15 màn ghi đợt giao và xác nhận hoàn tất, SCR-16 lịch sử đợt giao,
       SCR-17 màn đối soát ngày, SCR-12 màn yêu cầu điều chỉnh (chỉ sửa được số lượng và đơn giá, không sửa được trạng thái giao hàng).
       "Ngày nghiệp vụ" (業務日) là ngày làm việc của chợ tính theo giờ Nhật; ngày đã khoá thì mọi sửa đổi lô, giao dịch, đợt giao đều bị database từ chối.
-      Giả định của đội trong epic (chờ khách, nhóm E đưa vào X-04): mở lại giao dịch đã hoàn tất chỉ cần một người đối soát kèm lý do (T08-05);
+      Giả định của đội trong epic (chờ khách, câu hỏi ở X-04): mở lại giao dịch đã hoàn tất chỉ cần một người đối soát kèm lý do (T08-05);
       loại ngoại lệ "điều chỉnh" (correction) được tính vào số đã giao như đợt thường (T08-01).
       Ngoài phạm vi: mở lại ngày nghiệp vụ đã khoá (epic T-09); báo cáo giao hàng (T-14).
       Thứ tự làm: T08-01 → T08-02 → T08-03 → T08-04 → T08-05 → T08-06 → T08-07.
@@ -974,7 +977,7 @@ epics:
           số lượng và đơn giá, không sửa được trạng thái giao hàng. Công thức mới ở T08-01 chỉ có ích ở ca trả lại sau hoàn tất nếu có đường mở lại.
           Thiết kế LAB-4 chỉ nêu quyền đối soát, lý do bắt buộc, ghi nhật ký, chặn ngày đã khoá. Giả định của đội: một người đối soát mở lại được,
           không cần người thứ hai duyệt, được mở lại nhiều lần, mỗi lần một dòng nhật ký.
-          Câu hỏi gửi khách (nhóm E đưa vào X-04): mở lại giao dịch đã hoàn tất cần một người đối soát hay hai người như mở lại ngày đã khoá?
+          Câu hỏi gửi khách (ở X-04): mở lại giao dịch đã hoàn tất cần một người đối soát hay hai người như mở lại ngày đã khoá?
         viec: |
           Tạo hàm database reopen_delivery và API POST /api/deliveries/[tradeId]/reopen: chỉ vai đối soát; chỉ nhận giao dịch đang "hoàn tất";
           bắt lý do; đưa trạng thái về "đang giao", giữ nguyên mọi đợt đã ghi; ghi nhật ký loại delivery.reopen với trạng thái trước và sau,
@@ -1059,8 +1062,9 @@ epics:
       Chú giải mã: SCR-17 màn đối soát ngày, SCR-18 màn khoá ngày, SCR-19 bảng tranh chấp, SCR-12 màn yêu cầu điều chỉnh; 休市日 là ngày nghỉ chợ;
       締め再開 là mở lại ngày đã khoá.
       Ngoài phạm vi LAB-5: mở lại ngày đã khoá (締め再開) cần màn riêng và người thứ hai duyệt, chưa có thiết kế chi tiết.
-      Câu hỏi gửi khách (nhóm E đưa vào X-04): khi khoá nhầm ngày, khách muốn có thao tác mở lại ngày có hai người duyệt, hay mọi sửa đổi đều đi qua
+      Câu hỏi gửi khách (ở X-04): khi khoá nhầm ngày, khách muốn có thao tác mở lại ngày có hai người duyệt, hay mọi sửa đổi đều đi qua
       yêu cầu điều chỉnh từng giao dịch? Thông báo tranh chấp thuộc T-15/T-16.
+      Giả định (chờ khách, câu hỏi ở X-04): khoá ngày khi còn tranh chấp mở thì chặn mềm, cho khoá kèm lý do (D-10, T09-03); chưa làm thao tác mở lại ngày đã khoá ở giai đoạn này (D-46).
       Thứ tự làm: T09-01 → T09-02; T09-03 → T09-04 → T09-06 → T09-07 → T09-08 (bốn issue cuối cùng sửa một trang, làm lần lượt); T09-05 trước T09-06.
     issues:
       - key: T09-01-bang-lich-cho-va-man-quan-tri
@@ -1124,7 +1128,7 @@ epics:
           Prototype khoá ngày bằng bốn lệnh rời, không khoá dòng, cập nhật không điều kiện, ghi chú tuỳ chọn trái với chính chú thích trong mã (B-09),
           giờ khoá lấy từ máy ứng dụng, lỗi ghi nhật ký bị nuốt, và chặn cứng khi còn tranh chấp mở; không chặn khoá ngày trong tương lai.
           PREMISE Q4 · D-10 chốt chặn mềm: cho khoá khi còn tranh chấp, bắt ghi lý do, ghi số tranh chấp đang mở vào nhật ký; đây là giả định, khách chưa trả lời
-          (câu hỏi D-10 ở X-04). Từ D-42 (nhóm B), kết quả đấu giá có trạng thái chờ xác nhận; ngày còn kết quả chờ thì chưa khoá được vì tồn lô chưa chốt.
+          (câu hỏi D-10 ở X-04). Từ D-42 (epic T-06), kết quả đấu giá có trạng thái chờ xác nhận; ngày còn kết quả chờ thì chưa khoá được vì tồn lô chưa chốt.
           Ngày nghiệp vụ (業務日) so theo giờ Nhật (D-25).
         viec: |
           Tạo hàm database lock_business_day chạy trong một giao dịch: khoá dòng ngày với điều kiện đang mở, từ chối ngày sau hôm nay theo giờ Nhật,
@@ -1280,6 +1284,7 @@ epics:
       của ngày giao dịch. Việc đẩy dòng chênh lệch rơi vào kỳ thưởng đã chốt sang kỳ mở đã có ở epic E-INC (INC-09a), không lặp; bộ lọc tra lịch sử
       sửa せり (SCR-11) thuộc epic T-13 (T13-02). Chú giải: 業務日 là ngày nghiệp vụ của chợ theo giờ Nhật; B-01 là ngõ cụt trạng thái cần bổ sung;
       B-04 là lỗi duyệt tăng số lượng không kiểm tồn; B-10 là lỗi duyệt chạy hai lệnh rời; D-07 là chứng cứ đính kèm chỉ lưu tên tệp.
+      Giả định: không có giả định riêng; epic bám PREMISE.md (B-05 chọn chỉ điều chỉnh sau khi khoá ngày).
       Thứ tự làm: T06-01 → T10-01 → T10-02 → T10-03 → T10-04.
     issues:
       - key: T10-01-chi-nhan-yeu-cau-sau-khi-khoa-ngay
@@ -1411,6 +1416,7 @@ epics:
       Chú giải mã dùng trong epic: ADR-002 là quyết định "giao dịch đã chốt không sửa đè, mọi thay đổi ghi thành dòng chênh lệch";
       T-11, T-12 là hai gói việc LAB-4 (màn kết quả thưởng SCR-20, màn quản trị tỷ lệ SCR-21). Gói T-11 gộp vào epic này;
       phần quản trị phiên bản (duyệt, thu hồi, trần 4 lần/năm) của T-12 vẫn ở epic T-12.
+      Giả định (chờ khách, câu hỏi ở X-04): ngày thanh toán vào bằng tệp CSV kế toán theo đặc tả đội tự viết, cộng nhập tay cho ngoại lệ (D-08); bảng tỷ lệ chia bậc theo số tiền, cột loại bên mua tuỳ chọn (D-39); dòng chênh lệch rơi vào kỳ đã chốt được đẩy sang kỳ mở gần nhất, không mở lại kỳ đã chốt (D-44).
       Thứ tự làm: INC-05 → INC-06 → INC-08a → INC-08b → INC-08c → INC-09a → INC-09b → INC-07 → INC-10 → INC-11; nhánh ngày thanh toán INC-01 → INC-02 → INC-03 → INC-04 song song; INC-12 và INC-13 cuối.
     issues:
       - key: INC-01-dac-ta-csv-tien-ve
@@ -1828,6 +1834,7 @@ epics:
       Ngoài ra ô tìm kiếm có lỗ S-01 và từ vựng mã thao tác lệch giữa dữ liệu mẫu và mã nguồn (D-20).
       Bộ lọc theo thao tác ghi ngày thanh toán đã có ở INC-04 của epic thưởng, không lặp. Việc đưa ghi nhật ký vào cùng giao dịch database làm ở từng epic
       nghiệp vụ (INC-08c, T03-01, T04-02); epic này chỉ sửa hàm ghi để không nuốt lỗi, bật bằng cờ cấu hình sau khi các epic kia xong.
+      Giả định: không có giả định riêng; epic bám PREMISE.md và thiết kế LAB-4.
       せり (seri) là phiên đấu giá của chợ. Thứ tự làm: T13-01 → T13-02 → T13-03 (ba issue cùng sửa file API và màn, làm tuần tự).
     issues:
       - key: T13-01-cot-ma-nghiep-vu-ten-nguoi-va-tu-vung
@@ -1929,6 +1936,7 @@ epics:
       Việc đã có chủ ở nhóm khác, epic này chỉ trỏ lam_sau: che nguyên văn lỗi database (S-02) ở X01-01; chặn vai ở lớp máy chủ và mở menu báo cáo
       cho vai quản trị quy tắc (S-04, D-38) ở X02-01; ngưỡng hồ sơ sắp hết hạn (D-18) ở T02-01; lịch chợ ở T09-01.
       Xuất tệp của màn kết quả thưởng SCR-20 (gói T-11) thuộc epic này (T14-04) để cùng cột, cùng nhãn với báo cáo RPT-07.
+      Giả định: hạn xử lý tranh chấp là 2 ngày nghiệp vụ đếm theo lịch chợ (D-47, câu hỏi ở X-04; dùng ở T14-03); RPT-03 chỉ lấy hồ sơ hết hạn trong 90 ngày gần nhất để tệp không phình (T14-05, lựa chọn của đội).
       Thứ tự làm: T14-01 → T14-02 → T14-03 → T14-04 → T14-05 → T14-06 → T14-07 (năm issue đầu cùng sửa một file API nên làm nối tiếp).
     issues:
       - key: T14-01-anh-xa-ma-va-bo-xuat-csv-chung
@@ -1943,7 +1951,7 @@ epics:
           để Excel Nhật đọc đúng tiếng Nhật, và xuống dòng kiểu Windows. Ba việc còn thiếu: S-05, ô chữ bắt đầu bằng = + - @ hoặc ký tự tab không được chặn, mở bằng Excel có thể chạy công thức lạ;
           B-20, hàm ghi nhật ký nuốt lỗi nên tệp vẫn tải được dù nhật ký xuất không ghi; tệp dựng toàn bộ trong bộ nhớ, ngày đỉnh tải (RFP nêu khoảng 1.200 giao dịch) là rủi ro.
           Chống công thức chỉ áp cho cột kiểu chữ; cột số (kể cả số âm như tiền điều chỉnh) giữ nguyên để Excel còn cộng được.
-          Việc che nguyên văn lỗi database (S-02) đã có ở X01-01 (nhóm E), không làm ở đây. Tệp mô tả kèm báo cáo đối soát ngày làm ở T14-06.
+          Việc che nguyên văn lỗi database (S-02) đã có ở X01-01, không làm ở đây. Tệp mô tả kèm báo cáo đối soát ngày làm ở T14-06.
         viec: |
           Viết lại danh mục đúng 12 dòng của TBL-REPORT-01, mỗi dòng ghi mã, tên, tham số (ngày nghiệp vụ, kỳ, hoặc không): RPT-01 tổng hợp giao dịch ngày · RPT-02 lịch sử lô và trạng thái giao dịch ·
           RPT-03 hồ sơ hết hạn và sắp hết hạn · RPT-04 giao hàng tồn và ngoại lệ · RPT-05 đối soát ngày · RPT-06 xuất đối soát kế toán · RPT-07 thưởng thanh toán đủ hạn theo kỳ ·
@@ -2010,7 +2018,7 @@ epics:
           Theo PREMISE: huỷ một phần và trả lại đều trừ khỏi số đã giao (Q3, D-40), nên "còn lại" đọc từ cùng view số dư mà màn giao nhận dùng, không tự cộng lại.
           RPT-08 hiện kỳ 完納奨励金 (tiền thưởng thanh toán đủ hạn) nhận dòng chênh lệch, cột do INC-09a tạo, nên gắn nhãn ràng buộc.
           SLA (hạn xử lý) tranh chấp: RFP không nêu số; giả định của đội là 2 ngày nghiệp vụ, đếm theo lịch chợ (T09-01, bỏ qua 休市日 tức ngày nghỉ chợ);
-          nhóm E thêm câu hỏi khách. CSV là tệp bảng dạng chữ mở được bằng Excel.
+          câu hỏi khách ở X04-10. CSV là tệp bảng dạng chữ mở được bằng Excel.
         viec: |
           Thêm ba tệp báo cáo vào sổ đăng ký, khai kiểu cột; nhãn cột tiếng Nhật ghi vào bảng nhãn chung.
           RPT-04 giao hàng tồn và ngoại lệ (lọc theo ngày nghiệp vụ): một dòng mỗi giao dịch còn số lượng chưa giao hoặc có đợt ngoại lệ;
@@ -2074,9 +2082,9 @@ epics:
         lam_sau: [T14-04-nhom-bao-cao-thang-va-quy-tac-thuong, T02-01-bang-cau-hinh-nguong-het-han]
         boi_canh: |
           Báo cáo RPT-03 của TBL-REPORT-01 đang trả 501 (D-05). Tư cách mua có hai cấp riêng: 許可 (giấy phép) và 承認 (giấy chấp thuận), mỗi cấp một ngày hết hạn (D-21), không được gộp.
-          Ngưỡng "sắp hết hạn" và hàm tính ngày cuối cửa sổ do T02-01 (nhóm A) sở hữu, đọc từ bảng cấu hình chung; issue này chỉ gọi hàm đó, không tự tính.
+          Ngưỡng "sắp hết hạn" và hàm tính ngày cuối cửa sổ do T02-01 sở hữu, đọc từ bảng cấu hình chung; issue này chỉ gọi hàm đó, không tự tính.
           Cửa sổ tính theo ngày giờ Nhật, biên đóng hai đầu: hết hạn đúng ngày cuối cửa sổ vẫn nằm trong danh sách, khớp màn SCR-05.
-          Con số "đã hết hạn trong 90 ngày gần nhất" là giả định của đội để tệp không phình; nhóm E thêm câu hỏi khách. CSV là tệp bảng dạng chữ mở được bằng Excel.
+          Con số "đã hết hạn trong 90 ngày gần nhất" là lựa chọn của đội để tệp không phình, không cần hỏi khách. CSV là tệp bảng dạng chữ mở được bằng Excel.
         viec: |
           Thêm RPT-03 vào sổ đăng ký (không tham số ngày): một dòng cho mỗi cặp người tham gia × cấp tư cách còn hiệu lực hoặc đã hết hạn trong 90 ngày gần nhất;
           cột: mã người tham gia, tên, loại người tham gia, cấp tư cách (許可 / 承認), ngày cấp, ngày hết hạn, số ngày còn lại (cột số, âm nếu đã hết),
@@ -2101,7 +2109,7 @@ epics:
           Thiết kế LAB-4 chốt: job chạy 10:30 giờ Nhật sinh sẵn RPT-05 (đối soát ngày) cho mọi 業務日 (ngày nghiệp vụ) đã khoá trong hôm đó, lưu vào kho tệp;
           11:00 kiểm lại, chưa có tệp thì sinh thông báo loại "lỗi xuất dữ liệu" bằng hàm sinh thông báo chung của T15-01.
           Theo yêu cầu định dạng mở của RFP, tệp đối soát ngày cần kèm tệp mô tả cách khớp số (chuyển từ bộ xuất chung sang đây vì chỉ RPT-05 cần).
-          Chỗ tự quyết: lịch đặt bằng pg_cron như T09-02 (nhóm C), lịch gọi một đường API nội bộ của ứng dụng kèm khoá đặt trong biến môi trường (không ghi vào repo);
+          Chỗ tự quyết: lịch đặt bằng pg_cron như T09-02, lịch gọi một đường API nội bộ của ứng dụng kèm khoá đặt trong biến môi trường (không ghi vào repo);
           issue này sở hữu hàm kiểm khoá dùng chung và tài liệu lịch chạy duy nhất docs/job-lich-chay.md; các job khác (T15-02, T15-04) chỉ thêm dòng vào tài liệu đó.
           Kho tệp chứa dữ liệu giao dịch nên là kho riêng tư, chỉ tải qua API có kiểm quyền.
         viec: |
@@ -2133,7 +2141,7 @@ epics:
         boi_canh: |
           Màn SCR-22 dành cho ba vai: đối soát (settlement), quản trị hệ thống (sys_admin), quản trị quy tắc (rule_admin); vai khác không được vào.
           Chỗ hở theo thiết kế LAB-4: ô chọn ngày và kỳ không cho biết ngày nào đã khoá, kỳ nào đã chốt; nút tải là thẻ liên kết nên bấm hai lần tải hai tệp và lỗi 501 hay 422 rơi ra trang JSON thô;
-          chưa có cột "lần sinh gần nhất" và cảnh báo quá hạn 11:00. Việc chặn vai ở lớp máy chủ và thêm /reports vào menu của vai quản trị quy tắc đã thuộc X02-01 (nhóm E), issue này chỉ dùng lại.
+          chưa có cột "lần sinh gần nhất" và cảnh báo quá hạn 11:00. Việc chặn vai ở lớp máy chủ và thêm /reports vào menu của vai quản trị quy tắc đã thuộc X02-01, issue này chỉ dùng lại.
           Lớp nặng nhất là màn hình; API chỉ thêm trạng thái vào danh sách ngày và kỳ. CSV là tệp bảng dạng chữ mở được bằng Excel.
         viec: |
           Ô chọn ngày hiện kèm "(đã khoá)" hoặc "(còn mở)", ô chọn kỳ hiện "(đã chốt)" hoặc "(đang mở)"; chọn ngày còn mở hoặc kỳ chưa chốt thì hiện cảnh báo vàng, không chặn;
@@ -2157,11 +2165,12 @@ epics:
       Epic làm mới hoàn toàn gói T-15 (màn cài đặt thông báo SCR-24 và màn hàng đợi cảnh báo SCR-25). Prototype không có bảng, không có API, không có tác vụ theo lịch nào
       cho việc này (D-03, D-31): thông báo trong hộp thư toàn là dữ liệu mẫu, kênh email chỉ là nhãn "(mock)", không có thử lại, không có hàng đợi lỗi.
       RFP yêu cầu thông báo trong ứng dụng và email, gửi hỏng thì thử lại tối đa 3 lần rồi đưa vào hàng đợi cảnh báo vận hành (D-31). Đội hiểu "thử lại tối đa 3 lần" là
-      3 lần sau lần gửi đầu (tổng tối đa 4 lần gửi), khoảng cách 1, 5, 30 phút; nhóm E thêm câu hỏi khách.
+      3 lần sau lần gửi đầu (tổng tối đa 4 lần gửi), khoảng cách 1, 5, 30 phút.
       Sáu loại thông báo: hồ sơ sắp hết hạn, tranh chấp mở, điều chỉnh chờ duyệt, lỗi xuất dữ liệu, giao hàng tồn đọng (năm loại theo thiết kế LAB-4) và
       "kỳ thưởng đã chốt" (loại thứ sáu, thêm theo yêu cầu bẻ việc; quy tắc mặc định ở T15-01).
-      Ngưỡng "hồ sơ sắp hết hạn" (D-18) do T02-01 (nhóm A) sở hữu trong bảng cấu hình chung; epic này đọc và cho sửa qua màn, không tạo ngưỡng thứ hai.
+      Ngưỡng "hồ sơ sắp hết hạn" (D-18) do T02-01 sở hữu trong bảng cấu hình chung; epic này đọc và cho sửa qua màn, không tạo ngưỡng thứ hai.
       Chú giải: 業務日 (ngày nghiệp vụ, theo giờ Nhật); 休市日 (ngày nghỉ chợ); 許可 / 承認 (giấy phép / giấy chấp thuận); 完納奨励金 (tiền thưởng thanh toán đủ hạn).
+      Giả định (lựa chọn của đội, sửa được qua quy tắc): "thử lại tối đa 3 lần" là 3 lần sau lần gửi đầu, khoảng cách 1, 5, 30 phút (T15-02).
       Thứ tự làm: T15-01 (cần T16-01 và T02-01) → T15-02 → T15-03 và T15-04 → T15-05 và T15-06. T14-06 chờ T15-01; T16-03 chờ T15-03.
     issues:
       - key: T15-01-bang-quy-tac-va-ham-sinh-thong-bao
@@ -2319,10 +2328,10 @@ epics:
           Màn SCR-25 chưa có trong prototype (D-03). Chỉ vai quản trị hệ thống được vào vì hàng đợi chứa email nhân viên và nguyên văn lỗi nhà cung cấp
           (dữ liệu cá nhân và nhật ký kỹ thuật theo APPI, luật bảo vệ thông tin cá nhân của Nhật). Lớp nặng nhất là API: đường đọc có bộ đếm và phân trang bằng con trỏ
           (đánh dấu vị trí trang: nhớ dòng cuối của trang trước), đường gửi lại theo lô xử lý từng dòng trong giao dịch riêng, đường đóng thủ công bắt lý do và ghi nhật ký; màn đi kèm.
-          Không hiện nội dung thông báo trên màn này, chỉ tiêu đề. Ô tìm kiếm dùng hàm lọc ký tự của T04-05 (nhóm A). Hộp thoại dùng thành phần chung của INC-10.
+          Không hiện nội dung thông báo trên màn này, chỉ tiêu đề. Ô tìm kiếm truyền chuỗi như tham số theo cách của T04-05. Hộp thoại dùng thành phần chung của INC-10.
           Ước 20 giờ; khi vào sprint tách API đọc và bộ đếm thành issue con, giữ tổng nhóm trong trần.
         viec: |
-          API đọc /api/admin/notification-queue: lọc theo trạng thái (mặc định hết lượt), loại, kênh, ngày, chuỗi tìm (qua hàm lọc của T04-05); trả dòng kèm tiêu đề thông báo, email và vai người nhận,
+          API đọc /api/admin/notification-queue: lọc theo trạng thái (mặc định hết lượt), loại, kênh, ngày, chuỗi tìm (truyền như tham số, cách của T04-05); trả dòng kèm tiêu đề thông báo, email và vai người nhận,
           số lần thử lại trên trần của phiên bản quy tắc lúc xếp, mã lỗi, nguyên văn lỗi, thời điểm thử cuối và thử tiếp; bộ đếm: hết lượt chưa đóng, đang chờ thử lại, đã gửi hôm nay,
           tỷ lệ thành công 7 ngày (chỉ tính đã gửi và hết lượt, loại dòng gửi thử); sắp loại lỗi xuất dữ liệu lên đầu, rồi kênh trong ứng dụng hỏng, rồi mới nhất; phân trang con trỏ 100 dòng, trần 500.
           API gửi lại: nhận tối đa 50 mã, mỗi dòng một giao dịch database: đặt lại số lần thử lại về 0, thời điểm thử tiếp là bây giờ, trả kết quả từng dòng; người nhận đã bị khoá thì dòng đó báo lỗi, không gửi.
@@ -2334,7 +2343,7 @@ epics:
           - "Gửi lại 2 dòng, một dòng có người nhận đã khoá: màn hiện một dòng thành công (số lần thử lại về 0, trạng thái chờ gửi), một dòng lỗi kèm lý do bằng chữ; nhật ký có hai dòng"
           - "Chọn 51 dòng rồi bấm gửi lại: bị chặn ngay trên màn với thông điệp nêu trần 50"
           - "Đóng thủ công không ghi lý do: nút không bấm được; có lý do thì dòng biến khỏi danh sách mặc định, bộ đếm giảm 1, nhật ký có dòng kèm lý do"
-          - "Gõ chuỗi tìm chứa ký tự lạ (dấu ngoặc, dấu phẩy): API bỏ ký tự lạ, không lỗi 500; vai đối soát gọi API nhận lỗi quyền và gõ đường dẫn thấy trang 403"
+          - "Gõ chuỗi tìm chứa ký tự lạ (dấu ngoặc, dấu phẩy): API tìm chúng như chữ thường, không lỗi 500; vai đối soát gọi API nhận lỗi quyền và gõ đường dẫn thấy trang 403"
           - "Dòng loại lỗi xuất dữ liệu luôn ở đầu danh sách dù mới hơn hay cũ hơn dòng khác; trang thứ hai (con trỏ) không lặp dòng của trang đầu"
         file_cham:
           - src/app/api/admin/notification-queue/route.ts (mới)
@@ -2351,6 +2360,7 @@ epics:
       Ba chỗ cần sửa: B-22 hai link trong dữ liệu mẫu trỏ đường dẫn không tồn tại nên bấm "Mở" ra trang 404 (nhận xét LAB-3 của giảng viên, nhãn gia cố);
       số chưa đọc đếm trên 100 dòng đã tải nên lệch với bảng điều khiển; "đánh dấu tất cả" nuốt cả thông báo vừa tới mà người dùng chưa thấy (hai chỗ sau là điểm thiết kế LAB-4 sửa, nhãn chênh lệch).
       Thông báo hiện là dữ liệu mẫu, chưa có nguồn sinh thật; nguồn sinh thuộc epic E-T15 (T15-03) và được nối bằng lam_sau ở T16-03.
+      Giả định: không có giả định riêng; epic bám PREMISE.md và thiết kế LAB-4.
       Thứ tự làm: T16-01 (T15-01 cần bảng link của issue này) → T16-02 → T16-03.
     issues:
       - key: T16-01-sua-link-thong-bao-404
@@ -2359,7 +2369,7 @@ epics:
         boi_canh: |
           B-22: dữ liệu mẫu ghi link /participants/expiring và /settlement/disputes, hai đường dẫn này không có trong bản đồ 14 đường dẫn của ứng dụng, bấm "Mở" là trang 404.
           Nhận xét LAB-3 của giảng viên nêu đích danh lỗi này. Thiết kế LAB-4 chốt: link phải là đường dẫn thật kèm tham số lọc, lấy từ một bảng chuẩn, không tự ghép chuỗi;
-          T15-01 dùng bảng này khi ghi thông báo thật. Chỗ tự quyết: màn đích chưa đọc tham số lọc (việc "bộ lọc lên URL" thuộc các issue gia cố màn ở nhóm A)
+          T15-01 dùng bảng này khi ghi thông báo thật. Chỗ tự quyết: màn đích chưa đọc tham số lọc (việc "bộ lọc lên URL" thuộc các issue gia cố màn ở epic T-04)
           thì bỏ qua tham số, vẫn mở màn, không 404.
         viec: |
           Tạo bảng link chuẩn trong mã: mỗi loại thông báo một hàm dựng link từ tham số: hồ sơ sắp hết hạn → /participants?filter=expiring; tranh chấp mở → /settlement?day=YYYY-MM-DD;
@@ -2411,7 +2421,7 @@ epics:
           Issue này chờ T15-03 để kiểm bằng thông báo thật thay vì dữ liệu mẫu. Lớp nặng nhất là màn hình; API thêm tham số lọc và con trỏ.
         viec: |
           API đọc nhận tham số loại thông báo, chỉ chưa đọc, con trỏ và kích thước trang 50; trả con trỏ tiếp khi còn dòng.
-          Màn thêm bộ lọc loại (6 loại bằng chữ) và ô "chỉ chưa đọc"; bộ lọc ghi lên URL để bấm Back còn giữ (cùng cách các issue bộ lọc lên URL ở nhóm A); nút "Tải thêm" ở cuối danh sách;
+          Màn thêm bộ lọc loại (6 loại bằng chữ) và ô "chỉ chưa đọc"; bộ lọc ghi lên URL để bấm Back còn giữ (cùng cách issue bộ lọc lên URL T04-07); nút "Tải thêm" ở cuối danh sách;
           "Đánh dấu tất cả" chỉ áp cho dòng khớp bộ lọc đang chọn và mốc thời gian (T16-02).
         tieu_chi_xong:
           - "Người có 120 thông báo (sinh bằng sự kiện của T15-03 hoặc script thử): trang đầu 50 dòng, bấm Tải thêm hai lần thấy đủ 120, không dòng trùng, không dòng thiếu"
@@ -2436,6 +2446,7 @@ epics:
       Chú giải mã dùng trong epic: S-02, S-03 là hai lỗ bảo mật đã đo ở thiết kế LAB-4; D-15 là yêu cầu hàng đợi cục bộ khi mất mạng ở màn hiện trường;
       D-28b là yêu cầu khôi phục dữ liệu trong 4 giờ, mất tối đa 15 phút dữ liệu; D-45 là quyết định lấy sơ đồ đích làm gốc cho bảng thiết kế dữ liệu;
       業務日 là ngày nghiệp vụ của chợ, tính theo giờ Nhật.
+      Giả định: không có giả định riêng; epic bám PREMISE.md và thiết kế LAB-4.
       Thứ tự làm: X01-01 trước mọi issue khác của toàn backlog (Sprint 1); X01-03 ngay sau; X01-02, X01-04, X01-06 song song; X01-05 sau khi epic T-08 xong.
     issues:
       - key: X01-01-bang-ma-loi-chung-va-anh-xa-loi-database
@@ -2448,7 +2459,7 @@ epics:
           quy tắc, không thấy lô, không thấy bên mua, không thấy giao dịch), 3 mã lỗi Postgres được dịch (23505 trùng khoá, 23514 vi phạm ràng buộc,
           còn lại), 6 tình huống xác thực và phân quyền, và khoảng 20 lỗi kiểm ở ô nhập theo màn.
           Mã mới của LAB-4 chưa có trong prototype: yêu cầu mã xác thực hai lớp (401), quá nhiều lần đăng nhập (429), vi phạm khoá ngoại 23503 đổi từ 500
-          sang 422, lỗi database khác trả câu cố định (500) thay vì nguyên văn, tìm kiếm có ký tự không cho phép (422), ngày nghỉ chợ (409), kỳ đã chốt
+          sang 422, lỗi database khác trả câu cố định (500) thay vì nguyên văn, ngày nghỉ chợ (409), kỳ đã chốt
           khi tạo phiên bản tỷ lệ (409), vượt trần số đợt giao (422), vượt hạn mức tham gia (422). Review LAB-4 yêu cầu gom về một bảng và làm ở
           Sprint 1 để các issue tạo sau chỉ trỏ tới mã.
           Lỗ S-02 (mức cao, đo ở LAB-4) gộp vào đây vì cùng một file: lớp dịch lỗi thiếu mã 23503 nên lỗi rơi vào nhánh 500 và trả nguyên văn thông điệp
@@ -2599,13 +2610,14 @@ epics:
       Năm tầng chặn của prototype (middleware, layout, route, hàm database, RLS) giữ nguyên; prototype được khen vì mọi route trả 401 khi chưa đăng
       nhập và quy tắc nghiệp vụ nằm trong database. Việc ở đây là vá tầng layout không chặn vai (S-04), chuyển hướng ra ngoài sau đăng nhập (S-06),
       rà quyền ghi, rồi thêm xác thực hai lớp theo yêu cầu bảo mật của hồ sơ mời thầu.
-      Lỗ S-01 (chèn bộ lọc qua tham số tìm kiếm) đã được phủ ở nhóm A bằng T04-05 (màn người tham gia) và T13-02 (nhật ký) với quy tắc một đường:
-      ký tự không cho phép thì từ chối 422 theo mã lỗi ở X01-01, không cắt. Không lặp ở đây. S-05 ở T14-01, S-07 ở T03-01.
+      Lỗ S-01 (chèn bộ lọc qua tham số tìm kiếm) đã được phủ ở T04-05 (màn người tham gia) và T13-02 (nhật ký) với quy tắc một đường:
+      chuỗi tìm truyền vào hàm database như tham số, ký tự đặc biệt được tìm như chữ thường, không bỏ và không báo lỗi. Không lặp ở đây. S-05 ở T14-01, S-07 ở T03-01.
       Chú giải mã: ma trận menu là bảng vai trò và đường dẫn ở src/lib/roles.ts, nguồn duy nhất cho menu, quyền vào màn và tham số next;
       D-11, D-37, D-38 là ba chỗ menu và quyền API lệch nhau; MFA là xác thực hai lớp (mật khẩu cộng một mã thứ hai); TOTP là mã dùng một lần
       theo thời gian do ứng dụng trên điện thoại sinh.
       Quyết định D-11: vai không có trong ma trận menu không mở được màn, kể cả gõ thẳng đường dẫn; vai quản trị hệ thống chỉ thấy các màn mà
       vai đó có quyền ghi hoặc đọc theo ma trận, không còn "thấy toàn bộ".
+      Giả định: không có giả định riêng; epic bám PREMISE.md và thiết kế LAB-4.
       Thứ tự làm: X02-01 trước (Sprint 1), X02-02 sau X02-01; X02-03 rồi X02-04 (cần X01-04 xong).
     issues:
       - key: X02-01-chan-vai-vao-man-va-duong-dan-cho-phep-sau-dang-nhap
@@ -2727,6 +2739,7 @@ epics:
       Chú giải mã: smoke test là kiểm nhanh luồng chính, không tìm lỗi sâu; GitHub Actions là máy kiểm tự động của GitHub chạy mỗi khi đẩy mã;
       branch protection là khoá nhánh chính, không cho gộp khi kiểm đỏ; 相対取引 là giao dịch bán thoả thuận; せり là đấu giá; 業務日 là ngày nghiệp vụ
       theo giờ Nhật; D-25 là quyết định múi giờ Nhật cố định; D-40 là ba ca hoàn tất giao nhận; D-41 là cấp mã giao dịch bằng sequence (T06-01).
+      Giả định: không có giả định riêng; epic bám PREMISE.md và thiết kế LAB-4.
       Thứ tự làm: X03-00 đầu Sprint 1; X03-03 ngay sau X01-03 và X03-01; X03-01 sau T06-01; X03-02 sau X03-00 và T08-03; X03-04 và X03-05 ở sprint cuối.
     issues:
       - key: X03-00-dung-database-thu-mot-lenh
