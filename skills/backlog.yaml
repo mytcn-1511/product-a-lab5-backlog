@@ -1,6 +1,7 @@
 # Backlog LAB-5 — Product A. File này là nguồn duy nhất để script tạo issue lên repo và Project.
 # Cách đọc: mỗi epic có nhiều issue; mỗi issue có 4 khối cố định (boi_canh, viec, tieu_chi_xong, file_cham).
 # "key" là mã khoá ghi vào thân issue để script chạy lại không tạo trùng. "lam_sau" ghi issue phải xong trước (script chép vào thân issue).
+# "con": issue con (sub-issue) của một issue quá 16 giờ; issue cha giữ bối cảnh, issue con giữ việc và tiêu chí xong. Điểm SWP chấm ở issue con, cha lấy tổng.
 # Nhãn: nguon:moi | nguon:chenh-lech | nguon:gia-co · doi:fe | doi:be | doi:qa (gắn theo lớp nặng nhất) · constraint:kanno-shoreikin · lam-ro-voi-khach
 # Chú giải mã: D-xx / B-xx / Q-x theo PREMISE.md · T-xx gói việc LAB-4 · SCR-xx màn hình · DD-008 thiết kế chi tiết phần thưởng.
 # Bản 2 ngày 19/10/2026: sửa theo rà soát độc lập (tách INC-08 thành 3, INC-09 thành 2, thêm ca thử đúng hạn, bảng tiền về riêng).
@@ -683,21 +684,10 @@ epics:
           khoá ngày (T09-03) cần biết số kết quả chờ theo ngày. Thiết kế LAB-4 còn đòi thông điệp vượt tồn của đấu giá chỉ đường sang
           màn tranh chấp SCR-19.
         viec: |
-          Hai API POST xác nhận và trả lại gọi hàm T06-02a, trả thông điệp đọc được. View số dư giao dịch và view đối soát ngày chỉ đọc giao dịch
-          confirmed (đã xác nhận); hàm ghi đợt giao từ chối giao dịch chưa confirmed với mã SERI_RESULT_PENDING; API danh sách giao dịch trả số kết
-          quả chờ xác nhận theo ngày. Màn: nút "Xác nhận" và "Trả lại" trên dòng chờ, chỉ hiện với vai giao dịch không phải người nhập; hộp thoại
-          xác nhận hiện mã, lô, bên mua, số lượng, đơn giá, thành tiền, tồn lô sau khi trừ; hộp trả lại có ô lý do bắt buộc; huy hiệu bằng chữ cho
-          ba trạng thái; bộ lọc trạng thái mặc định "Chờ xác nhận"; tổng tiền đầu trang chỉ cộng confirmed; thông điệp QTY_EXCEEDED của đấu giá
-          có đường dẫn sang SCR-19.
+          Issue cha, ước 14–16 giờ, quá trần 16 giờ một issue nên tách làm hai issue con bên dưới: T06-02b.1-api-xac-nhan-tra-lai-va-view-chi-doc-da-xac-nhan rồi T06-02b.2-nut-va-hop-thoai-xac-nhan-tren-man-giao-dich.
+          Bối cảnh ở trên dùng chung cho hai issue con; tiêu chí xong của từng phần nằm ở issue con.
         tieu_chi_xong:
-          - Người vừa nhập không thấy nút xác nhận trên dòng đó; đăng nhập bằng tài khoản vai giao dịch thứ hai thì thấy
-          - Trả lại với ô lý do trống thì lỗi hiện tại ô, không gọi API
-          - Hộp xác nhận hiện tồn lô sau khi trừ đúng bằng tồn hiện tại trừ số lượng (một ca số cụ thể trên dữ liệu mẫu)
-          - Bấm xác nhận hai lần chỉ gọi API một lần; nút đổi thành "Đang xác nhận" và khoá
-          - Giao dịch chờ xác nhận không có trong bảng đối soát ngày; gọi ghi đợt giao cho nó nhận 409 SERI_RESULT_PENDING
-          - API danh sách trả đúng số kết quả chờ xác nhận của ngày (đếm tay khớp)
-          - Tổng tiền đầu trang không đổi khi thêm kết quả chờ xác nhận, chỉ đổi sau khi xác nhận
-          - Trên màn rộng 390 px hai nút bấm được, không cuộn ngang
+          - Hai issue con đã đóng, mọi tiêu chí xong của chúng đạt trên cùng một bản deploy
         file_cham:
           - src/app/api/trades/[id]/confirm/route.ts (mới)
           - src/app/api/trades/[id]/return/route.ts (mới)
@@ -706,6 +696,41 @@ epics:
           - src/app/(app)/trades/trade-page.tsx
           - src/app/(app)/trades/trade-table.tsx
           - src/app/(app)/trades/trade-types.ts
+        con:
+          - key: T06-02b.1-api-xac-nhan-tra-lai-va-view-chi-doc-da-xac-nhan
+            title: "API xác nhận và trả lại kết quả đấu giá, view và ghi đợt giao chỉ nhận giao dịch đã xác nhận"
+            labels: [nguon:chenh-lech, doi:be]
+            boi_canh: |
+              Issue con của T06-02b-api-va-man-xac-nhan-dau-gia; đọc bối cảnh ở issue cha.
+            viec: |
+              Hai API POST xác nhận và trả lại gọi hàm của T06-02a, trả thông điệp đọc được. View số dư giao dịch và view đối soát ngày chỉ đọc giao dịch confirmed (đã xác nhận); hàm ghi đợt giao từ chối giao dịch chưa confirmed với mã SERI_RESULT_PENDING; API danh sách giao dịch trả số kết quả chờ xác nhận theo ngày.
+            tieu_chi_xong:
+              - "Giao dịch chờ xác nhận không có trong bảng đối soát ngày; gọi ghi đợt giao cho nó nhận 409 SERI_RESULT_PENDING"
+              - "API danh sách trả đúng số kết quả chờ xác nhận của ngày (đếm tay khớp)"
+            file_cham:
+              - "src/app/api/trades/[id]/confirm/route.ts (mới)"
+              - "src/app/api/trades/[id]/return/route.ts (mới)"
+              - "src/app/api/trades/route.ts"
+              - "supabase/schema.sql (view v_trade_balance, v_daily_settlement; hàm ghi đợt giao phần kiểm trạng thái)"
+          - key: T06-02b.2-nut-va-hop-thoai-xac-nhan-tren-man-giao-dich
+            title: "Nút và hộp thoại xác nhận hoặc trả lại kết quả đấu giá trên màn giao dịch"
+            labels: [nguon:chenh-lech, doi:fe]
+            lam_sau: [T06-02b.1-api-xac-nhan-tra-lai-va-view-chi-doc-da-xac-nhan]
+            boi_canh: |
+              Issue con của T06-02b-api-va-man-xac-nhan-dau-gia; đọc bối cảnh ở issue cha.
+            viec: |
+              Nút "Xác nhận" và "Trả lại" trên dòng chờ, chỉ hiện với vai giao dịch không phải người nhập; hộp thoại xác nhận hiện mã, lô, bên mua, số lượng, đơn giá, thành tiền, tồn lô sau khi trừ; hộp trả lại có ô lý do bắt buộc; huy hiệu bằng chữ cho ba trạng thái; bộ lọc trạng thái mặc định "Chờ xác nhận"; tổng tiền đầu trang chỉ cộng confirmed; thông điệp QTY_EXCEEDED của đấu giá có đường dẫn sang SCR-19.
+            tieu_chi_xong:
+              - "Người vừa nhập không thấy nút xác nhận trên dòng đó; đăng nhập bằng tài khoản vai giao dịch thứ hai thì thấy"
+              - "Trả lại với ô lý do trống thì lỗi hiện tại ô, không gọi API"
+              - "Hộp xác nhận hiện tồn lô sau khi trừ đúng bằng tồn hiện tại trừ số lượng (một ca số cụ thể trên dữ liệu mẫu)"
+              - "Bấm xác nhận hai lần chỉ gọi API một lần; nút đổi thành \"Đang xác nhận\" và khoá"
+              - "Tổng tiền đầu trang không đổi khi thêm kết quả chờ xác nhận, chỉ đổi sau khi xác nhận"
+              - "Trên màn rộng 390 px hai nút bấm được, không cuộn ngang"
+            file_cham:
+              - "src/app/(app)/trades/trade-page.tsx"
+              - "src/app/(app)/trades/trade-table.tsx"
+              - "src/app/(app)/trades/trade-types.ts"
 
       - key: T06-03-cau-hinh-han-muc-tham-gia
         title: "Cấu hình hạn mức tham gia theo người tham gia mua bán"
@@ -1385,18 +1410,10 @@ epics:
           ở trạng thái draft (nháp), tải tệp theo mã yêu cầu, rồi bấm gửi duyệt mới chuyển sang pending (đang chờ) và mới đòi tệp. Nháp không tính là yêu
           cầu mở trong kiểm trùng của T10-01.
         viec: |
-          Thêm trạng thái draft; API tạo nháp (kiểm như T10-01 trừ kiểm trùng và tệp); bucket riêng không công khai và bảng correction_attachments (yêu cầu,
-          đường dẫn tệp, loại, kích thước, người tải, thời điểm); API tải tệp theo mã yêu cầu chỉ khi draft hoặc need_info, chỉ người gửi, pdf, jpg, png, heic,
-          tối đa 10 MB, tối đa 5 tệp; API gửi duyệt chuyển draft sang pending, từ chối khi sửa số lượng mà chưa có tệp, lúc này mới kiểm trùng; API đọc tệp
-          trả đường dẫn ký 15 phút cho người gửi, vai đối soát, quản trị hệ thống; job dọn nháp quá 24 giờ chưa gửi cùng tệp của nó. Form: ba bước trên một
-          màn (lưu nháp, tải tệp, gửi duyệt); bảng duyệt hiện đường dẫn mở tệp. Bỏ ô gõ tên tệp cũ.
+          Issue cha, ước khoảng 18 giờ, quá trần 16 giờ một issue nên tách làm hai issue con bên dưới: T10-04.1-nhap-tai-tep-gui-duyet-va-don-nhap rồi T10-04.2-form-ba-buoc-va-mo-tep-tu-bang-duyet.
+          Bối cảnh ở trên dùng chung cho hai issue con; tiêu chí xong của từng phần nằm ở issue con.
         tieu_chi_xong:
-          - Tạo nháp sửa số lượng rồi gửi duyệt khi chưa có tệp bị 422; tải một tệp rồi gửi thì thành pending; nháp sửa đơn giá gửi không tệp được nhận
-          - Tệp 11 MB hoặc tệp .exe bị từ chối trước khi lưu; tệp thứ 6 bị từ chối; tải tệp vào yêu cầu đang pending bị 409
-          - Hai nháp cùng giao dịch tạo được; gửi duyệt cái thứ hai khi cái thứ nhất đã pending bị 409
-          - Nháp quá 24 giờ bị job dọn cùng tệp; nháp 23 giờ còn nguyên
-          - Người duyệt mở được tệp từ bảng duyệt; đường dẫn sau 16 phút không còn mở được; vai giao dịch khác người gửi gọi đọc tệp nhận 403
-          - Truy cập thẳng đường dẫn bucket không qua API bị từ chối
+          - Hai issue con đã đóng, mọi tiêu chí xong của chúng đạt trên cùng một bản deploy
         file_cham:
           - supabase/schema.sql (trạng thái draft, bảng correction_attachments mới, hàm dọn nháp)
           - src/app/api/corrections/route.ts (tạo nháp)
@@ -1404,6 +1421,41 @@ epics:
           - src/app/api/corrections/[id]/attachments/route.ts (mới)
           - src/app/(app)/corrections/correction-form.tsx
           - src/app/(app)/corrections/page.tsx
+        con:
+          - key: T10-04.1-nhap-tai-tep-gui-duyet-va-don-nhap
+            title: "Máy chủ: yêu cầu điều chỉnh dạng nháp, tải tệp chứng cứ vào kho riêng, gửi duyệt và dọn nháp quá hạn"
+            labels: [nguon:chenh-lech, doi:be]
+            boi_canh: |
+              Issue con của T10-04-chung-cu-dinh-kem-that; đọc bối cảnh ở issue cha.
+            viec: |
+              Thêm trạng thái draft; API tạo nháp (kiểm như T10-01 trừ kiểm trùng và tệp); bucket riêng không công khai và bảng correction_attachments (yêu cầu, đường dẫn tệp, loại, kích thước, người tải, thời điểm); API tải tệp theo mã yêu cầu chỉ khi draft hoặc need_info, chỉ người gửi, pdf, jpg, png, heic, tối đa 10 MB, tối đa 5 tệp; API gửi duyệt chuyển draft sang pending, từ chối khi sửa số lượng mà chưa có tệp, lúc này mới kiểm trùng; API đọc tệp trả đường dẫn ký 15 phút cho người gửi, vai đối soát, quản trị hệ thống; job dọn nháp quá 24 giờ chưa gửi cùng tệp của nó.
+            tieu_chi_xong:
+              - "Tạo nháp sửa số lượng rồi gửi duyệt khi chưa có tệp bị 422; tải một tệp rồi gửi thì thành pending; nháp sửa đơn giá gửi không tệp được nhận"
+              - "Tệp 11 MB hoặc tệp .exe bị từ chối trước khi lưu; tệp thứ 6 bị từ chối; tải tệp vào yêu cầu đang pending bị 409"
+              - "Hai nháp cùng giao dịch tạo được; gửi duyệt cái thứ hai khi cái thứ nhất đã pending bị 409"
+              - "Nháp quá 24 giờ bị job dọn cùng tệp; nháp 23 giờ còn nguyên"
+              - "Truy cập thẳng đường dẫn bucket không qua API bị từ chối"
+              - "Đường dẫn đọc tệp sau 16 phút không còn mở được; vai giao dịch khác người gửi gọi đọc tệp nhận 403"
+            file_cham:
+              - "supabase/schema.sql (trạng thái draft, bảng correction_attachments mới, hàm dọn nháp)"
+              - "src/app/api/corrections/route.ts (tạo nháp)"
+              - "src/app/api/corrections/[id]/submit/route.ts (mới)"
+              - "src/app/api/corrections/[id]/attachments/route.ts (mới)"
+          - key: T10-04.2-form-ba-buoc-va-mo-tep-tu-bang-duyet
+            title: "Form yêu cầu điều chỉnh ba bước (lưu nháp, tải tệp, gửi duyệt) và mở tệp từ bảng duyệt"
+            labels: [nguon:chenh-lech, doi:fe]
+            lam_sau: [T10-04.1-nhap-tai-tep-gui-duyet-va-don-nhap]
+            boi_canh: |
+              Issue con của T10-04-chung-cu-dinh-kem-that; đọc bối cảnh ở issue cha.
+            viec: |
+              Form ba bước trên một màn: lưu nháp, tải tệp, gửi duyệt, gọi các API của T10-04.1. Bảng duyệt hiện đường dẫn mở tệp. Bỏ ô gõ tên tệp cũ.
+            tieu_chi_xong:
+              - "Người duyệt bấm đường dẫn trong bảng duyệt thì mở được tệp"
+              - "Trên form làm đủ ba bước lưu nháp, tải tệp, gửi duyệt trên một màn; ô gõ tên tệp cũ không còn"
+              - "Tệp bị từ chối (quá 10 MB, sai loại, quá 5 tệp) hiện lỗi bằng chữ ngay tại ô tải, không lộ mã thô"
+            file_cham:
+              - "src/app/(app)/corrections/correction-form.tsx"
+              - "src/app/(app)/corrections/page.tsx"
 
   - key: E-INC
     title: "Thưởng thanh toán đủ hạn (完納奨励金): ngày thanh toán, bảng tỷ lệ, tính và chốt kỳ"
@@ -1943,7 +1995,7 @@ epics:
         title: "Danh mục báo cáo đúng mã RFP và bộ xuất tệp CSV dùng chung an toàn"
         labels: [nguon:chenh-lech, doi:be, constraint:kanno-shoreikin]
         boi_canh: |
-          Hai việc nền cho 10 báo cáo sắp làm, gộp vào một issue (ước 14 đến 16 giờ).
+          Hai việc nền cho 10 báo cáo sắp làm, mỗi việc một issue con.
           Một: danh mục báo cáo trong prototype có đủ 12 dòng nhưng mã RPT-01 đến RPT-12 không trùng bảng TBL-REPORT-01 của RFP (D-05).
           Báo cáo "đối soát ngày" đang mang mã RPT-01 nhưng theo RFP phải là RPT-05; báo cáo 完納奨励金 (tiền thưởng thanh toán đủ hạn) theo kỳ đang là RPT-02
           nhưng phải là RPT-07 (vì chạm mã báo cáo thưởng nên gắn nhãn ràng buộc). Prototype có mục "doanh thu theo loài" không nằm trong RFP, trong khi thiếu "báo cáo tháng theo loại giao dịch".
@@ -1953,29 +2005,49 @@ epics:
           Chống công thức chỉ áp cho cột kiểu chữ; cột số (kể cả số âm như tiền điều chỉnh) giữ nguyên để Excel còn cộng được.
           Việc che nguyên văn lỗi database (S-02) đã có ở X01-01, không làm ở đây. Tệp mô tả kèm báo cáo đối soát ngày làm ở T14-06.
         viec: |
-          Viết lại danh mục đúng 12 dòng của TBL-REPORT-01, mỗi dòng ghi mã, tên, tham số (ngày nghiệp vụ, kỳ, hoặc không): RPT-01 tổng hợp giao dịch ngày · RPT-02 lịch sử lô và trạng thái giao dịch ·
-          RPT-03 hồ sơ hết hạn và sắp hết hạn · RPT-04 giao hàng tồn và ngoại lệ · RPT-05 đối soát ngày · RPT-06 xuất đối soát kế toán · RPT-07 thưởng thanh toán đủ hạn theo kỳ ·
-          RPT-08 điều chỉnh sau khoá ngày · RPT-09 tranh chấp và hạn xử lý · RPT-10 báo cáo tháng theo người tham gia · RPT-11 báo cáo tháng theo loại giao dịch · RPT-12 thay đổi quy tắc và phiên bản áp dụng.
-          Chuyển hai báo cáo đang chạy sang mã mới (RPT-05, RPT-07), giữ nguyên nội dung; bỏ mục "doanh thu theo loài"; tên tệp tải về và nhật ký xuất dùng mã mới;
-          ghi chú đối chiếu mã cũ → mã mới ngay trong danh mục để tra nhật ký cũ.
-          Dựng sổ đăng ký báo cáo: mỗi báo cáo một tệp riêng trong thư mục src/app/api/reports/rpt/, khai cột với kiểu (chữ / số / ngày), đường API chỉ tra sổ.
-          Sửa hàm dựng CSV: ô cột kiểu chữ bắt đầu bằng = + - @ tab hoặc xuống dòng thì thêm dấu nháy đơn vào đầu, làm trước bước bọc ngoặc kép theo chuẩn CSV thông dụng (RFC 4180);
-          cột kiểu số không đụng. Đổi thứ tự trong API thành đọc dữ liệu → ghi nhật ký xuất → trả tệp; nhật ký ghi lỗi thì trả lỗi, không trả tệp.
-          Xuất theo luồng từng khối 500 dòng thay vì nối toàn bộ chuỗi. Viết hướng dẫn 10 dòng "cách thêm một báo cáo" ở đầu tệp sổ đăng ký.
+          Issue cha, ước 18–20 giờ, quá trần 16 giờ một issue nên tách làm hai issue con bên dưới: T14-01.1-danh-muc-12-ma-rfp-va-so-dang-ky-bao-cao rồi T14-01.2-bo-xuat-csv-an-toan-theo-khoi.
+          Bối cảnh ở trên dùng chung cho hai issue con; tiêu chí xong của từng phần nằm ở issue con.
         tieu_chi_xong:
-          - "Gọi API danh mục trả đúng 12 mã RPT-01..RPT-12 với tên và tham số như trên; không còn mục doanh thu theo loài"
-          - "Tải RPT-05 ngày đã khoá ra đúng 17 cột như tệp đối soát ngày cũ, tên tệp RPT-05_YYYY-MM-DD.csv; tải RPT-07 kỳ đã chốt ra đúng 9 cột như tệp thưởng cũ"
-          - "Dữ liệu thử có ô chữ \"=1+1\", \"+5\", \"-3\", \"@x\" và ô chứa tab: tệp mở bằng Excel hiện đúng chuỗi, không chạy công thức; ô chữ \"ABC\" không bị thêm dấu nháy"
-          - "Cột số có giá trị -3 (tiền điều chỉnh âm) xuất ra vẫn là -3, Excel cộng được; cùng chuỗi \"-3\" ở cột chữ thì thành '-3"
-          - "Ô có dấu phẩy, ngoặc kép, xuống dòng vẫn bọc đúng chuẩn; tệp mở bằng Excel trên Windows hiện đúng tiếng Nhật (BOM còn)"
-          - "Giả lập nhật ký ghi lỗi (ví dụ khoá bảng nhật ký) thì bấm tải nhận lỗi, không có tệp; nhật ký bình thường thì có đúng một dòng report.export với mã mới và số dòng"
-          - "Dựng ngày có 1.500 giao dịch (dữ liệu thử): tệp tải xong, log máy chủ ghi ít nhất 3 khối đã ghi ra; số dòng khớp số dòng trên màn đối soát SCR-17 cùng ngày"
+          - Hai issue con đã đóng, mọi tiêu chí xong của chúng đạt trên cùng một bản deploy
         file_cham:
           - src/app/api/reports/route.ts (danh mục, tra sổ đăng ký, thứ tự nhật ký và trả tệp)
           - src/app/api/reports/rpt/registry.ts (mới, sổ đăng ký và hướng dẫn)
           - src/lib/csv.ts (chống công thức theo kiểu cột, xuất theo khối)
           - src/lib/audit.ts (không nuốt lỗi cho report.export)
           - src/app/(app)/reports/page.tsx (nhãn và tên tệp theo mã mới)
+        con:
+          - key: T14-01.1-danh-muc-12-ma-rfp-va-so-dang-ky-bao-cao
+            title: "Danh mục 12 báo cáo đúng mã RFP và sổ đăng ký báo cáo"
+            labels: [nguon:chenh-lech, doi:be, constraint:kanno-shoreikin]
+            boi_canh: |
+              Issue con của T14-01-anh-xa-ma-va-bo-xuat-csv-chung; đọc bối cảnh ở issue cha.
+            viec: |
+              Viết lại danh mục đúng 12 dòng của TBL-REPORT-01, mỗi dòng ghi mã, tên, tham số (ngày nghiệp vụ, kỳ, hoặc không). Chuyển hai báo cáo đang chạy sang mã mới (RPT-05, RPT-07), giữ nguyên nội dung; bỏ mục "doanh thu theo loài"; tên tệp tải về và nhật ký xuất dùng mã mới; ghi chú đối chiếu mã cũ → mã mới ngay trong danh mục. Dựng sổ đăng ký báo cáo: mỗi báo cáo một tệp riêng trong thư mục src/app/api/reports/rpt/, khai cột với kiểu (chữ / số / ngày), đường API chỉ tra sổ. Viết hướng dẫn 10 dòng "cách thêm một báo cáo" ở đầu tệp sổ đăng ký.
+            tieu_chi_xong:
+              - "Gọi API danh mục trả đúng 12 mã RPT-01..RPT-12 với tên và tham số như trên; không còn mục doanh thu theo loài"
+              - "Tải RPT-05 ngày đã khoá ra đúng 17 cột như tệp đối soát ngày cũ, tên tệp RPT-05_YYYY-MM-DD.csv; tải RPT-07 kỳ đã chốt ra đúng 9 cột như tệp thưởng cũ"
+            file_cham:
+              - "src/app/api/reports/route.ts (danh mục, tra sổ đăng ký, thứ tự nhật ký và trả tệp)"
+              - "src/app/api/reports/rpt/registry.ts (mới, sổ đăng ký và hướng dẫn)"
+              - "src/app/(app)/reports/page.tsx (nhãn và tên tệp theo mã mới)"
+          - key: T14-01.2-bo-xuat-csv-an-toan-theo-khoi
+            title: "Bộ xuất CSV chống chèn công thức, xuất theo khối và chỉ trả tệp khi đã ghi nhật ký"
+            labels: [nguon:chenh-lech, doi:be]
+            lam_sau: [T14-01.1-danh-muc-12-ma-rfp-va-so-dang-ky-bao-cao]
+            boi_canh: |
+              Issue con của T14-01-anh-xa-ma-va-bo-xuat-csv-chung; đọc bối cảnh ở issue cha.
+            viec: |
+              Sửa hàm dựng CSV: ô cột kiểu chữ bắt đầu bằng = + - @ tab hoặc xuống dòng thì thêm dấu nháy đơn vào đầu, làm trước bước bọc ngoặc kép theo RFC 4180; cột kiểu số không đụng. Đổi thứ tự trong API thành đọc dữ liệu → ghi nhật ký xuất → trả tệp; nhật ký ghi lỗi thì trả lỗi, không trả tệp. Xuất theo luồng từng khối 500 dòng thay vì nối toàn bộ chuỗi.
+            tieu_chi_xong:
+              - "Dữ liệu thử có ô chữ \"=1+1\", \"+5\", \"-3\", \"@x\" và ô chứa tab: tệp mở bằng Excel hiện đúng chuỗi, không chạy công thức; ô chữ \"ABC\" không bị thêm dấu nháy"
+              - "Cột số có giá trị -3 (tiền điều chỉnh âm) xuất ra vẫn là -3, Excel cộng được; cùng chuỗi \"-3\" ở cột chữ thì thành '-3"
+              - "Ô có dấu phẩy, ngoặc kép, xuống dòng vẫn bọc đúng chuẩn; tệp mở bằng Excel trên Windows hiện đúng tiếng Nhật (BOM còn)"
+              - "Giả lập nhật ký ghi lỗi (ví dụ khoá bảng nhật ký) thì bấm tải nhận lỗi, không có tệp; nhật ký bình thường thì có đúng một dòng report.export với mã mới và số dòng"
+              - "Dựng ngày có 1.500 giao dịch (dữ liệu thử): tệp tải xong, log máy chủ ghi ít nhất 3 khối đã ghi ra; số dòng khớp số dòng trên màn đối soát SCR-17 cùng ngày"
+            file_cham:
+              - "src/app/api/reports/route.ts (danh mục, tra sổ đăng ký, thứ tự nhật ký và trả tệp)"
+              - "src/lib/csv.ts (chống công thức theo kiểu cột, xuất theo khối)"
+              - "src/lib/audit.ts (không nuốt lỗi cho report.export)"
 
       - key: T14-02-nhom-bao-cao-giao-dich-va-lo
         title: "Ba báo cáo theo ngày nghiệp vụ về giao dịch, lô và đối soát kế toán"
@@ -2113,26 +2185,51 @@ epics:
           issue này sở hữu hàm kiểm khoá dùng chung và tài liệu lịch chạy duy nhất docs/job-lich-chay.md; các job khác (T15-02, T15-04) chỉ thêm dòng vào tài liệu đó.
           Kho tệp chứa dữ liệu giao dịch nên là kho riêng tư, chỉ tải qua API có kiểm quyền.
         viec: |
-          Tạo migration (bước đổi cấu trúc database, có bước quay lại) bảng report_runs: mã báo cáo, ngày nghiệp vụ, thời điểm sinh, đường dẫn tệp, số dòng, trạng thái thành công / lỗi, thông điệp lỗi.
-          Viết hàm kiểm khoá job dùng chung (so khoá trong tiêu đề yêu cầu với biến môi trường). Tạo đường API nội bộ: mốc 10:30 giờ Nhật dựng RPT-05 cho mọi ngày đã khoá chưa có bản sinh,
-          kèm tệp RPT-05_YYYY-MM-DD.meta.json ghi phiên bản cấu trúc, danh sách cột và kiểu, hai công thức (số lượng hữu hiệu = số lượng + tổng chênh lệch; còn lại = hữu hiệu − đã giao),
-          thời điểm xuất theo giờ Nhật, số dòng, trạng thái ngày lúc xuất; lưu vào kho tệp riêng tư của Supabase, ghi report_runs. Mốc 11:00 quét lại, ngày nào thiếu tệp thì gọi hàm sinh thông báo
-          loại lỗi xuất dữ liệu (người nhận theo quy tắc T15-01) kèm link tới màn báo cáo. Chạy lại trong cùng ngày không sinh tệp trùng. API danh mục trả thêm "lần sinh gần nhất" cho RPT-05;
-          đường tải tệp sinh sẵn đi qua API có kiểm quyền (ba vai của màn báo cáo). Đặt hai lịch pg_cron; viết docs/job-lich-chay.md liệt kê mọi job (kể cả T09-02), giờ chạy, khoá, cách chạy tay.
+          Issue cha, ước khoảng 20 giờ, quá trần 16 giờ một issue nên tách làm hai issue con bên dưới: T14-06.1-sinh-san-rpt-05-luc-10-30 rồi T14-06.2-giam-sat-moc-11-gio-va-lich-job.
+          Bối cảnh ở trên dùng chung cho hai issue con; tiêu chí xong của từng phần nằm ở issue con.
         tieu_chi_xong:
-          - "Dữ liệu thử có 2 ngày đã khoá: gọi đường job 10:30 thì report_runs có 2 dòng thành công, kho tệp có 2 cặp csv và meta.json; gọi lại lần hai không thêm dòng, không thêm tệp"
-          - "meta.json đọc được bằng trình đọc JSON và có đủ 6 mục nêu ở phần việc"
-          - "Giả lập lỗi dựng (ví dụ khoá view số dư) rồi gọi đường job 11:00: có đúng một thông báo lỗi xuất dữ liệu cho ngày lỗi, người nhận đúng quy tắc mặc định"
-          - "Gọi đường job không kèm khoá đúng nhận lỗi quyền, không chạy gì; hàm kiểm khoá có kiểm thử đơn vị"
-          - "Người chưa đăng nhập hoặc vai tiếp nhận mở đường dẫn tệp trong kho nhận lỗi quyền; vai đối soát tải được qua API"
-          - "Tệp sinh sẵn có số dòng bằng tệp tải tay cùng ngày sau khi ngày đã khoá"
-          - "Máy chủ đặt múi giờ khác Nhật: mốc 10:30 và 11:00 vẫn hiểu theo giờ Nhật (kiểm bằng thời điểm chạy ghi trong report_runs); hai lịch hiện trong danh sách pg_cron sau migration"
+          - Hai issue con đã đóng, mọi tiêu chí xong của chúng đạt trên cùng một bản deploy
         file_cham:
           - supabase/schema.sql (bảng report_runs, lịch pg_cron)
           - src/lib/jobs/auth.ts (mới, hàm kiểm khoá dùng chung)
           - src/app/api/jobs/daily-report/route.ts (mới, đường job)
           - src/app/api/reports/route.ts (lần sinh gần nhất, đường tải tệp sinh sẵn)
           - docs/job-lich-chay.md (mới, trong repo này)
+        con:
+          - key: T14-06.1-sinh-san-rpt-05-luc-10-30
+            title: "Tác vụ 10:30 giờ Nhật sinh sẵn RPT-05 kèm tệp mô tả, lưu kho riêng, tải qua API có kiểm quyền"
+            labels: [nguon:moi, doi:be]
+            boi_canh: |
+              Issue con của T14-06-tac-vu-bao-cao-ngay-va-giam-sat-han-11-gio; đọc bối cảnh ở issue cha.
+            viec: |
+              Tạo migration (có bước quay lại) bảng report_runs: mã báo cáo, ngày nghiệp vụ, thời điểm sinh, đường dẫn tệp, số dòng, trạng thái thành công / lỗi, thông điệp lỗi. Viết hàm kiểm khoá job dùng chung (so khoá trong tiêu đề yêu cầu với biến môi trường). Đường API nội bộ mốc 10:30 giờ Nhật dựng RPT-05 cho mọi ngày đã khoá chưa có bản sinh, kèm tệp RPT-05_YYYY-MM-DD.meta.json ghi phiên bản cấu trúc, danh sách cột và kiểu, hai công thức (số lượng hữu hiệu = số lượng + tổng chênh lệch; còn lại = hữu hiệu − đã giao), thời điểm xuất theo giờ Nhật, số dòng, trạng thái ngày lúc xuất; lưu vào kho tệp riêng tư của Supabase, ghi report_runs. Chạy lại trong cùng ngày không sinh tệp trùng. API danh mục trả thêm "lần sinh gần nhất" cho RPT-05; đường tải tệp sinh sẵn đi qua API có kiểm quyền (ba vai của màn báo cáo). Đặt lịch pg_cron 10:30.
+            tieu_chi_xong:
+              - "Dữ liệu thử có 2 ngày đã khoá: gọi đường job 10:30 thì report_runs có 2 dòng thành công, kho tệp có 2 cặp csv và meta.json; gọi lại lần hai không thêm dòng, không thêm tệp"
+              - "meta.json đọc được bằng trình đọc JSON và có đủ 6 mục nêu ở phần việc"
+              - "Gọi đường job không kèm khoá đúng nhận lỗi quyền, không chạy gì; hàm kiểm khoá có kiểm thử đơn vị"
+              - "Người chưa đăng nhập hoặc vai tiếp nhận mở đường dẫn tệp trong kho nhận lỗi quyền; vai đối soát tải được qua API"
+              - "Tệp sinh sẵn có số dòng bằng tệp tải tay cùng ngày sau khi ngày đã khoá"
+            file_cham:
+              - "supabase/schema.sql (bảng report_runs, lịch pg_cron)"
+              - "src/lib/jobs/auth.ts (mới, hàm kiểm khoá dùng chung)"
+              - "src/app/api/jobs/daily-report/route.ts (mới, đường job)"
+              - "src/app/api/reports/route.ts (lần sinh gần nhất, đường tải tệp sinh sẵn)"
+          - key: T14-06.2-giam-sat-moc-11-gio-va-lich-job
+            title: "Tác vụ 11:00 giờ Nhật báo lỗi khi thiếu tệp báo cáo ngày, kèm tài liệu lịch các job"
+            labels: [nguon:moi, doi:be]
+            lam_sau: [T14-06.1-sinh-san-rpt-05-luc-10-30, T15-01.2-ham-ghi-thong-bao-dung-chung]
+            boi_canh: |
+              Issue con của T14-06-tac-vu-bao-cao-ngay-va-giam-sat-han-11-gio; đọc bối cảnh ở issue cha.
+            viec: |
+              Mốc 11:00 quét lại report_runs, ngày nào thiếu tệp thì gọi hàm ghi thông báo loại lỗi xuất dữ liệu (người nhận theo quy tắc T15-01) kèm link tới màn báo cáo. Đặt lịch pg_cron 11:00. Viết docs/job-lich-chay.md liệt kê mọi job (kể cả T09-02), giờ chạy, khoá, cách chạy tay.
+            tieu_chi_xong:
+              - "Giả lập lỗi dựng (ví dụ khoá view số dư) rồi gọi đường job 11:00: có đúng một thông báo lỗi xuất dữ liệu cho ngày lỗi, người nhận đúng quy tắc mặc định"
+              - "Máy chủ đặt múi giờ khác Nhật: mốc 10:30 và 11:00 vẫn hiểu theo giờ Nhật (kiểm bằng thời điểm chạy ghi trong report_runs); hai lịch hiện trong danh sách pg_cron sau migration"
+              - "docs/job-lich-chay.md có đủ dòng cho job T09-02, mốc 10:30 và mốc 11:00, mỗi dòng ghi giờ chạy theo giờ Nhật và lệnh chạy tay"
+            file_cham:
+              - "supabase/schema.sql (bảng report_runs, lịch pg_cron)"
+              - "src/app/api/jobs/daily-report/route.ts (mới, đường job)"
+              - "docs/job-lich-chay.md (mới, trong repo này)"
 
       - key: T14-07-man-trung-tam-bao-cao-gia-co
         title: "Màn trung tâm báo cáo hiện trạng thái ngày và kỳ, tải bằng nút có trạng thái đang dựng"
@@ -2185,29 +2282,48 @@ epics:
           việc xếp hàng gửi email thuộc T15-02. Ngưỡng của loại "hồ sơ sắp hết hạn" không lưu riêng: đọc và ghi bảng cấu hình chung của T02-01 trong cùng giao dịch, tránh hai nguồn ngưỡng.
           Link của thông báo lấy từ bảng link chuẩn của T16-01. Ước 14 đến 16 giờ.
         viec: |
-          Tạo migration (bước đổi cấu trúc database, có bước quay lại) bảng notification_rules: loại thông báo, bật/tắt, vai nhận, người nhận chỉ định, kênh (trong ứng dụng / email),
-          ngưỡng và đơn vị, giờ gửi, ngày gửi trong tuần, số lần thử lại tối đa, hiệu lực từ ngày, người tạo, thời điểm, dòng thay thế. Ràng buộc kiểm ở database: loại thông báo thuộc 6 loại,
-          kênh là tập con của hai kênh, số lần thử lại từ 1 đến 3, ngưỡng ngày từ 1 đến 365, giờ gửi trong 02:00–10:00 giờ Nhật (riêng lỗi xuất dữ liệu tới 11:30).
-          Thêm ràng buộc kiểm cho cột loại và cột kênh của bảng thông báo (6 loại, 2 kênh). Dữ liệu mẫu đủ 6 quy tắc mặc định: hồ sơ sắp hết hạn (vai tiếp nhận và quản trị hệ thống, ngưỡng theo bảng cấu hình chung, 08:00, hai kênh);
-          tranh chấp mở (đối soát và giao hàng, gửi ngay, hai kênh); điều chỉnh chờ duyệt (đối soát, gửi ngay, hai kênh); lỗi xuất dữ liệu (quản trị hệ thống và đối soát, 11:00, hai kênh);
-          giao hàng tồn đọng (giao hàng và đối soát, 09:30, trong ứng dụng); kỳ thưởng đã chốt (đối soát và quản trị quy tắc, gửi ngay, hai kênh).
-          API GET trả 6 dòng hiệu lực kèm danh sách vai và người dùng còn hoạt động; API POST tạo phiên bản mới trong một giao dịch database, bắt lý do, từ chối khi dòng cơ sở đã bị thay thế,
-          nhận khoá chống gửi trùng (Idempotency-Key, cùng khoá trong 5 phút chỉ tạo một dòng), ghi nhật ký; với loại hồ sơ sắp hết hạn thì ghi ngưỡng vào bảng cấu hình chung của T02-01.
-          Viết hàm ghi thông báo dùng chung: nhận loại, tham số, tự dựng tiêu đề và nội dung tiếng Nhật từ mẫu câu cố định, lấy link từ bảng link chuẩn, lọc người nhận theo vai và người chỉ định
-          của quy tắc hiệu lực, quy tắc tắt thì không ghi, ghi một dòng mỗi người nhận và trả về danh sách mã dòng.
+          Issue cha, ước khoảng 20 giờ, quá trần 16 giờ một issue nên tách làm hai issue con bên dưới: T15-01.1-bang-quy-tac-co-phien-ban-va-api-luu rồi T15-01.2-ham-ghi-thong-bao-dung-chung.
+          Bối cảnh ở trên dùng chung cho hai issue con; tiêu chí xong của từng phần nằm ở issue con.
         tieu_chi_xong:
-          - "GET trả đúng 6 dòng sau khi đặt lại dữ liệu mẫu, mỗi loại một dòng, loại kỳ thưởng đã chốt có vai đối soát và quản trị quy tắc"
-          - "Tạo quy tắc với số lần thử lại 4, ngưỡng 0 hoặc 366 ngày, loại thứ 7, kênh lạ: database từ chối từng ca; số lần thử lại 3 và ngưỡng 365 được nhận"
-          - "Lưu quy tắc không có lý do bị từ chối; lưu hợp lệ thì có dòng mới, dòng cũ có cột thay thế bởi trỏ sang dòng mới, cả hai còn trong bảng"
-          - "Hai người cùng lưu từ cùng một dòng cơ sở: người sau nhận lỗi đã có bản mới, không có hai dòng hiệu lực cho cùng loại; gửi lại cùng Idempotency-Key trong 5 phút chỉ tạo một dòng"
-          - "Lưu ngưỡng hồ sơ sắp hết hạn 45: bảng cấu hình chung của T02-01 thành 45 trong cùng giao dịch; bộ lọc sắp hết hạn ở SCR-05 đổi theo"
-          - "Gọi hàm ghi thông báo loại tranh chấp mở với dữ liệu mẫu có 3 người thuộc hai vai nhận: bảng thông báo có 3 dòng, link là /settlement kèm ngày đúng bảng link chuẩn; tắt quy tắc rồi gọi lại: 0 dòng"
-          - "Vai đối soát gọi API POST nhận lỗi quyền; nhật ký có dòng với giá trị trước và sau và lý do"
+          - Hai issue con đã đóng, mọi tiêu chí xong của chúng đạt trên cùng một bản deploy
         file_cham:
           - supabase/schema.sql (bảng notification_rules, ràng buộc kiểm notifications.kind và channel)
           - supabase/seed.sql (6 quy tắc mặc định)
           - src/app/api/admin/notification-rules/route.ts (mới)
           - src/lib/notifications/create.ts (mới, hàm ghi thông báo và mẫu câu)
+        con:
+          - key: T15-01.1-bang-quy-tac-co-phien-ban-va-api-luu
+            title: "Bảng quy tắc thông báo có phiên bản, 6 quy tắc mặc định và API lưu quy tắc"
+            labels: [nguon:moi, doi:be]
+            boi_canh: |
+              Issue con của T15-01-bang-quy-tac-va-ham-sinh-thong-bao; đọc bối cảnh ở issue cha.
+            viec: |
+              Tạo migration (có bước quay lại) bảng notification_rules: loại thông báo, bật/tắt, vai nhận, người nhận chỉ định, kênh (trong ứng dụng / email), ngưỡng và đơn vị, giờ gửi, ngày gửi trong tuần, số lần thử lại tối đa, hiệu lực từ ngày, người tạo, thời điểm, dòng thay thế. Ràng buộc kiểm ở database: loại thuộc 6 loại, kênh là tập con của hai kênh, số lần thử lại từ 1 đến 3, ngưỡng ngày từ 1 đến 365, giờ gửi trong 02:00–10:00 giờ Nhật (riêng lỗi xuất dữ liệu tới 11:30). Thêm ràng buộc kiểm cho cột loại và cột kênh của bảng thông báo. Dữ liệu mẫu đủ 6 quy tắc mặc định như mô tả issue cha. API GET trả 6 dòng hiệu lực kèm danh sách vai và người dùng còn hoạt động; API POST tạo phiên bản mới trong một giao dịch database, bắt lý do, từ chối khi dòng cơ sở đã bị thay thế, nhận khoá chống gửi trùng (Idempotency-Key, cùng khoá trong 5 phút chỉ tạo một dòng), ghi nhật ký; với loại hồ sơ sắp hết hạn thì ghi ngưỡng vào bảng cấu hình chung của T02-01.
+            tieu_chi_xong:
+              - "GET trả đúng 6 dòng sau khi đặt lại dữ liệu mẫu, mỗi loại một dòng, loại kỳ thưởng đã chốt có vai đối soát và quản trị quy tắc"
+              - "Tạo quy tắc với số lần thử lại 4, ngưỡng 0 hoặc 366 ngày, loại thứ 7, kênh lạ: database từ chối từng ca; số lần thử lại 3 và ngưỡng 365 được nhận"
+              - "Lưu quy tắc không có lý do bị từ chối; lưu hợp lệ thì có dòng mới, dòng cũ có cột thay thế bởi trỏ sang dòng mới, cả hai còn trong bảng"
+              - "Hai người cùng lưu từ cùng một dòng cơ sở: người sau nhận lỗi đã có bản mới, không có hai dòng hiệu lực cho cùng loại; gửi lại cùng Idempotency-Key trong 5 phút chỉ tạo một dòng"
+              - "Lưu ngưỡng hồ sơ sắp hết hạn 45: bảng cấu hình chung của T02-01 thành 45 trong cùng giao dịch; bộ lọc sắp hết hạn ở SCR-05 đổi theo"
+              - "Vai đối soát gọi API POST nhận lỗi quyền; nhật ký có dòng với giá trị trước và sau và lý do"
+            file_cham:
+              - "supabase/schema.sql (bảng notification_rules, ràng buộc kiểm notifications.kind và channel)"
+              - "supabase/seed.sql (6 quy tắc mặc định)"
+              - "src/app/api/admin/notification-rules/route.ts (mới)"
+          - key: T15-01.2-ham-ghi-thong-bao-dung-chung
+            title: "Hàm ghi thông báo dùng chung theo quy tắc hiệu lực, mẫu câu tiếng Nhật và bảng link chuẩn"
+            labels: [nguon:moi, doi:be]
+            lam_sau: [T15-01.1-bang-quy-tac-co-phien-ban-va-api-luu]
+            boi_canh: |
+              Issue con của T15-01-bang-quy-tac-va-ham-sinh-thong-bao; đọc bối cảnh ở issue cha.
+            viec: |
+              Viết hàm ghi thông báo dùng chung: nhận loại, tham số, tự dựng tiêu đề và nội dung tiếng Nhật từ mẫu câu cố định, lấy link từ bảng link chuẩn (T16-01), lọc người nhận theo vai và người chỉ định của quy tắc hiệu lực, quy tắc tắt thì không ghi, ghi một dòng mỗi người nhận và trả về danh sách mã dòng.
+            tieu_chi_xong:
+              - "Gọi hàm ghi thông báo loại tranh chấp mở với dữ liệu mẫu có 3 người thuộc hai vai nhận: bảng thông báo có 3 dòng, link là /settlement kèm ngày đúng bảng link chuẩn; tắt quy tắc rồi gọi lại: 0 dòng"
+              - "Quy tắc có một người chỉ định không thuộc vai nhận: người đó vẫn nhận đúng một dòng; người vừa thuộc vai vừa được chỉ định không nhận hai dòng"
+              - "Tiêu đề và nội dung là câu tiếng Nhật dựng từ mẫu cố định, không chứa mã thô như UUID hay tên loại tiếng Anh"
+            file_cham:
+              - "src/lib/notifications/create.ts (mới, hàm ghi thông báo và mẫu câu)"
 
       - key: T15-02-gui-email-co-thu-lai-va-hang-doi-het-luot
         title: "Gửi email thật có thử lại tối đa 3 lần rồi chuyển vào hàng đợi cảnh báo"
@@ -2218,29 +2334,54 @@ epics:
           trạng thái chờ gửi / đã gửi / lỗi / hết lượt (dead_letter, tức đã thử đủ mà vẫn hỏng), số lần thử lại, thời điểm thử tiếp, mã lỗi chuẩn hoá, nguyên văn lỗi nhà cung cấp (chỉ quản trị thấy), cờ "gửi thử".
           Đếm thử lại: lần gửi đầu không tính; hỏng thì thử lại tối đa 3 lần (theo trần của phiên bản quy tắc lúc xếp hàng), cách lần hỏng trước 1, 5, 30 phút; hỏng ở lần thử lại cuối thì hết lượt.
           Chỗ tự quyết: nhà cung cấp email cấu hình qua biến môi trường, không ghi tên cố định; thiếu cấu hình thì dòng gửi thành lỗi có mã rõ, thao tác nghiệp vụ đã sinh thông báo không hỏng.
-          Tác vụ theo lịch (job) dùng hàm kiểm khoá và tài liệu lịch chạy của T14-06. Ước 18 đến 20 giờ; khi vào sprint có thể tách phần gọi nhà cung cấp email thành issue con.
+          Tác vụ theo lịch (job) dùng hàm kiểm khoá và tài liệu lịch chạy của T14-06.
         viec: |
-          Tạo migration bảng notification_deliveries với ràng buộc kiểm trạng thái, kênh, số lần thử lại từ 0 đến 3; chỉ mục theo trạng thái và thời điểm thử tiếp.
-          Mở rộng hàm ghi thông báo của T15-01: sau khi ghi thông báo, tạo một dòng chờ gửi cho mỗi người nhận × kênh, ghi mã phiên bản quy tắc lúc xếp.
-          Viết job gửi qua đường API nội bộ, lịch pg_cron mỗi phút: lấy dòng chờ gửi tới hạn; kênh trong ứng dụng thì đánh dấu đã gửi ngay; kênh email gọi nhà cung cấp cấu hình bằng biến môi trường;
-          hỏng thì tăng số lần thử lại và đặt thời điểm thử tiếp theo khoảng cách 1/5/30 phút; hỏng khi đã dùng hết số lần thử lại thì chuyển hết lượt; dòng đang xử lý quá 15 phút không ai kết thúc thì đưa lại hàng đợi.
-          Dòng hết lượt thì gọi hàm ghi thông báo loại "lỗi xuất dữ liệu" cho vai quản trị; thông báo sinh từ lỗi gửi không sinh tiếp thông báo lỗi gửi khác.
-          Dòng có cờ gửi thử bị loại khỏi mọi thống kê. Thêm dòng lịch job vào docs/job-lich-chay.md và cách cấu hình nhà cung cấp email.
+          Issue cha, ước 18–20 giờ, quá trần 16 giờ một issue nên tách làm hai issue con bên dưới: T15-02.1-xep-hang-gui-va-job-gui-lan-dau rồi T15-02.2-thu-lai-het-luot-va-dong-treo.
+          Bối cảnh ở trên dùng chung cho hai issue con; tiêu chí xong của từng phần nằm ở issue con.
         tieu_chi_xong:
-          - "Ghi một thông báo loại tranh chấp mở với quy tắc 2 vai nhận, 2 kênh, dữ liệu mẫu có 3 người thuộc 2 vai: bảng log có 6 dòng chờ gửi, mỗi dòng ghi mã phiên bản quy tắc"
-          - "Giả lập nhà cung cấp email luôn trả lỗi: dòng email được gửi tổng cộng 4 lần (1 lần đầu + 3 thử lại), thời điểm thử tiếp cách lần hỏng trước lần lượt 1, 5, 30 phút, rồi chuyển hết lượt; dòng trong ứng dụng đã gửi ngay lần đầu"
-          - "Nhà cung cấp hỏng lần đầu, thành công ở lần thử lại thứ nhất: dòng là đã gửi, số lần thử lại 1, không thử thêm"
-          - "Quy tắc có số lần thử lại tối đa 1: dòng hết lượt sau 2 lần gửi; màn hàng đợi (T15-06) hiện 1/1 theo phiên bản lúc xếp dù quy tắc hiện hành đã đổi thành 3"
-          - "Không cấu hình nhà cung cấp: dòng email lỗi với mã chưa cấu hình nhà cung cấp, thao tác tạo tranh chấp vẫn thành công"
-          - "Có dòng đang xử lý để 16 phút không ai kết thúc: job đưa lại hàng đợi và gửi được"
-          - "Dòng hết lượt sinh đúng một thông báo lỗi xuất dữ liệu cho vai quản trị; giả lập chính thông báo đó cũng hết lượt thì không sinh thêm thông báo nào"
-          - "Gọi đường job không kèm khoá đúng nhận lỗi quyền; email thử gửi tới địa chỉ mẫu trong dữ liệu thử, không có địa chỉ thật trong repo; lịch hiện trong danh sách pg_cron"
+          - Hai issue con đã đóng, mọi tiêu chí xong của chúng đạt trên cùng một bản deploy
         file_cham:
           - supabase/schema.sql (bảng notification_deliveries, ràng buộc, chỉ mục, lịch pg_cron)
           - src/lib/notifications/create.ts (xếp hàng gửi sau khi ghi)
           - src/lib/notifications/email-provider.ts (mới, đọc cấu hình từ biến môi trường)
           - src/app/api/jobs/send-notifications/route.ts (mới, đường job)
           - docs/job-lich-chay.md (thêm dòng)
+        con:
+          - key: T15-02.1-xep-hang-gui-va-job-gui-lan-dau
+            title: "Xếp hàng gửi thông báo theo người nhận và kênh, job gửi lần đầu qua nhà cung cấp email cấu hình bằng biến môi trường"
+            labels: [nguon:moi, doi:be]
+            boi_canh: |
+              Issue con của T15-02-gui-email-co-thu-lai-va-hang-doi-het-luot; đọc bối cảnh ở issue cha.
+            viec: |
+              Tạo migration bảng notification_deliveries với ràng buộc kiểm trạng thái, kênh, số lần thử lại từ 0 đến 3; chỉ mục theo trạng thái và thời điểm thử tiếp. Mở rộng hàm ghi thông báo của T15-01.2: sau khi ghi thông báo, tạo một dòng chờ gửi cho mỗi người nhận × kênh, ghi mã phiên bản quy tắc lúc xếp. Viết job gửi qua đường API nội bộ, lịch pg_cron mỗi phút: lấy dòng chờ gửi tới hạn; kênh trong ứng dụng thì đánh dấu đã gửi ngay; kênh email gọi nhà cung cấp cấu hình bằng biến môi trường. Dòng có cờ gửi thử bị loại khỏi mọi thống kê. Thêm dòng lịch job vào docs/job-lich-chay.md và cách cấu hình nhà cung cấp email.
+            tieu_chi_xong:
+              - "Ghi một thông báo loại tranh chấp mở với quy tắc 2 vai nhận, 2 kênh, dữ liệu mẫu có 3 người thuộc 2 vai: bảng log có 6 dòng chờ gửi, mỗi dòng ghi mã phiên bản quy tắc"
+              - "Không cấu hình nhà cung cấp: dòng email lỗi với mã chưa cấu hình nhà cung cấp, thao tác tạo tranh chấp vẫn thành công"
+              - "Gọi đường job không kèm khoá đúng nhận lỗi quyền; email thử gửi tới địa chỉ mẫu trong dữ liệu thử, không có địa chỉ thật trong repo; lịch hiện trong danh sách pg_cron"
+            file_cham:
+              - "supabase/schema.sql (bảng notification_deliveries, ràng buộc, chỉ mục, lịch pg_cron)"
+              - "src/lib/notifications/create.ts (xếp hàng gửi sau khi ghi)"
+              - "src/lib/notifications/email-provider.ts (mới, đọc cấu hình từ biến môi trường)"
+              - "src/app/api/jobs/send-notifications/route.ts (mới, đường job)"
+              - "docs/job-lich-chay.md (thêm dòng)"
+          - key: T15-02.2-thu-lai-het-luot-va-dong-treo
+            title: "Thử lại gửi email theo nhịp 1, 5, 30 phút, chuyển hết lượt, đưa lại dòng treo và báo quản trị"
+            labels: [nguon:moi, doi:be]
+            lam_sau: [T15-02.1-xep-hang-gui-va-job-gui-lan-dau]
+            boi_canh: |
+              Issue con của T15-02-gui-email-co-thu-lai-va-hang-doi-het-luot; đọc bối cảnh ở issue cha.
+            viec: |
+              Gửi hỏng thì tăng số lần thử lại và đặt thời điểm thử tiếp theo khoảng cách 1/5/30 phút; hỏng khi đã dùng hết số lần thử lại của phiên bản quy tắc lúc xếp thì chuyển hết lượt; dòng đang xử lý quá 15 phút không ai kết thúc thì đưa lại hàng đợi. Dòng hết lượt thì gọi hàm ghi thông báo loại "lỗi xuất dữ liệu" cho vai quản trị; thông báo sinh từ lỗi gửi không sinh tiếp thông báo lỗi gửi khác.
+            tieu_chi_xong:
+              - "Giả lập nhà cung cấp email luôn trả lỗi: dòng email được gửi tổng cộng 4 lần (1 lần đầu + 3 thử lại), thời điểm thử tiếp cách lần hỏng trước lần lượt 1, 5, 30 phút, rồi chuyển hết lượt; dòng trong ứng dụng đã gửi ngay lần đầu"
+              - "Nhà cung cấp hỏng lần đầu, thành công ở lần thử lại thứ nhất: dòng là đã gửi, số lần thử lại 1, không thử thêm"
+              - "Quy tắc có số lần thử lại tối đa 1: dòng hết lượt sau 2 lần gửi; màn hàng đợi (T15-06) hiện 1/1 theo phiên bản lúc xếp dù quy tắc hiện hành đã đổi thành 3"
+              - "Có dòng đang xử lý để 16 phút không ai kết thúc: job đưa lại hàng đợi và gửi được"
+              - "Dòng hết lượt sinh đúng một thông báo lỗi xuất dữ liệu cho vai quản trị; giả lập chính thông báo đó cũng hết lượt thì không sinh thêm thông báo nào"
+            file_cham:
+              - "src/lib/notifications/create.ts (xếp hàng gửi sau khi ghi)"
+              - "src/lib/notifications/email-provider.ts (mới, đọc cấu hình từ biến môi trường)"
+              - "src/app/api/jobs/send-notifications/route.ts (mới, đường job)"
 
       - key: T15-03-sinh-thong-bao-tu-ba-su-kien-tuc-thoi
         title: "Sinh thông báo thật khi mở tranh chấp, gửi yêu cầu điều chỉnh và chốt kỳ thưởng"
@@ -2329,28 +2470,50 @@ epics:
           (dữ liệu cá nhân và nhật ký kỹ thuật theo APPI, luật bảo vệ thông tin cá nhân của Nhật). Lớp nặng nhất là API: đường đọc có bộ đếm và phân trang bằng con trỏ
           (đánh dấu vị trí trang: nhớ dòng cuối của trang trước), đường gửi lại theo lô xử lý từng dòng trong giao dịch riêng, đường đóng thủ công bắt lý do và ghi nhật ký; màn đi kèm.
           Không hiện nội dung thông báo trên màn này, chỉ tiêu đề. Ô tìm kiếm truyền chuỗi như tham số theo cách của T04-05. Hộp thoại dùng thành phần chung của INC-10.
-          Ước 20 giờ; khi vào sprint tách API đọc và bộ đếm thành issue con, giữ tổng nhóm trong trần.
         viec: |
-          API đọc /api/admin/notification-queue: lọc theo trạng thái (mặc định hết lượt), loại, kênh, ngày, chuỗi tìm (truyền như tham số, cách của T04-05); trả dòng kèm tiêu đề thông báo, email và vai người nhận,
-          số lần thử lại trên trần của phiên bản quy tắc lúc xếp, mã lỗi, nguyên văn lỗi, thời điểm thử cuối và thử tiếp; bộ đếm: hết lượt chưa đóng, đang chờ thử lại, đã gửi hôm nay,
-          tỷ lệ thành công 7 ngày (chỉ tính đã gửi và hết lượt, loại dòng gửi thử); sắp loại lỗi xuất dữ liệu lên đầu, rồi kênh trong ứng dụng hỏng, rồi mới nhất; phân trang con trỏ 100 dòng, trần 500.
-          API gửi lại: nhận tối đa 50 mã, mỗi dòng một giao dịch database: đặt lại số lần thử lại về 0, thời điểm thử tiếp là bây giờ, trả kết quả từng dòng; người nhận đã bị khoá thì dòng đó báo lỗi, không gửi.
-          API đóng thủ công: lý do bắt buộc, ghi người và thời điểm đóng, ghi nhật ký. Trang /admin/notification-queue: bộ lọc, bảng, chọn nhiều dòng để gửi lại, hộp thoại đóng thủ công, nút khoá khi đang gửi.
-          Menu cho vai quản trị hệ thống; vai khác thấy trang 403.
+          Issue cha, ước 20 giờ, quá trần 16 giờ một issue nên tách làm hai issue con bên dưới: T15-06.1-api-doc-bo-dem-va-man-danh-sach-hang-doi rồi T15-06.2-gui-lai-theo-lo-va-dong-thu-cong.
+          Bối cảnh ở trên dùng chung cho hai issue con; tiêu chí xong của từng phần nằm ở issue con.
         tieu_chi_xong:
-          - "Dữ liệu thử có 7 dòng hết lượt, 2 đang chờ thử lại, 3 dòng gửi thử hỏng: mở màn thấy 7 dòng, bộ đếm hết lượt 7, dòng gửi thử không xuất hiện và không vào tỷ lệ"
-          - "Tỷ lệ 7 ngày với 97 đã gửi và 3 hết lượt hiện 97,0%; dòng đang chờ thử lại không làm đổi con số"
-          - "Gửi lại 2 dòng, một dòng có người nhận đã khoá: màn hiện một dòng thành công (số lần thử lại về 0, trạng thái chờ gửi), một dòng lỗi kèm lý do bằng chữ; nhật ký có hai dòng"
-          - "Chọn 51 dòng rồi bấm gửi lại: bị chặn ngay trên màn với thông điệp nêu trần 50"
-          - "Đóng thủ công không ghi lý do: nút không bấm được; có lý do thì dòng biến khỏi danh sách mặc định, bộ đếm giảm 1, nhật ký có dòng kèm lý do"
-          - "Gõ chuỗi tìm chứa ký tự lạ (dấu ngoặc, dấu phẩy): API tìm chúng như chữ thường, không lỗi 500; vai đối soát gọi API nhận lỗi quyền và gõ đường dẫn thấy trang 403"
-          - "Dòng loại lỗi xuất dữ liệu luôn ở đầu danh sách dù mới hơn hay cũ hơn dòng khác; trang thứ hai (con trỏ) không lặp dòng của trang đầu"
+          - Hai issue con đã đóng, mọi tiêu chí xong của chúng đạt trên cùng một bản deploy
         file_cham:
           - src/app/api/admin/notification-queue/route.ts (mới)
           - src/app/api/admin/notification-queue/retry/route.ts (mới)
           - src/app/api/admin/notification-queue/[id]/resolve/route.ts (mới)
           - src/app/(app)/admin/notification-queue/page.tsx (mới)
           - src/lib/roles.ts (mục menu)
+        con:
+          - key: T15-06.1-api-doc-bo-dem-va-man-danh-sach-hang-doi
+            title: "API đọc hàng đợi cảnh báo có bộ đếm và màn danh sách cho quản trị hệ thống"
+            labels: [nguon:moi, doi:be]
+            boi_canh: |
+              Issue con của T15-06-man-hang-doi-canh-bao-va-api-xu-ly; đọc bối cảnh ở issue cha.
+            viec: |
+              API đọc /api/admin/notification-queue: lọc theo trạng thái (mặc định hết lượt), loại, kênh, ngày, chuỗi tìm (truyền như tham số, cách của T04-05); trả dòng kèm tiêu đề thông báo, email và vai người nhận, số lần thử lại trên trần của phiên bản quy tắc lúc xếp, mã lỗi, nguyên văn lỗi, thời điểm thử cuối và thử tiếp; bộ đếm: hết lượt chưa đóng, đang chờ thử lại, đã gửi hôm nay, tỷ lệ thành công 7 ngày (chỉ tính đã gửi và hết lượt, loại dòng gửi thử); sắp loại lỗi xuất dữ liệu lên đầu, rồi kênh trong ứng dụng hỏng, rồi mới nhất; phân trang con trỏ 100 dòng, trần 500. Trang /admin/notification-queue: bộ lọc, bảng, bộ đếm. Menu cho vai quản trị hệ thống; vai khác thấy trang 403.
+            tieu_chi_xong:
+              - "Dữ liệu thử có 7 dòng hết lượt, 2 đang chờ thử lại, 3 dòng gửi thử hỏng: mở màn thấy 7 dòng, bộ đếm hết lượt 7, dòng gửi thử không xuất hiện và không vào tỷ lệ"
+              - "Tỷ lệ 7 ngày với 97 đã gửi và 3 hết lượt hiện 97,0%; dòng đang chờ thử lại không làm đổi con số"
+              - "Gõ chuỗi tìm chứa ký tự lạ (dấu ngoặc, dấu phẩy): API tìm chúng như chữ thường, không lỗi 500; vai đối soát gọi API nhận lỗi quyền và gõ đường dẫn thấy trang 403"
+              - "Dòng loại lỗi xuất dữ liệu luôn ở đầu danh sách dù mới hơn hay cũ hơn dòng khác; trang thứ hai (con trỏ) không lặp dòng của trang đầu"
+            file_cham:
+              - "src/app/api/admin/notification-queue/route.ts (mới)"
+              - "src/app/(app)/admin/notification-queue/page.tsx (mới)"
+              - "src/lib/roles.ts (mục menu)"
+          - key: T15-06.2-gui-lai-theo-lo-va-dong-thu-cong
+            title: "Gửi lại theo lô và đóng thủ công thông báo gửi hỏng trên màn hàng đợi"
+            labels: [nguon:moi, doi:fe]
+            lam_sau: [T15-06.1-api-doc-bo-dem-va-man-danh-sach-hang-doi]
+            boi_canh: |
+              Issue con của T15-06-man-hang-doi-canh-bao-va-api-xu-ly; đọc bối cảnh ở issue cha.
+            viec: |
+              API gửi lại: nhận tối đa 50 mã, mỗi dòng một giao dịch database: đặt lại số lần thử lại về 0, thời điểm thử tiếp là bây giờ, trả kết quả từng dòng; người nhận đã bị khoá thì dòng đó báo lỗi, không gửi. API đóng thủ công: lý do bắt buộc, ghi người và thời điểm đóng, ghi nhật ký. Trên màn: chọn nhiều dòng để gửi lại, hộp thoại đóng thủ công (thành phần chung của INC-10), nút khoá khi đang gửi.
+            tieu_chi_xong:
+              - "Gửi lại 2 dòng, một dòng có người nhận đã khoá: màn hiện một dòng thành công (số lần thử lại về 0, trạng thái chờ gửi), một dòng lỗi kèm lý do bằng chữ; nhật ký có hai dòng"
+              - "Chọn 51 dòng rồi bấm gửi lại: bị chặn ngay trên màn với thông điệp nêu trần 50"
+              - "Đóng thủ công không ghi lý do: nút không bấm được; có lý do thì dòng biến khỏi danh sách mặc định, bộ đếm giảm 1, nhật ký có dòng kèm lý do"
+            file_cham:
+              - "src/app/api/admin/notification-queue/retry/route.ts (mới)"
+              - "src/app/api/admin/notification-queue/[id]/resolve/route.ts (mới)"
+              - "src/app/(app)/admin/notification-queue/page.tsx (mới)"
 
   - key: E-T16
     title: "Hộp thông báo trong ứng dụng: link mở đúng màn, số chưa đọc đếm ở máy chủ, lọc và phân trang"
