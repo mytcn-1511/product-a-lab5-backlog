@@ -11,7 +11,7 @@
 5. Đổi điểm ra giờ bằng hệ số **k = 2,51 giờ/SWP**, lấy từ 15 issue người phụ trách tự ước trước khi chạy skill (248 giờ ÷ 99 SWP).
 6. Issue ước tay giữ số tay; issue còn lại = SWP × k, làm tròn 0,5 giờ; issue cha bằng tổng con.
 7. Tổng giờ toàn backlog: **1.555,5 giờ ≈ 222 ngày công** (1 ngày công = 7 giờ), chưa gồm QA chạy kiểm thử riêng.
-8. So với LAB-1, phần chức năng tăng từ 1.092 giờ lên 1.384 giờ. Tỷ trọng tăng mạnh nhất ở thông báo, thưởng và xác thực; giảm nhiều nhất ở giao nhận, giao dịch và phiên bản tỷ lệ, nơi prototype đã làm sẵn.
+8. So với LAB-1, phần chức năng và nền tảng chung tăng từ 1.225 giờ lên 1.474 giờ. Tỷ trọng tăng mạnh nhất ở thông báo, thưởng và xác thực; giảm nhiều nhất ở nền tảng chung, giao nhận và phiên bản tỷ lệ, nơi prototype đã làm sẵn.
 9. Số SWP và giờ đã ghi lên Project bằng script; đọc lại từ Project khớp 100% với báo cáo HTML.
 10. Rủi ro chính: một mẫu (#7) có số giờ trên điểm cao gần gấp đôi trung bình, cho thấy skill có thể chấm nhẹ issue màn hình nhiều trạng thái.
 
@@ -22,6 +22,9 @@
 | k | Số giờ cho một SWP, tính từ bộ ước tay |
 | D-xx, Q-x | Dòng trong [PREMISE.md](PREMISE.md) |
 | FEAT-xx | Nhóm chức năng trong estimate LAB-1 |
+| Prototype | Bản mẫu chạy được làm ở LAB-3; LAB-5 chỉ chia việc cho phần còn thiếu hoặc lệch thiết kế |
+| Epic, issue lá, issue cha | Epic là nhóm việc lớn; issue lá là việc nhỏ nhất được chấm điểm; issue cha có issue con, điểm bằng tổng con |
+| QA, testcase | Kiểm thử viên; kịch bản kiểm thử |
 
 ## 1. Issue mẫu skill chọn để kiểm
 
@@ -30,12 +33,12 @@ Skill chọn 5 issue theo quy tắc cố định (điểm thấp nhất, điểm
 | Issue | Vì sao được chọn | Skill chấm (Scope × Complexity → SWP) | Người duyệt chốt | Lý do |
 |---|---|---|---|---|
 | #60 INC-01 Đặc tả file CSV ngày thanh toán | Điểm thấp nhất | 1 × 0 → 1 | 1 (giữ) | Chỉ là một tài liệu đặc tả, không có mã; mức rất dễ đúng với việc |
-| #74 INC-12 Ngày hiệu lực tỷ lệ theo kỳ | Điểm giữa | 3 × 2 → 5 | 5 (giữ) | Ba chỗ sửa (API, hàm database, ô chọn tháng) và một quy tắc chặn kỳ đã chốt; mức dễ là hợp lý |
-| #123 X02-03 Đăng ký xác thực hai lớp | Điểm cao nhất | 5 × 3 → 10 | 10 (giữ) | Chạm database, API, hai màn và dịch vụ xác thực bên ngoài; 10 SWP là đầu trên của mức vừa |
-| #3 T10-02 Duyệt và mở lại yêu cầu điều chỉnh | Ngoại lệ | 5 × 3 → 10 | 10 (giữ) | Duyệt đồng thời, khoá lô, làm tròn tiền, nhật ký cùng giao dịch; độ khó đúng mức |
+| #74 INC-12 Ngày hiệu lực tỷ lệ theo kỳ | Điểm giữa (trung vị dưới) | 3 × 2 → 5 | 5 (giữ) | Ba chỗ sửa (API, hàm database, ô chọn tháng) và một quy tắc chặn kỳ đã chốt; mức dễ là hợp lý |
+| #123 X02-03 Đăng ký xác thực hai lớp | Điểm cao nhất | 5 × 3 → 10 | 10 (giữ) | Chạm database, API, hai màn và dịch vụ xác thực bên ngoài; 10 SWP nằm trong mức vừa (6–12) |
+| #3 T10-02 Duyệt và mở lại yêu cầu điều chỉnh | Ngoại lệ: cách xa điểm giữa nhất trong các issue chưa được chọn | 5 × 3 → 10 | 10 (giữ) | Nhiều ràng buộc khó trên ít file: duyệt đồng thời, khoá lô, làm tròn tiền, nhật ký cùng giao dịch; độ khó đúng mức |
 | #7 T10-04.2 Form ba bước điều chỉnh | Độ tin cậy thấp nhất | 2 × 2 → 3 | 3 (giữ) | Hai file màn hình, gọi API của issue anh em; giữ theo khuyến nghị. Lưu ý: giờ ước tay cho issue này là 14 giờ, tức 4,7 giờ/SWP, cao gần gấp đôi k (xem phần 2) |
 
-Không sửa mẫu nào nên không có điểm lan sang issue tương tự; trạng thái hiệu chỉnh của báo cáo là "accepted".
+Không sửa mẫu nào nên không có điểm lan sang issue tương tự; trạng thái hiệu chỉnh của báo cáo là "accepted" (đã chấp nhận, không sửa).
 
 ## 2. Cách quy ra giờ
 
@@ -57,11 +60,73 @@ Không sửa mẫu nào nên không có điểm lan sang issue tương tự; tr�
 | Issue đã tách con sau khi ước | 6 | 138 | 49 | 2,82 |
 | Thấp nhất / cao nhất | — | — | — | 1,4 (#18) / 4,7 (#7) |
 
-- Issue người ước thấy to (vượt 16 giờ) có số giờ trên điểm cao hơn: skill chấm nhẹ hơn cảm nhận của người làm ở việc lớn.
+- Tính cả nhóm, issue người ước vượt 16 giờ có số giờ trên điểm cao hơn (2,82 so với 2,20). Xét từng issue thì không đều: #114 (20 giờ) chỉ 2,0, thấp hơn k; hai tỷ lệ cao nhất là #7 (4,7) và #65 (3,2), đều không vượt 16 giờ.
 - Chỉ có 1 mẫu QA (#128, 2,8 giờ/SWP) nên không đủ để tính k riêng cho QA; dùng chung k.
 - Giờ ước tay gồm cả tự kiểm theo tiêu chí xong, chưa gồm QA viết testcase và chạy kiểm thử riêng.
 
-### Bộ ước tay (ước "mù", trước khi chạy skill)
+- Bảng 15 issue ước tay và hai điều phát hiện khi ước nằm ở **Phụ lục A** cuối file.
+
+## 3. Tổng theo epic
+
+| Epic | Số issue lá | Tổng SWP | Tổng giờ | Ghi chú |
+|---|---|---|---|---|
+| E-T02 Bảng điều khiển đầu ca | 4 | 18 | 41 |  |
+| E-T03 Quản trị tài khoản | 3 | 17 | 42,5 |  |
+| E-T04 Tư cách tham gia thị trường | 8 | 48 | 109 |  |
+| E-T05 Lô hàng: nhận, thẩm định, công khai | 5 | 40 | 100 |  |
+| E-T06 Giao dịch: bán thoả thuận và đấu giá | 9 | 56 | 138 |  |
+| E-T08 Giao nhận nhiều đợt | 7 | 31 | 77 |  |
+| E-T09 Đối soát, khoá ngày, lịch chợ | 9 | 45 | 118 | Có #51 ước tay, đã tách 2 con |
+| E-T10 Điều chỉnh sau khoá sổ | 5 | 31 | 84 | Có #7 ước tay |
+| E-INC 完納奨励金 (thưởng thanh toán đủ hạn) | 16 | 64 | 163,5 | Có 1 issue ước tay (#65) |
+| E-T12 Phiên bản tỷ lệ thưởng | 3 | 25 | 53,5 |  |
+| E-T13 Nhật ký thao tác | 4 | 23 | 64 |  |
+| E-T14 Báo cáo và xuất dữ liệu | 10 | 50 | 125,5 | Có #88 ước tay, đã tách 2 con |
+| E-T15 Quy tắc và gửi thông báo | 10 | 60 | 155 | Có #105 ước tay, đã tách 2 con |
+| E-T16 Hộp thư thông báo | 3 | 14 | 35 |  |
+| E-X01 Nền tảng vận hành | 7 | 38 | 90 |  |
+| E-X02 Bảo mật và phân quyền | 5 | 30 | 78 |  |
+| E-X03 Kiểm thử và triển khai | 6 | 32 | 81,5 | Đội QA; chỉ 1 mẫu ước tay (#128) nên dùng chung k |
+| **Tổng** | **114** | **622** | **1.555,5** | Không gồm 10 câu hỏi khách E-X04 |
+
+## 4. So với estimate LAB-1
+
+LAB-1 ước theo vai (FE, BE, QA) cho 13 nhóm chức năng: FE + BE 156 ngày công, QA 45 ngày công. Giờ LAB-5 đã gồm tự kiểm nhưng không gồm QA chạy kiểm thử riêng, nên bảng chỉ so với phần FE + BE của LAB-1.
+Bảng gồm 13 nhóm chức năng và dòng nền tảng chung (共通基盤) của LAB-1. Để ngoài bảng: E-X03 kiểm thử và triển khai (81,5 giờ), vì LAB-1 tính phần này trong vai QA và hạ tầng; các khoản design, BrSE, PM, hạ tầng, sửa lỗi, dự phòng và kết nối kế toán của LAB-1, vì LAB-5 không chia chúng thành issue.
+
+**So theo tỷ trọng** (phần trăm trong tổng của cùng bảng) **và theo giờ:**
+
+| Phần | Epic LAB-5 | LAB-1 FE + BE, giờ (%) | LAB-5, giờ (%) | Chênh | Vì sao |
+|---|---|---|---|---|---|
+| FEAT-01 Xác thực, tài khoản | E-T03 + E-X02 | 56 (4,6%) | 120,5 (8,2%) | +64,5 giờ · +3,6 điểm phần trăm | LAB-1 bỏ sót ràng buộc nên tăng: xác thực hai lớp bắt buộc theo vai, giới hạn đăng nhập sai, chặn vai theo ma trận menu (D-11 trong thiết kế LAB-4) |
+| FEAT-02 Tư cách tham gia | E-T04 | 63 (5,1%) | 109 (7,4%) | +46 giờ · +2,3 điểm phần trăm | LAB-1 bỏ sót ràng buộc nên tăng: bốn trạng thái tư cách, ba đường gỡ tạm ngưng, xét lại; thêm lịch sử tư cách theo PREMISE Bảng 1 dòng D-45 |
+| FEAT-03 Nhận và thẩm định lô | E-T05 | 98 (8%) | 100 (6,8%) | +2 giờ · -1,2 điểm phần trăm | Prototype đã làm màn nhận lô và thẩm định nên giảm; thêm bước công khai lô theo PREMISE Bảng 3 dòng Q5 · D-29 |
+| FEAT-04 + 05 Giao dịch, đấu giá | E-T06 | 147 (12%) | 138 (9,4%) | -9 giờ · -2,6 điểm phần trăm | Prototype đã làm luồng giao dịch nên giảm; tăng lại phần nhỏ theo PREMISE Bảng 1 dòng D-41 (mã giao dịch) và D-42 (chờ xác nhận kết quả đấu giá) |
+| FEAT-06 Điều chỉnh sau khoá sổ | E-T10 | 63 (5,1%) | 84 (5,7%) | +21 giờ · +0,6 điểm phần trăm | LAB-1 bỏ sót ràng buộc nên tăng: chứng cứ đính kèm phải là tệp thật (luồng nháp, kho tệp riêng) |
+| FEAT-07 Giao nhận | E-T08 | 112 (9,1%) | 77 (5,2%) | -35 giờ · -3,9 điểm phần trăm | Prototype đã làm giao nhận nhiều đợt nên giảm; chỉ sửa theo PREMISE Bảng 1 dòng Q3 · D-14 và D-40 |
+| FEAT-08 Đối soát, khoá ngày | E-T09 + E-T02 | 112 (9,1%) | 159 (10,8%) | +47 giờ · +1,6 điểm phần trăm | Đổi tiền đề nên tăng: PREMISE Bảng 1 dòng D-43 (lịch chợ, job mở và đóng ngày) và Q4 · D-10 (khoá ngày chặn mềm). Bảng điều khiển đầu ca (E-T02) xếp vào đây vì LAB-1 tính nó trong nhóm đối soát |
+| FEAT-09 完納奨励金 | E-INC | 84 (6,9%) | 163,5 (11,1%) | +79,5 giờ · +4,2 điểm phần trăm | Đổi tiền đề nên tăng: PREMISE Bảng 2 dòng Q2 · D-08 (bảng tiền về, nhập CSV), Bảng 1 dòng Q6 · D-39 (cột loại bên mua) và D-44 (đẩy chênh lệch sang kỳ mở). Lưu ý LAB-1 còn tính riêng 77 giờ kết nối kế toán và chuyển dữ liệu, trùng một phần với việc nhập CSV ở đây |
+| FEAT-10 Báo cáo | E-T14 | 126 (10,3%) | 125,5 (8,5%) | -0,5 giờ · -1,8 điểm phần trăm | Prototype đã làm 2 báo cáo nên giảm, bù lại LAB-1 bỏ sót ràng buộc sinh sẵn báo cáo ngày trước 11:00 và chống chèn công thức vào CSV nên tăng; kết quả gần bằng |
+| FEAT-11 Nhật ký thao tác | E-T13 | 63 (5,1%) | 64 (4,3%) | +1 giờ · -0,8 điểm phần trăm | Prototype đã có màn nhật ký nên giảm, bù lại LAB-1 bỏ sót ràng buộc tra theo mã giao dịch và ghi vết mỗi lần tra (luật bảo vệ dữ liệu cá nhân của Nhật) nên tăng; kết quả gần bằng |
+| FEAT-12 Thông báo | E-T15 + E-T16 | 91 (7,4%) | 190 (12,9%) | +99 giờ · +5,5 điểm phần trăm | LAB-1 bỏ sót ràng buộc vận hành nên tăng: gửi email thật, thử lại tối đa 3 lần, hàng đợi cảnh báo, quy tắc có phiên bản |
+| FEAT-13 Phiên bản tỷ lệ | E-T12 | 77 (6,3%) | 53,5 (3,6%) | -23,5 giờ · -2,7 điểm phần trăm | Prototype đã có màn quản trị tỷ lệ nên giảm; LAB-5 chỉ sửa chỗ lệch |
+| Nền tảng chung (共通基盤) | E-X01 | 133 (10,9%) | 90 (6,1%) | -43 giờ · -4,8 điểm phần trăm | Prototype đã có khung ứng dụng nên giảm; LAB-5 chỉ thêm bảng mã lỗi chung, kiểm biến môi trường, sao lưu, hàng đợi mất mạng cho một màn |
+| **Tổng** | | **1.225** | **1.474** | **+249 giờ** | |
+
+Tổng LAB-5 lớn hơn LAB-1 khoảng 20%, nên một phần giữ nguyên số giờ vẫn hiện tỷ trọng giảm (ví dụ báo cáo, nhật ký).
+
+**So giờ trực tiếp** (chỉ hai gói báo cáo và thông báo, theo cách so đã chốt ngày 15/10 trong báo cáo brainstorm LAB-5):
+
+| Gói | LAB-1 FE + BE | LAB-1 có QA | LAB-5 | Nhận xét |
+|---|---|---|---|---|
+| T-14 Báo cáo (FEAT-10) | 126 giờ | 154 giờ | 125,5 giờ | Gần như bằng nhau |
+| T-15 Thông báo (FEAT-12) | 91 giờ | 119 giờ | 155 giờ (190 giờ nếu gộp hộp thư E-T16) | Tăng khoảng 70–110%: LAB-1 chưa tính gửi email thật, thử lại và hàng đợi cảnh báo |
+
+## Câu chờ quyết
+
+- **#7 có nên chấm lại không?** Giờ trên điểm của #7 cao gần gấp đôi k. Nếu người duyệt nâng #7 lên 4 hoặc 5 SWP thì skill sẽ lan sang các issue màn hình cùng nhóm. Hiện giữ nguyên theo khuyến nghị; đổi sau phải chạy lại skill và ghi lý do (khuyến nghị: giữ, vì k đã hấp thụ chênh lệch qua bộ ước tay).
+
+## Phụ lục A — Bộ ước tay (ước "mù", trước khi chạy skill)
 
 **Kết luận.** Người phụ trách tự ước giờ cho 15 issue ngày 21/10/2026, chỉ dựa trên nội dung issue, chưa thấy điểm SWP nào. Tổng 248 giờ.
 Bộ giờ này là gốc để quy điểm SWP ra giờ cho toàn backlog. File được commit trước lần chạy skill đầu tiên; thời điểm commit là bằng chứng thứ tự.
@@ -96,59 +161,3 @@ Bộ giờ này là gốc để quy điểm SWP ra giờ cho toàn backlog. File
    Backlog sau khi tách: 124 việc nhỏ nhất, 114 được chấm điểm.
 2. **Một issue mẫu có sẵn số giờ do AI ghi trong thân:** #124 ghi "ước lượng gần 16 giờ". Người ước đã thấy số này và cộng thêm 2 giờ kèm lý do (ghi chú dòng #124). Các issue mẫu khác không có số giờ trong thân.
    Xử lý: gỡ mọi số giờ do AI ghi khỏi thân issue (#124, X01-05, T15-03 và câu "ước … giờ" ở 7 issue cha tách đợt trước) trước khi chạy skill, để skill và người chấm không bị neo theo số đó.
-
-## 3. Tổng theo epic
-
-| Epic | Số issue lá | Tổng SWP | Tổng giờ | Ghi chú |
-|---|---|---|---|---|
-| E-T02 Bảng điều khiển đầu ca | 4 | 18 | 41 |  |
-| E-T03 Quản trị tài khoản | 3 | 17 | 42.5 |  |
-| E-T04 Tư cách tham gia thị trường | 8 | 48 | 109 |  |
-| E-T05 Lô hàng: nhận, thẩm định, công khai | 5 | 40 | 100 |  |
-| E-T06 Giao dịch: bán thoả thuận và đấu giá | 9 | 56 | 138 |  |
-| E-T08 Giao nhận nhiều đợt | 7 | 31 | 77 |  |
-| E-T09 Đối soát, khoá ngày, lịch chợ | 9 | 45 | 118 | Có #51 ước tay, đã tách 2 con |
-| E-T10 Điều chỉnh sau khoá sổ | 5 | 31 | 84 | Có #7 ước tay |
-| E-INC 完納奨励金 (thưởng thanh toán đủ hạn) | 16 | 64 | 163.5 | Có 1 issue ước tay (#65) |
-| E-T12 Phiên bản tỷ lệ thưởng | 3 | 25 | 53.5 |  |
-| E-T13 Nhật ký thao tác | 4 | 23 | 64 |  |
-| E-T14 Báo cáo và xuất dữ liệu | 10 | 50 | 125.5 | Có #88 ước tay, đã tách 2 con |
-| E-T15 Quy tắc và gửi thông báo | 10 | 60 | 155 | Có #105 ước tay, đã tách 2 con |
-| E-T16 Hộp thư thông báo | 3 | 14 | 35 |  |
-| E-X01 Nền tảng vận hành | 7 | 38 | 90 |  |
-| E-X02 Bảo mật và phân quyền | 5 | 30 | 78 |  |
-| E-X03 Kiểm thử và triển khai | 6 | 32 | 81.5 | Đội QA; chỉ 1 mẫu ước tay (#128) nên dùng chung k |
-| **Tổng** | **114** | **622** | **1.555,5** | Không gồm 10 câu hỏi khách E-X04 |
-
-## 4. So với estimate LAB-1
-
-LAB-1 ước theo vai (FE, BE, QA) cho 13 nhóm chức năng: FE + BE 156 ngày công, QA 45 ngày công. Giờ LAB-5 đã gồm tự kiểm nhưng không gồm QA chạy kiểm thử riêng, nên bảng chỉ so với phần FE + BE của LAB-1. Hai epic dùng chung (E-X01, E-X03: 171,5 giờ) không có nhóm chức năng tương ứng ở LAB-1 nên để ngoài bảng. LAB-1 còn các khoản design, BrSE, PM, hạ tầng, sửa lỗi và dự phòng; LAB-5 không chia thành issue nên cũng để ngoài.
-
-**So theo tỷ trọng %** (phần trăm trong tổng của cùng bảng):
-
-| Phần | Epic LAB-5 | LAB-1 FE + BE, giờ (%) | LAB-5, giờ (%) | Chênh tỷ trọng | Vì sao |
-|---|---|---|---|---|---|
-| FEAT-01 Xác thực, tài khoản | E-T03 + E-X02 | 56 (5.1%) | 120.5 (8.7%) | +3.6 điểm % | Tăng: LAB-1 bỏ sót ràng buộc bảo mật (xác thực hai lớp bắt buộc theo vai, giới hạn đăng nhập sai, chặn vai theo ma trận menu D-11) |
-| FEAT-02 Tư cách tham gia | E-T04 | 63 (5.8%) | 109 (7.9%) | +2.1 điểm % | Tăng: LAB-1 bỏ sót ràng buộc (bốn trạng thái tư cách, ba đường gỡ tạm ngưng, xét lại); thêm lịch sử tư cách theo PREMISE Bảng 1 dòng D-45 |
-| FEAT-03 Nhận và thẩm định lô | E-T05 | 98 (9.0%) | 100 (7.2%) | -1.7 điểm % | Giảm: prototype đã làm màn nhận lô và thẩm định; thêm bước công khai theo PREMISE Bảng 3 dòng Q5 · D-29 |
-| FEAT-04 + 05 Giao dịch, đấu giá | E-T06 | 147 (13.5%) | 138 (10.0%) | -3.5 điểm % | Giảm: prototype đã làm luồng giao dịch; tăng lại phần nhỏ theo PREMISE Bảng 1 dòng D-41 (mã giao dịch) và D-42 (chờ xác nhận kết quả đấu giá) |
-| FEAT-06 Điều chỉnh sau khoá sổ | E-T10 | 63 (5.8%) | 84 (6.1%) | +0.3 điểm % | Tăng: LAB-1 bỏ sót ràng buộc chứng cứ đính kèm thật (luồng nháp, kho tệp riêng) |
-| FEAT-07 Giao nhận | E-T08 | 112 (10.3%) | 77 (5.6%) | -4.7 điểm % | Giảm: prototype đã làm giao nhận nhiều đợt; chỉ sửa theo PREMISE Bảng 1 dòng Q3 · D-14 và D-40 |
-| FEAT-08 Đối soát, khoá ngày | E-T09 + E-T02 | 112 (10.3%) | 159 (11.5%) | +1.2 điểm % | Tăng: PREMISE Bảng 1 dòng D-43 (lịch chợ, job mở và đóng ngày) và Q4 · D-10 (khoá ngày chặn mềm) |
-| FEAT-09 完納奨励金 | E-INC | 84 (7.7%) | 163.5 (11.8%) | +4.1 điểm % | Tăng: PREMISE Bảng 2 dòng Q2 · D-08 (bảng tiền về, nhập CSV), Q6 · D-39 (cột loại bên mua) và Bảng 1 dòng D-44 (đẩy chênh lệch sang kỳ mở) |
-| FEAT-10 Báo cáo | E-T14 | 126 (11.5%) | 125.5 (9.1%) | -2.5 điểm % | Gần bằng: prototype có 2 báo cáo, phần còn lại khớp phạm vi LAB-1 |
-| FEAT-11 Nhật ký thao tác | E-T13 | 63 (5.8%) | 64 (4.6%) | -1.1 điểm % | Gần bằng |
-| FEAT-12 Thông báo | E-T15 + E-T16 | 91 (8.3%) | 190 (13.7%) | +5.4 điểm % | Tăng gấp đôi: LAB-1 bỏ sót ràng buộc vận hành (gửi email thật, thử lại tối đa 3 lần, hàng đợi cảnh báo, quy tắc có phiên bản) |
-| FEAT-13 Phiên bản tỷ lệ | E-T12 | 77 (7.1%) | 53.5 (3.9%) | -3.2 điểm % | Giảm: prototype đã có màn quản trị tỷ lệ; LAB-5 chỉ sửa chỗ lệch |
-| **Tổng** | | **1092** | **1384** | | |
-
-**So giờ trực tiếp** (chỉ hai gói đã chốt so trực tiếp):
-
-| Gói | LAB-1 FE + BE | LAB-1 có QA | LAB-5 | Nhận xét |
-|---|---|---|---|---|
-| T-14 Báo cáo (FEAT-10) | 126 giờ | 154 giờ | 125,5 giờ | Gần như bằng nhau |
-| T-15 Thông báo (FEAT-12) | 91 giờ | 119 giờ | 155 giờ (190 giờ nếu gộp hộp thư E-T16) | Tăng khoảng 70–110%: LAB-1 chưa tính gửi email thật, thử lại và hàng đợi cảnh báo |
-
-## Câu chờ quyết
-
-- **#7 có nên chấm lại không?** Giờ trên điểm của #7 cao gần gấp đôi k. Nếu người duyệt nâng #7 lên mức 4–5 SWP thì skill sẽ lan sang các issue màn hình cùng nhóm. Hiện giữ nguyên theo khuyến nghị; đổi sau phải chạy lại skill và ghi lý do (khuyến nghị: giữ, vì k đã hấp thụ chênh lệch qua bộ ước tay).
