@@ -1,5 +1,5 @@
 # Đọc skills/backlog.yaml, tạo epic → issue → issue con trên repo, nối cha–con bằng sub-issue và thêm mọi issue vào Project.
-# Chạy lại an toàn: mỗi issue có dòng "key: <mã>" cuối thân; issue đã có thì không tạo lại, chỉ sửa thân nếu nội dung đổi.
+# Chạy lại an toàn: mỗi issue có dòng "key: <mã>" cuối thân; issue đã có thì không tạo lại, chỉ sửa tiêu đề, thân, nhãn nếu đổi.
 # Cách chạy (cần gh đã đăng nhập, có scope project):
 #   python3 skills/tao-backlog-len-project.py --dry-run            # chỉ in việc sẽ làm
 #   python3 skills/tao-backlog-len-project.py --epic E-T10         # chạy một epic
@@ -84,7 +84,8 @@ def load_existing(repo):
     for it in issues:
         m = KEY_RE.search(it.get("body") or "")
         if m and "pull_request" not in it:
-            found[m.group(1)] = {k: it[k] for k in ("number", "id", "html_url", "body", "title")}
+            found[m.group(1)] = {**{k: it[k] for k in ("number", "id", "html_url", "body", "title")},
+                                  "labels": sorted(l["name"] for l in it["labels"])}
     return found
 
 
@@ -117,14 +118,14 @@ def main():
                 continue
             it = gh("api", "-X", "POST", f"repos/{repo}/issues", "--input", "-",
                     payload={"title": title, "body": body, "labels": labels, "assignees": [meta["assignee"]]})
-            existing[key] = {k: it[k] for k in ("number", "id", "html_url", "body", "title")}
+            existing[key] = {**{k: it[k] for k in ("number", "id", "html_url", "body", "title")}, "labels": sorted(labels)}
             time.sleep(PAUSE)
-        elif existing[key]["body"] != body or existing[key]["title"] != title:
+        elif existing[key]["body"] != body or existing[key]["title"] != title or existing[key]["labels"] != sorted(labels):
             print(f"~ sửa   {key}  #{existing[key]['number']}")
             counts["sua"] += 1
             if not a.dry_run:
                 gh("api", "-X", "PATCH", f"repos/{repo}/issues/{existing[key]['number']}", "--input", "-",
-                   payload={"title": title, "body": body})
+                   payload={"title": title, "body": body, "labels": labels})
                 time.sleep(PAUSE)
         else:
             counts["giu"] += 1

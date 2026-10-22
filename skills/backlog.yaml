@@ -2,7 +2,7 @@
 # Cách đọc: mỗi epic có nhiều issue; mỗi issue có 4 khối cố định (boi_canh, viec, tieu_chi_xong, file_cham).
 # "key" là mã khoá ghi vào thân issue để script chạy lại không tạo trùng. "lam_sau" ghi issue phải xong trước (script chép vào thân issue).
 # "con": issue con (sub-issue) của một issue quá 16 giờ; issue cha giữ bối cảnh, issue con giữ việc và tiêu chí xong. Điểm SWP chấm ở issue con, cha lấy tổng.
-# Nhãn: nguon:moi | nguon:chenh-lech | nguon:gia-co · doi:fe | doi:be | doi:qa (gắn theo lớp nặng nhất) · constraint:kanno-shoreikin · lam-ro-voi-khach
+# Nhãn: nguon:moi | nguon:chenh-lech | nguon:gia-co · doi:fe | doi:be | doi:qa | doi:infra (gắn theo lớp nặng nhất) · constraint:kanno-shoreikin · lam-ro-voi-khach
 # Chú giải mã: D-xx / B-xx / Q-x theo PREMISE.md · T-xx gói việc LAB-4 · SCR-xx màn hình · DD-008 thiết kế chi tiết phần thưởng.
 # Bản 2 ngày 19/10/2026: sửa theo rà soát độc lập (tách INC-08 thành 3, INC-09 thành 2, thêm ca thử đúng hạn, bảng tiền về riêng).
 
@@ -2819,7 +2819,7 @@ epics:
 
       - key: X01-03-kiem-bien-moi-truong-luc-build-va-khoi-dong
         title: "Kiểm biến môi trường lúc build và lúc khởi động, thiếu hoặc trống thì dừng và báo rõ tên biến"
-        labels: [nguon:gia-co, doi:be]
+        labels: [nguon:gia-co, doi:infra]
         boi_canh: |
           Nhận xét LAB-3: bản deploy trên Vercel (dịch vụ chạy ứng dụng) thiếu một biến môi trường (giá trị cấu hình đặt ngoài mã nguồn), build vẫn
           qua nhưng mở trang nào cũng sập, người chấm không vào được. Prototype đọc biến môi trường rải rác ở nhiều file (địa chỉ Supabase, khoá công
@@ -2894,7 +2894,7 @@ epics:
 
       - key: X01-06-sao-luu-va-dien-tap-khoi-phuc
         title: "Sao lưu theo thời điểm và diễn tập khôi phục database, đo được thời gian khôi phục dưới 4 giờ và mất dữ liệu dưới 15 phút"
-        labels: [nguon:moi, doi:be]
+        labels: [nguon:moi, doi:infra]
         boi_canh: |
           Hồ sơ mời thầu đặt chỉ tiêu khôi phục sau sự cố: hệ thống chạy lại trong 4 giờ (RTO) và mất tối đa 15 phút dữ liệu (RPO) (D-28b).
           Prototype không có chiến lược sao lưu; mất database là mất hết. Supabase có sao lưu theo thời điểm (PITR, khôi phục về bất kỳ phút nào)
@@ -3158,7 +3158,7 @@ epics:
 
       - key: X03-03-may-kiem-tu-dong-github-truoc-khi-gop-va-sau-deploy
         title: "Máy kiểm tự động của GitHub chạy kiểm kiểu dữ liệu, lint, kiểm thử trước khi gộp mã, và kiểm nhanh sau mỗi lần deploy"
-        labels: [nguon:moi, doi:qa]
+        labels: [nguon:moi, doi:infra]
         lam_sau: [X03-00-dung-database-thu-mot-lenh, X01-03-kiem-bien-moi-truong-luc-build-va-khoi-dong, X03-01-dat-lai-du-lieu-mau-va-kiem-nhanh-luong-chinh]
         boi_canh: |
           Prototype không có kiểm tra tự động nào khi gộp mã; lỗi kiểu và lỗi kiểm thử chỉ lộ khi deploy. Backlog LAB-5 có nhiều người cùng sửa database

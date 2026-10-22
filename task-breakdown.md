@@ -29,6 +29,8 @@ Project: https://github.com/users/mytcn-1511/projects/1
 - **Một issue là một thứ bàn giao được:** một màn hình, một API, một migration (bước đổi cấu trúc database), một báo cáo hay một bộ kiểm thử. Không tách một tính năng thành ba issue FE / BE / QA. Lý do: issue quá mỏng thì không tự kiểm được, và skill chấm SWP (điểm độ lớn công việc) chấm kém tin cậy.
 - **Dừng khi một người làm xong trong khoảng 16 giờ** và mọi tiêu chí xong kiểm được trên một bản deploy.
 - **Tách issue con khi issue vượt 16 giờ.** Lần rà ngày 21/10 tìm được 7 issue vượt trần: #34, #5, #85, #92, #97, #100, #106. Bộ ước tay cùng ngày (xem [estimate.md](estimate.md)) thấy thêm 6 issue vượt trần: #51, #83, #88, #105, #114, #124. Mỗi issue thành một issue cha có 2 issue con. Issue cha giữ bối cảnh. Issue con giữ phần việc và tiêu chí xong của mình. Điểm SWP chấm ở issue con, issue cha lấy tổng.
+- **Tách issue con trước khi chấm SWP, không tách thêm sau đó.** Skill chấm SWP chỉ chấm việc nhỏ nhất; issue đã có con thì điểm bằng tổng con. Bảng điểm không cộng dồn được (một issue S5×C3 = 10 điểm, tách ba vai thường thành 13 điểm), nên tách sau khi chấm sẽ làm đổi điểm đã duyệt.
+- **Task theo vai trong sprint là danh sách việc trong thân issue, không phải issue con.** Issue vào sprint được chia task theo vai đúng cách công ty và LAB-1 đang làm (`-be`, `-fe`, `-qa`): BE và FE gồm thiết kế chi tiết, code, unit test; QA gồm viết testcase và chạy test. Mỗi task là một dòng có ô tick và người phụ trách; issue chỉ đóng khi dòng QA đã tick. Designer và BrSE không có task dưới từng issue vì thiết kế màn hình và basic design đã xong ở LAB-4.
 - **Không tách khi issue có nhiều tiêu chí nhưng cùng một thứ bàn giao.** 28 issue có 7–8 tiêu chí đều là ca thử của cùng một API hay một màn, nên vẫn giữ một issue.
 - **Câu hỏi gửi khách là issue riêng** ở epic E-X04 (#133–#142), nhãn `lam-ro-voi-khach`, không chấm điểm. Issue phụ thuộc câu trả lời của khách cũng gắn nhãn này và ghi rõ đang dùng giả định nào.
 
@@ -56,7 +58,7 @@ Mỗi issue có 4 khối cố định trong thân: **Bối cảnh · Việc · T
 | Issue con | Sub-issue của issue | #6 `[T10-04.1]`, #7 `[T10-04.2]` |
 
 - Mọi tầng đều nằm trong Project, kể cả issue con, vì skill chấm điểm chỉ đọc item có trong Project.
-- **Nhãn:** mỗi issue có một nhãn nguồn gốc (`nguon:moi` việc mới, `nguon:chenh-lech` sửa chỗ prototype lệch thiết kế, `nguon:gia-co` gia cố lỗi đã thấy) và một nhãn đội (`doi:fe`, `doi:be`, `doi:qa`, gắn theo lớp nặng nhất). Hai nhãn riêng: `constraint:kanno-shoreikin` và `lam-ro-voi-khach`.
+- **Nhãn:** mỗi issue có một nhãn nguồn gốc (`nguon:moi` việc mới, `nguon:chenh-lech` sửa chỗ prototype lệch thiết kế, `nguon:gia-co` gia cố lỗi đã thấy) và một nhãn đội (`doi:fe`, `doi:be`, `doi:qa`, `doi:infra`, gắn theo lớp nặng nhất). Hai nhãn riêng: `constraint:kanno-shoreikin` và `lam-ro-voi-khach`.
 - **Phụ thuộc:** khối "Làm sau" trong thân issue liệt kê số các issue phải xong trước.
 - **Gom nhóm:** gõ `T10-` vào ô lọc của Project, hoặc chọn Group by → Parent issue.
 
