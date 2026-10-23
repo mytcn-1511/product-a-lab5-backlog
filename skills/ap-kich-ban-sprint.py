@@ -15,8 +15,12 @@ STATUS_NAME = {"todo": "Todo", "in-progress": "In Progress", "done": "Done"}
 
 
 def gh(*args, payload=None):
-    r = subprocess.run(["gh", *args], input=json.dumps(payload) if payload else None, capture_output=True, text=True)
-    if r.returncode != 0:
+    for attempt in range(3):  # GitHub đôi khi trả 422 khi đóng nhiều issue liên tiếp; thử lại có giãn cách
+        r = subprocess.run(["gh", *args], input=json.dumps(payload) if payload else None, capture_output=True, text=True)
+        if r.returncode == 0:
+            break
+        time.sleep(3 * (attempt + 1))
+    else:
         sys.exit(f"gh {' '.join(args[:3])} lỗi: {r.stderr.strip()}")
     return json.loads(r.stdout) if r.stdout.strip() else None
 
@@ -79,6 +83,7 @@ def main():
             if not a.dry_run:
                 gh("api", "-X", "PATCH", f"repos/{REPO}/issues/{n}", "--input", "-",
                    payload={"state": "closed", "state_reason": "completed"})
+                time.sleep(1)
     print(f"Bình luận mới: {posted} · thay đổi trạng thái/đóng: {changed}" + (" (dry-run, chưa ghi)" if a.dry_run else ""))
 
 
