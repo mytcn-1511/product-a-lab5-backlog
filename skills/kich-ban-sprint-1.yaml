@@ -1,0 +1,76 @@
+# Kịch bản giả lập Sprint 1 (Iteration 1, 23/10–05/11/2026, 10 ngày làm việc).
+# Kịch bản được áp lên GitHub một lần vào ngày 23/10/2026 (ngày đầu sprint). GitHub ghi ngày đổi trạng thái theo ngày thật, không lùi được. Vì vậy mỗi thay đổi kèm một bình luận ghi "Ngày giả lập",
+# và biểu đồ tiến độ được tính từ chính file này (skills/xuat-tien-do.py), không từ ngày thật trên GitHub.
+# Vai: Nhóm máy chủ (BE), Nhóm màn hình (FE), Kiểm thử (QA), Hạ tầng, BrSE (cầu nối với khách).
+# Phía khách: 山辺 (Yamabe), phụ trách kế toán của chợ — tên hư cấu.
+# status: todo | in-progress | done. "ket: true" = đang kẹt, vẫn để In Progress trên Project và ghi lý do.
+
+sprint:
+  iteration: Iteration 1
+  bat_dau: 2026-10-23
+  ket_thuc: 2026-11-05
+  suc_lam_gia_dinh: "2 BE + 2 FE, 6 giờ làm thật/người/ngày × 10 ngày = 240 giờ dev; 1 QA; hạ tầng bán thời gian"
+
+ngay:
+  - ngay: 2026-10-23
+    su_kien:
+      - {issue: 152, status: in-progress, vai: Nhóm máy chủ, ghi: "Bắt đầu bảng mã lỗi chung; ưu tiên số 1 của sprint theo góp ý review LAB-4."}
+      - {issue: 126, status: in-progress, vai: Kiểm thử, ghi: "Dựng database thử bằng một lệnh để các nhóm có môi trường kiểm chung."}
+      - {issue: 116, status: in-progress, vai: Hạ tầng, ghi: "Thêm bước kiểm biến môi trường lúc build và lúc khởi động."}
+      - {issue: 60, status: in-progress, vai: BrSE, ghi: "Soạn đặc tả file CSV ngày thanh toán theo giả định PREMISE Q2 · D-08."}
+      - {issue: 121, status: in-progress, vai: Nhóm màn hình, ghi: "Bắt đầu chặn vai theo ma trận menu ở lớp máy chủ và màn hình."}
+      - {issue: 9, status: in-progress, vai: Nhóm máy chủ, ghi: "Tạo bảng cấu hình ngưỡng hết hạn và hàm đọc dùng chung."}
+  - ngay: 2026-10-26
+    su_kien:
+      - {issue: 152, status: done, vai: Kiểm thử, ghi: "Kiểm thử đơn vị hàm dịch lỗi đạt 3 ca (23503, 23505, mã lạ). Đóng."}
+      - {issue: 60, status: done, vai: BrSE, ghi: "Đặc tả CSV xong, đã gửi khách xem cùng câu hỏi D-08 (#134)."}
+      - {issue: 9, status: done, vai: Kiểm thử, ghi: "Đổi ngưỡng 30 → 45 bằng lệnh database, số trên bảng điều khiển đổi theo; ca 02:31 giờ Nhật đạt. Đóng."}
+      - {issue: 32, status: in-progress, vai: Nhóm máy chủ, ghi: "Chuyển cấp mã giao dịch sang bộ đếm của database (sửa lỗi 409 từ LAB-3)."}
+      - {issue: 64, status: in-progress, vai: Nhóm máy chủ, ghi: "Thêm cột loại bên mua vào bảng tỷ lệ thưởng."}
+      - {issue: 115, status: in-progress, vai: Nhóm máy chủ, ghi: "Sinh lại bảng thiết kế dữ liệu từ sơ đồ đích."}
+      - {issue: 110, status: in-progress, vai: Nhóm màn hình, ghi: "Sửa hai link thông báo dẫn tới trang 404."}
+  - ngay: 2026-10-27
+    su_kien:
+      - {issue: 116, status: done, vai: Hạ tầng, ghi: "Thiếu biến môi trường thì build dừng kèm tên biến. Đóng."}
+      - {issue: 126, status: done, vai: Kiểm thử, ghi: "Database thử dựng được bằng một lệnh, mất dưới 2 phút. Đóng."}
+      - {issue: 32, status: done, vai: Kiểm thử, ghi: "Đặt lại dữ liệu rồi tạo liền 3 giao dịch thoả thuận và 1 đấu giá, không còn lỗi 409. Đóng."}
+      - {issue: 61, status: in-progress, vai: Nhóm máy chủ, ghi: "Bắt đầu API nhập CSV ngày thanh toán theo đặc tả #60."}
+  - ngay: 2026-10-28
+    su_kien:
+      - {issue: 110, status: done, vai: Kiểm thử, ghi: "Bấm hai thông báo mở đúng màn, không còn 404. Đóng."}
+      - {issue: 61, status: in-progress, ket: true, vai: BrSE, ghi: "Kẹt: 山辺さん (kế toán phía chợ) chưa xác nhận cột và mã hoá ký tự của file CSV. Đã gửi lại câu hỏi D-08, hạn trả lời 03/11. Nhóm máy chủ dừng phần kiểm trùng, làm tiếp phần đọc file theo giả định."}
+      - {issue: 127, status: in-progress, vai: Kiểm thử, ghi: "Bắt đầu script đặt lại dữ liệu mẫu và kiểm nhanh luồng chính."}
+      - {issue: 43, status: in-progress, vai: Nhóm máy chủ, ghi: "Sửa công thức số còn phải giao khi có huỷ một phần và trả lại."}
+  - ngay: 2026-10-29
+    su_kien:
+      - {issue: 64, status: done, vai: Kiểm thử, ghi: "Bậc không tăng dần bị chặn khi nhập; cột loại bên mua để trống áp mọi loại. Đóng."}
+      - {issue: 115, status: done, vai: Nhóm máy chủ, ghi: "Bảng thiết kế dữ liệu khớp sơ đồ đích; script đối chiếu cột không báo lệch. Đóng."}
+      - {issue: 43, status: done, vai: Kiểm thử, ghi: "Ca huỷ một phần được trừ khỏi số đã giao đúng D-14. Đóng."}
+      - {issue: 144, status: in-progress, vai: Nhóm máy chủ, ghi: "Tạo bảng lịch chợ và API đọc, ghi."}
+      - {issue: 45, status: in-progress, vai: Nhóm máy chủ, ghi: "Chỉ cho hoàn tất giao nhận khi số đã giao khớp số lượng."}
+  - ngay: 2026-10-30
+    su_kien:
+      - {issue: 121, status: done, vai: Kiểm thử, ghi: "Vai không có trong ma trận gõ thẳng đường dẫn bị chặn ở 8 màn. Đóng."}
+      - {issue: 123, status: in-progress, vai: Nhóm màn hình, ghi: "Bắt đầu màn đăng ký xác thực hai lớp."}
+      - {issue: 153, status: in-progress, vai: Nhóm máy chủ, ghi: "Dọn các route đang tự viết câu lỗi, chuyển sang bảng mã chung."}
+      - {issue: 65, status: in-progress, vai: Nhóm máy chủ, ghi: "Bắt đầu hàm tính thưởng; phần đọc bảng tiền về dùng dữ liệu giả định vì #61 còn kẹt."}
+  - ngay: 2026-11-02
+    su_kien:
+      - {issue: 144, status: done, vai: Kiểm thử, ghi: "Tạo lịch mặc định tháng 11 đủ 30 dòng; đổi ngày đã có giao dịch sang nghỉ bị chặn. Đóng."}
+      - {issue: 45, status: done, vai: Kiểm thử, ghi: "Đạt 3 ca bắt buộc: giao thiếu, giao vượt, trả lại (D-40). Đóng."}
+      - {issue: 145, status: in-progress, vai: Nhóm màn hình, ghi: "Bắt đầu màn lưới tháng của lịch chợ."}
+  - ngay: 2026-11-03
+    su_kien:
+      - {issue: 127, status: done, vai: Kiểm thử, ghi: "Kiểm nhanh chạy 3 lần liên tiếp đều xanh. Trễ 2 ngày so với kế hoạch vì phải tách lại dữ liệu mẫu thử và dữ liệu demo. Đóng."}
+      - {issue: 61, status: in-progress, ket: true, vai: BrSE, ghi: "山辺さん trả lời: phòng kế toán chưa chốt định dạng xuất file, hẹn trả lời ngày 10/11. Đề xuất: giữ giả định, chuyển phần kiểm trùng và #62 sang Sprint 2."}
+      - {issue: 129, status: in-progress, vai: Hạ tầng, ghi: "Bắt đầu máy kiểm tự động trên GitHub (chờ #127 xong mới làm được)."}
+  - ngay: 2026-11-04
+    su_kien:
+      - {issue: 145, status: done, vai: Kiểm thử, ghi: "Lưới tháng dùng được trên màn 390 px; bấm Back quay đúng tháng. Đóng."}
+      - {issue: 123, status: in-progress, vai: Nhóm màn hình, ghi: "Vượt giờ ước: đã dùng khoảng 28/25 giờ, còn khoảng 8 giờ cho phần sinh mã thử cố định và nhật ký. Chuyển phần còn lại sang Sprint 2."}
+  - ngay: 2026-11-05
+    su_kien:
+      - {issue: 153, status: done, vai: Kiểm thử, ghi: "Mỗi nhóm route gọi lỗi trả đúng mã trong bảng mã chung. Đóng."}
+      - {issue: 65, status: in-progress, vai: Nhóm máy chủ, ghi: "Xong phần chọn bậc theo loại bên mua và ca biên làm tròn; còn phần đọc bảng tiền về, chờ #61."}
+      - {issue: 129, status: in-progress, vai: Hạ tầng, ghi: "Máy kiểm chạy được khi mở PR; còn bước chạy kiểm nhanh sau deploy, chuyển sang Sprint 2."}
+      - {issue: 62, status: todo, vai: BrSE, ghi: "Chưa bắt đầu: phụ thuộc #61 đang chờ khách trả lời D-08. Đề xuất chuyển sang Sprint 2."}
