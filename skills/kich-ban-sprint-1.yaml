@@ -67,7 +67,7 @@ ngay:
   - ngay: 2026-11-04
     su_kien:
       - {issue: 145, status: done, vai: Kiểm thử, ghi: "Lưới tháng dùng được trên màn 390 px; bấm Back quay đúng tháng. Đóng."}
-      - {issue: 123, status: in-progress, vai: Nhóm màn hình, ghi: "Vượt giờ ước: đã dùng khoảng 28/25 giờ, còn khoảng 8 giờ cho phần sinh mã thử cố định và nhật ký. Chuyển phần còn lại sang Sprint 2."}
+      - {issue: 123, status: in-progress, vai: Nhóm màn hình, ghi: "Vượt giờ ước: đã dùng khoảng 28 giờ so với 22,5 giờ ước, còn khoảng 8 giờ cho phần sinh mã thử cố định và nhật ký. Chuyển phần còn lại sang Sprint 2."}
   - ngay: 2026-11-05
     su_kien:
       - {issue: 153, status: done, vai: Kiểm thử, ghi: "Mỗi nhóm route gọi lỗi trả đúng mã trong bảng mã chung. Đóng."}

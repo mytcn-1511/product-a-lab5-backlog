@@ -70,7 +70,7 @@ Sau khi ghi, AI đọc lại toàn bộ Project và so với HTML: 144/144 item 
 5. Toàn bộ YAML, sau khi xem epic thử trên GitHub (21/10).
 6. Bộ ước tay 15 issue (21/10).
 7. Cách chia task theo vai (21–22/10).
-8. 5 issue mẫu của skill chấm điểm (22/10).
+8. 5 issue mẫu của skill chấm điểm (22/10); sửa lại mẫu #7 (23/10).
 9. Danh sách sprint, ngày sprint, kịch bản giả lập (23/10).
 
 ### Lỗi tìm thấy trong output của AI
@@ -131,7 +131,10 @@ Sau khi ghi, AI đọc lại toàn bộ Project và so với HTML: 144/144 item 
 
 **Quyết định:** cân lại sprint theo vai (đổi #17 sang Sprint 2, thêm 3 issue FE); dời Iteration sang 23/10–05/11; mỗi bình luận giả lập ghi "Ngày giả lập".
 
-**(12) Rà báo cáo tiến độ trong vai khách (23/10).** Số liệu đúng hết. Có 2 lỗi:
+**(12) Duyệt mẫu: lần đầu nhận nguyên, lần sau mới sửa (22–23/10).** Ở lần duyệt 5 mẫu đầu tiên, người phụ trách giữ nguyên cả 5 theo đề xuất của AI. Khi đối chiếu với mục tiêu học tập, AI chỉ ra rằng #7 lệch rõ với bộ ước tay: 14 giờ cho 3 SWP, tức 4,7 giờ/SWP so với hệ số chung 2,51. Người phụ trách nâng #7 lên 5 SWP và chọn cho lan sang 16 issue màn hình cùng nhóm, vì 5 mẫu màn hình trong bộ ước tay đều có giờ trên điểm cao hơn hệ số chung. Sau khi sửa, tổng là 667 SWP và hệ số còn 2,25 giờ/SWP; khoảng giờ/SWP của 15 mẫu thu hẹp từ 1,4–4,7 xuống 1,4–3,2.
+**Quyết định:** chỉ chạy lại bước hiệu chỉnh của skill, không chấm lại; giữ cả hai bản HTML; khi duyệt mẫu, luôn đặt điểm của skill cạnh giờ ước tay rồi mới chọn.
+
+**(13) Rà báo cáo tiến độ trong vai khách (23/10).** Số liệu đúng hết. Có 2 lỗi:
 - Tóm tắt thiếu việc thứ hai khách phải quyết (bảng tỷ lệ thưởng, hạn 13/11).
 - Danh sách issue dời sang Sprint 3 bị sai.
 
@@ -157,6 +160,6 @@ Sau khi ghi, AI đọc lại toàn bộ Project và so với HTML: 144/144 item 
 
 ### Ý tưởng chưa làm
 
-- Cho skill chấm điểm đọc thêm tiêu chí xong chung của màn hình như một yếu tố phạm vi. Hiện issue màn hình nhiều trạng thái như #7 bị chấm nhẹ (4,7 giờ/SWP, so với hệ số chung 2,51).
+- Cho skill chấm điểm đọc thêm tiêu chí xong chung của màn hình như một yếu tố phạm vi. Lần này phải sửa tay qua mẫu #7 mới bù được phần skill chấm nhẹ cả nhóm màn hình.
 - Chạy giả lập theo ngày thật (mỗi ngày áp sự kiện của ngày đó) để biểu đồ lấy thẳng từ GitHub. Chưa làm vì cần 2 tuần.
 - Tự động sinh danh sách việc theo vai (`-be`, `-fe`, `-qa`) trong thân issue khi issue vào sprint.

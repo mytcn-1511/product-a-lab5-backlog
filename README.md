@@ -12,8 +12,8 @@
   - **Câu hỏi gửi khách:** 11 câu.
 - **Backlog trên GitHub Project:** 155 item, gồm **18 epic**, 111 issue và 26 issue con.
   - 124 việc nhỏ nhất. Trong đó 114 việc được chấm điểm; 10 câu hỏi gửi khách không chấm.
-  - Tổng **622 SWP** (điểm khối lượng chuẩn), quy ra **1.555,5 giờ** với hệ số 2,51 giờ/SWP. Hệ số lấy từ 15 issue người phụ trách tự ước trước khi chạy skill.
-- **Sprint đã giả lập:** **Iteration 1** (23/10–05/11/2026). Xong 16/21 issue, 72/101 SWP. Iteration 2 đã xếp sẵn 21 issue, chưa chạy.
+  - Tổng **667 SWP** (điểm khối lượng chuẩn) sau khi người duyệt sửa 1 trong 5 mẫu, quy ra **1.511 giờ** với hệ số 2,25 giờ/SWP. Hệ số lấy từ 15 issue người phụ trách tự ước trước khi chạy skill.
+- **Sprint đã giả lập:** **Iteration 1** (23/10–05/11/2026). Xong 16/21 issue, 78/107 SWP. Iteration 2 đã xếp sẵn 21 issue, chưa chạy.
 - **完納奨励金** (tiền thưởng thanh toán đủ hạn) là ràng buộc đặc thù của đề. Phần này tách thành epic riêng **#59 E-INC**. Mọi issue chạm tới thưởng có nhãn `constraint:kanno-shoreikin`.
 
 ## Link
@@ -22,9 +22,9 @@
 |---|---|
 | Repo | https://github.com/mytcn-1511/product-a-lab5-backlog |
 | GitHub Project | https://github.com/users/mytcn-1511/projects/1 |
-| Báo cáo HTML của skill chấm SWP | [`swp-report/estimate-swp-mytcn-1511-project-1-20261022-1031.html`](swp-report/estimate-swp-mytcn-1511-project-1-20261022-1031.html) |
+| Báo cáo HTML của skill chấm SWP | [`swp-report/estimate-swp-mytcn-1511-project-1-20261023-1115.html`](swp-report/estimate-swp-mytcn-1511-project-1-20261023-1115.html) (bản dùng) · bản hiệu chỉnh lần đầu: [`…-20261022-1031.html`](swp-report/estimate-swp-mytcn-1511-project-1-20261022-1031.html) |
 
-- **Báo cáo HTML:** chạy `tkm:estimate-swp` ngày 22/10/2026, mức `high`, không đẩy kết quả lên KPI. File được đưa vào repo ở commit `7555d17`.
+- **Báo cáo HTML:** chạy `tkm:estimate-swp` ngày 22/10/2026, mức `high`, không đẩy kết quả lên KPI (bản đầu ở commit `7555d17`). Ngày 23/10 hiệu chỉnh lại sau khi người duyệt nâng mẫu #7 từ 3 lên 5 SWP; điểm ban đầu của skill không đổi.
 - **Cách xem báo cáo HTML:** tải file về rồi mở bằng trình duyệt. File tự chứa toàn bộ, không cần mạng.
 - **Kiểm truy cập ẩn danh (23/10/2026):** khi chưa đăng nhập, repo, Project và file HTML đều mở được (HTTP 200). Người phụ trách sẽ mở thử thêm bằng cửa sổ ẩn danh trước khi nộp.
 - **Prototype:** bản `product-a-prototype` (LAB-3) đang để riêng tư theo mốc LAB-4. Vì vậy cột "File chạm" trong issue ghi đường dẫn dạng chữ. Các đường dẫn này sẽ đổi thành link khi prototype được công khai ở LAB-7.
@@ -39,7 +39,7 @@
 | [estimate.md](estimate.md) | Đường dẫn báo cáo HTML, 5 issue mẫu đã kiểm, cách quy ra giờ, tổng theo epic, so với LAB-1. Phụ lục A là bộ ước tay |
 | [progress-report.md](progress-report.md) | Báo cáo tiến độ Sprint 1: trạng thái, biểu đồ SWP còn lại, rủi ro trễ |
 | [AI-report.md](AI-report.md) | Đã dùng AI thế nào, con người review ở đâu, điểm hiệu quả và chưa tốt |
-| [swp-report/](swp-report/) | Báo cáo HTML của skill `tkm:estimate-swp` (đóng băng, không chạy lại sau giả lập) |
+| [swp-report/](swp-report/) | Báo cáo HTML của skill `tkm:estimate-swp`: bản dùng (23/10, sau khi sửa mẫu #7) và bản hiệu chỉnh lần đầu (22/10) để đối chiếu |
 | [uoc-gio-tay/](uoc-gio-tay/) | File Excel 15 issue người phụ trách tự ước giờ trước khi chạy skill |
 | [skills/backlog.yaml](skills/backlog.yaml) | Nguồn duy nhất của backlog: 18 epic, issue, issue con, tiêu chí xong, file chạm, thứ tự làm |
 | [skills/tao-backlog-len-project.py](skills/tao-backlog-len-project.py) | Đọc YAML, tạo hoặc cập nhật issue, nối cha–con, thêm vào Project. Chạy lại không tạo trùng |
