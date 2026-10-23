@@ -26,7 +26,7 @@
 
 - **Báo cáo HTML:** chạy `tkm:estimate-swp` ngày 22/10/2026, mức `high`, không đẩy kết quả lên KPI (bản đầu ở commit `7555d17`). Ngày 23/10 hiệu chỉnh lại sau khi người duyệt nâng mẫu #7 từ 3 lên 5 SWP; điểm ban đầu của skill không đổi.
 - **Cách xem báo cáo HTML:** tải file về rồi mở bằng trình duyệt. File tự chứa toàn bộ, không cần mạng.
-- **Kiểm truy cập ẩn danh (23/10/2026):** khi chưa đăng nhập, repo, Project và file HTML đều mở được (HTTP 200). Người phụ trách sẽ mở thử thêm bằng cửa sổ ẩn danh trước khi nộp.
+- **Kiểm truy cập ẩn danh (23/10/2026):** khi chưa đăng nhập, repo, Project và file HTML đều mở được (HTTP 200). Người phụ trách đã mở thử bằng cửa sổ ẩn danh ngày 23/10/2026: repo và Project xem được đầy đủ, không cần đăng nhập.
 - **Prototype:** bản `product-a-prototype` (LAB-3) đang để riêng tư theo mốc LAB-4. Vì vậy cột "File chạm" trong issue ghi đường dẫn dạng chữ. Các đường dẫn này sẽ đổi thành link khi prototype được công khai ở LAB-7.
 
 ## Cấu trúc repo
